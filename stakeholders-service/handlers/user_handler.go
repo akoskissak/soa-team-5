@@ -91,7 +91,7 @@ func Login(c *gin.Context) {
 	defer cancel()
 
 	var user models.User
-	err = collection.FindOne(ctx, bson.M{"username": input.Username}).Decode(&user)
+	err = collection.FindOne(ctx, bson.M{"username": input.Username, "is_blocked": false}).Decode(&user)
 	if err == mongo.ErrNoDocuments {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
 		return
@@ -146,6 +146,7 @@ func GetAllUsers(c *gin.Context){
         "username": 1,
         "email":    1,
         "role":     1,
+				"is_blocked": 1,
     }
 
 	findOptions := options.Find().SetProjection(projection)
@@ -180,7 +181,9 @@ func BlockUser(c *gin.Context) {
 
 	var requestBody struct {
 		UserID string `json:"userId"`
+		BlockUser bool `json:"block"`
 	}
+
 	if err := c.ShouldBindJSON(&requestBody); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
@@ -196,29 +199,23 @@ func BlockUser(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	var user models.User
-	err = collection.FindOne(ctx, bson.M{"_id": objectID}).Decode(&user)
-	if err == mongo.ErrNoDocuments {
-		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
-		return
+	update := bson.M{
+		"$set": bson.M{"is_blocked": requestBody.BlockUser},
 	}
+	opts := options.FindOneAndUpdate().SetReturnDocument(options.After)
+
+	var updatedUser models.User
+	err = collection.FindOneAndUpdate(ctx, bson.M{"_id": objectID}, update, opts).Decode(&updatedUser)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
+		if err == mongo.ErrNoDocuments {
+			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
 		return
 	}
 
-	update := bson.M{"$set": bson.M{"is_blocked": !user.IsBlocked}}
-	_, err = collection.UpdateOne(ctx, bson.M{"_id": objectID}, update)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to block user"})
-		return
-	}
-
-	if (!user.IsBlocked) {
-		c.JSON(http.StatusOK, gin.H{"message": "User blocked successfully"})
-	} else {
-		c.JSON(http.StatusOK, gin.H{"message": "User unblocked successfully"})
-	}
+	c.JSON(http.StatusOK, updatedUser)
 }
 
 func GetProfile(c *gin.Context) {
@@ -247,6 +244,7 @@ func GetProfile(c *gin.Context) {
 	projection := bson.M{
 		"profile": 1,
 		"_id":     0,
+		"is_blocked": 1,
 	}
 
 	var result struct {
