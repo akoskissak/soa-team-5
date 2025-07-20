@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
@@ -163,4 +164,103 @@ func GetAllUsers(c *gin.Context){
     }
 
     c.JSON(http.StatusOK, users)
+}
+
+func BlockUser(c *gin.Context) {
+	claims, err := utils.VerifyJWT(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	if claims["role"] != "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Only admin can access this route"})
+		return
+	}
+
+	var requestBody struct {
+		UserID string `json:"userId"`
+	}
+	if err := c.ShouldBindJSON(&requestBody); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		return
+	}
+
+	objectID, err := primitive.ObjectIDFromHex(requestBody.UserID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID format"})
+		return
+	}
+
+	collection := db.MongoClient.Database("stakeholders").Collection("users")
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	var user models.User
+	err = collection.FindOne(ctx, bson.M{"_id": objectID}).Decode(&user)
+	if err == mongo.ErrNoDocuments {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
+		return
+	}
+
+	update := bson.M{"$set": bson.M{"is_blocked": !user.IsBlocked}}
+	_, err = collection.UpdateOne(ctx, bson.M{"_id": objectID}, update)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to block user"})
+		return
+	}
+
+	if (!user.IsBlocked) {
+		c.JSON(http.StatusOK, gin.H{"message": "User blocked successfully"})
+	} else {
+		c.JSON(http.StatusOK, gin.H{"message": "User unblocked successfully"})
+	}
+}
+
+func GetProfile(c *gin.Context) {
+	claims, err := utils.VerifyJWT(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized: " + err.Error()})
+		return
+	}
+
+	if claims["role"] == "admin" {
+		c.JSON(http.StatusForbidden, gin.H{"error": "Only guides and tourists can access this route"})
+		return
+	}
+
+	username, ok := claims["username"].(string)
+	if !ok || username == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid token claims"})
+		return
+	}
+
+	collection := db.MongoClient.Database("stakeholders").Collection("users")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	projection := bson.M{
+		"profile": 1,
+		"_id":     0,
+	}
+
+	var result struct {
+		Profile models.UserProfile `bson:"profile" json:"profile"`
+	}
+
+	err = collection.FindOne(ctx, bson.M{"username": username}, options.FindOne().SetProjection(projection)).Decode(&result)
+	if err == mongo.ErrNoDocuments {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Profile not found"})
+		return
+	} else if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
+		return
+	}
+
+	c.JSON(http.StatusOK, result.Profile)
 }

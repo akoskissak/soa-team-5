@@ -35,7 +35,9 @@ func main() {
 		api.POST("/auth/register", handlers.Register)
 		api.GET("/admin/users", handlers.GetAllUsers)
 		api.POST("/auth/login", handlers.Login)
+		api.PUT("/admin/block-user", handlers.BlockUser)
+		api.GET("/user/profile", handlers.GetProfile)
 	}
 	
-	r.Run(":8080")
+	r.Run("localhost:8080")
 }
