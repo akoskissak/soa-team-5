@@ -22,13 +22,15 @@ func main() {
 
 	// cors zbog angulara
 	r.Use(cors.New(cors.Config{
-        AllowOrigins:     []string{"http://localhost:4200"},
-        AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-        AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
-        ExposeHeaders:    []string{"Content-Length"},
-        AllowCredentials: true,
-        MaxAge:           12 * time.Hour,
-    }))
+		AllowOrigins:     []string{"http://localhost:4200"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
+
+	r.Static("/uploads", "./static/uploads")
 
 	api := r.Group("/api")
 	{
@@ -37,7 +39,8 @@ func main() {
 		api.POST("/auth/login", handlers.Login)
 		api.PUT("/admin/block-user", handlers.BlockUser)
 		api.GET("/user/profile", handlers.GetProfile)
+		api.PUT("/user/profile", handlers.UpdateProfile)
 	}
-	
+
 	r.Run("localhost:8080")
 }
