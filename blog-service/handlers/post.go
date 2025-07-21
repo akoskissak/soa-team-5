@@ -3,8 +3,11 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"net/http"
+	"os"
+	"path/filepath"
 
 	"soa/blog-service/database"
 	"soa/blog-service/models"
@@ -12,6 +15,17 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
+
+const (
+	MaxUploadSize = 5 * 1024 * 1024
+	UploadDir     = "./static/uploads"
+)
+
+var allowedImageTypes = map[string]bool{
+	"image/jpeg": true,
+	"image/png":  true,
+	"image/gif":  true,
+}
 
 func CreatePost(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
@@ -29,7 +43,7 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	}
 
 	newPost.UserID = uuid.MustParse("00000000-0000-0000-0000-000000000001")
-	newPost.Username = "test_user"
+	newPost.Username = "djurdjevic_m"
 
 	if newPost.Title == "" || newPost.Description == "" {
 		http.Error(w, "Naslov i opis su obavezni.", http.StatusBadRequest)
@@ -48,6 +62,68 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 
 	json.NewEncoder(w).Encode(newPost)
 	fmt.Printf("Novi post kreiran: %+v\n", newPost)
+}
+
+func UploadImage(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Metoda nije dozvoljena", http.StatusMethodNotAllowed)
+		return
+	}
+
+	r.Body = http.MaxBytesReader(w, r.Body, MaxUploadSize)
+	if err := r.ParseMultipartForm(MaxUploadSize); err != nil {
+		http.Error(w, "Fajl je prevelik. Maksimalna veličina je 5MB.", http.StatusBadRequest)
+		return
+	}
+
+	file, handler, err := r.FormFile("image")
+	if err != nil {
+		http.Error(w, "Greška pri dohvatanju fajla: "+err.Error(), http.StatusBadRequest)
+		return
+	}
+	defer file.Close()
+
+	contentType := handler.Header.Get("Content-Type")
+	if !allowedImageTypes[contentType] {
+		http.Error(w, "Nevažeći tip fajla. Dozvoljeni su samo JPEG, PNG, GIF.", http.StatusBadRequest)
+		return
+	}
+
+	if _, err := os.Stat(UploadDir); os.IsNotExist(err) {
+		err = os.MkdirAll(UploadDir, 0755)
+		if err != nil {
+			log.Printf("Greška pri kreiranju direktorijuma %s: %v", UploadDir, err)
+			http.Error(w, "Greška servera pri kreiranju foldera za upload.", http.StatusInternalServerError)
+			return
+		}
+	}
+
+	fileExtension := filepath.Ext(handler.Filename)
+	newFileName := uuid.New().String() + fileExtension
+	filePath := filepath.Join(UploadDir, newFileName)
+
+	dst, err := os.Create(filePath)
+	if err != nil {
+		log.Printf("Greška pri kreiranju fajla na disku: %v", err)
+		http.Error(w, "Greška servera pri čuvanju fajla.", http.StatusInternalServerError)
+		return
+	}
+	defer dst.Close()
+
+	if _, err := io.Copy(dst, file); err != nil {
+		log.Printf("Greška pri kopiranju fajla: %v", err)
+		http.Error(w, "Greška servera pri čuvanju fajla.", http.StatusInternalServerError)
+		return
+	}
+
+	imageURL := fmt.Sprintf("/uploads/%s", newFileName)
+
+	response := map[string]string{"imageUrl": imageURL}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(response)
+
+	log.Printf("Slika uspešno uploadovana: %s", imageURL)
 }
 
 func GetPosts(w http.ResponseWriter, r *http.Request) {
