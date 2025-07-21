@@ -298,15 +298,14 @@ func UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	// NOVO: Obrada slike ako je poslat Base64 string
 	if updatedProfile.ProfilePicture != "" && strings.HasPrefix(updatedProfile.ProfilePicture, "data:image/") {
 		imageURL, err := saveBase64Image(updatedProfile.ProfilePicture)
 		if err != nil {
-			log.Printf("Error saving image: %v", err) // Loguj grešku za debug
+			log.Printf("Error saving image: %v", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save image: " + err.Error()})
 			return
 		}
-		updatedProfile.ProfilePicture = imageURL // Zameni Base64 string sa URL-om sačuvanog fajla
+		updatedProfile.ProfilePicture = imageURL
 	}
 
 	collection := db.MongoClient.Database("stakeholders").Collection("users")
