@@ -4,15 +4,28 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"soa/blog-service/database"
 	"soa/blog-service/handlers"
 
+	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 )
 
 func main() {
-	database.InitDB()
+	localhost := "0.0.0.0"
+	connStr := os.Getenv("DATABASE_URL")
+	if connStr == "" {
+		err := godotenv.Load("../.env")
+		if err != nil {
+			log.Println(err)
+		}
+
+		connStr = os.Getenv("DATABASE_URL")
+		localhost = "localhost"
+	}
+	database.InitDB(connStr)
 	defer database.CloseDB()
 
 	mux := http.NewServeMux()
@@ -39,7 +52,7 @@ func main() {
 
 	handler := c.Handler(mux)
 
-	port := ":8081"
+	port := localhost + ":8081"
 	fmt.Printf("Blog Service starting on port %s\n", port)
 	log.Fatal(http.ListenAndServe(port, handler))
 }

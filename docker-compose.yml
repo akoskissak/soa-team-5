@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  blog-service:
+    build:
+      context: ./blog-service
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    networks:
+      - backend_network
+    depends_on:
+      postgresdb:
+        condition: service_healthy
+    env_file:
+      - .env
+
+  stakeholders:
+    build: 
+      context: ./stakeholders-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - backend_network
+    env_file:
+      - .env
+
+  postgresdb:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend_network
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: super
+      POSTGRES_DB: blog_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d blog_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+
+networks:
+  backend_network:
+    driver: bridge

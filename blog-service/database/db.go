@@ -13,8 +13,10 @@ import (
 
 var GORM_DB *gorm.DB
 
-func InitDB() {
-	connStr := "user=postgres password=super host=localhost port=5432 dbname=blog_db sslmode=disable"
+func InitDB(connStr string) {
+	if connStr == "" {
+		log.Fatal("Greška: Environment varijabla DATABASE_URL nije postavljena.")
+	}
 
 	var err error
 	GORM_DB, err = gorm.Open(postgres.Open(connStr), &gorm.Config{})

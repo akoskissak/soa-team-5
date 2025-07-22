@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -13,9 +12,7 @@ import (
 
 var MongoClient *mongo.Client
 
-func Connect() {
-
-	mongoUri := os.Getenv("MONGODB_URI")
+func Connect(mongoUri string) {
 	if mongoUri == "" {
 		log.Fatal("MONGODB_URI env not set")
 	}
