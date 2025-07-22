@@ -15,6 +15,17 @@ services:
     env_file:
       - .env
 
+  stakeholders:
+    build: 
+      context: ./stakeholders-service
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - backend_network
+    env_file:
+      - .env
+
   postgresdb:
     image: postgres:15-alpine
     ports:
