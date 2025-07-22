@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"stakeholders-service/db"
 	"stakeholders-service/handlers"
 	"time"
@@ -12,11 +13,19 @@ import (
 )
 
 func main() {
-	err := godotenv.Load("../.env")
-	if err != nil {
-		log.Println(err)
+	localhost := "0.0.0.0"
+
+	mongoUri := os.Getenv("MONGODB_URI")
+	if mongoUri == "" {
+		err := godotenv.Load("../.env")
+		if err != nil {
+			log.Println("No .env file found or failed to load it:", err)
+		}
+
+		mongoUri = os.Getenv("MONGODB_URI")
+		localhost = "localhost"
 	}
-	db.Connect()
+	db.Connect(mongoUri)
 
 	r := gin.Default()
 
@@ -42,5 +51,5 @@ func main() {
 		api.PUT("/user/profile", handlers.UpdateProfile)
 	}
 
-	r.Run("localhost:8080")
+	r.Run(localhost + ":8080")
 }
