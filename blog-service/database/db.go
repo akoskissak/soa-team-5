@@ -3,7 +3,6 @@ package database
 import (
 	"fmt"
 	"log"
-	"os"
 	"time"
 
 	"gorm.io/driver/postgres"
@@ -14,10 +13,7 @@ import (
 
 var GORM_DB *gorm.DB
 
-func InitDB() {
-
-	connStr := os.Getenv("DATABASE_URL")
-
+func InitDB(connStr string) {
 	if connStr == "" {
 		log.Fatal("Greška: Environment varijabla DATABASE_URL nije postavljena.")
 	}
