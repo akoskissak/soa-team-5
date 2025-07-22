@@ -24,11 +24,21 @@ func InitDB() {
 
 	fmt.Println("Uspješno povezano sa PostgreSQL bazom podataka koristeći GORM!")
 
-	err = GORM_DB.AutoMigrate(&models.Post{})
+	err = GORM_DB.AutoMigrate(&models.Post{}, &models.Comment{}, &models.Like{})
 	if err != nil {
 		log.Fatalf("Greška pri automatskoj migraciji šeme baze podataka: %v", err)
 	}
-	fmt.Println("Migracija tabele 'posts' uspješno završena (GORM AutoMigrate).")
+	fmt.Println("Migracija tabela 'posts', 'comments', 'likes' uspješno završena (GORM AutoMigrate).")
+
+	err = GORM_DB.Exec(`
+		CREATE UNIQUE INDEX IF NOT EXISTS unique_like_per_user_post
+		ON likes (post_id, user_id);
+	`).Error
+	if err != nil {
+		log.Printf("Upozorenje: Greška pri kreiranju jedinstvenog indeksa 'unique_like_per_user_post' na tabeli 'likes': %v", err)
+	} else {
+		fmt.Println("Jedinstveni indeks 'unique_like_per_user_post' na tabeli 'likes' je osiguran.")
+	}
 
 	sqlDB, err := GORM_DB.DB()
 	if err != nil {

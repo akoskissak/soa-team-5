@@ -26,6 +26,10 @@ func main() {
 	mux.HandleFunc("GET /posts/{id}", handlers.GetPostByID)
 	mux.HandleFunc("POST /upload-image", handlers.UploadImage)
 
+	mux.HandleFunc("POST /posts/{id}/like", handlers.ToggleLike)
+	mux.HandleFunc("GET /posts/{id}/comments", handlers.GetCommentsForPost)
+	mux.HandleFunc("POST /posts/{id}/comments", handlers.AddCommentToPost)
+
 	fs := http.FileServer(http.Dir("static/uploads"))
 	mux.Handle("/uploads/", http.StripPrefix("/uploads/", fs))
 
