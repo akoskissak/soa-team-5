@@ -25,7 +25,12 @@ func main() {
 		mongoUri = os.Getenv("MONGODB_URI")
 		localhost = "localhost"
 	}
-	db.Connect(mongoUri)
+	db.ConnectMongoDB(mongoUri)
+
+    neo4jURI := os.Getenv("NEO4J_URI")
+    neo4jUser := os.Getenv("NEO4J_USER")
+    neo4jPass := os.Getenv("NEO4J_PASS")
+	db.ConnectNeo4j(neo4jURI, neo4jUser, neo4jPass)
 
 	r := gin.Default()
 
@@ -47,6 +52,7 @@ func main() {
 		api.GET("/admin/users", handlers.GetAllUsers)
 		api.POST("/auth/login", handlers.Login)
 		api.PUT("/admin/block-user", handlers.BlockUser)
+		api.GET("/user/profile/:username", handlers.GetProfileByUsername)
 		api.GET("/user/profile", handlers.GetProfile)
 		api.PUT("/user/profile", handlers.UpdateProfile)
 	}
