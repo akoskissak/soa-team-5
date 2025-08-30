@@ -43,6 +43,21 @@ services:
       neo4j:
         condition: service_healthy
 
+  tours-service:
+    build:
+      context: ./tours-service
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    networks:
+      - backend_network
+    env_file:
+      - .env
+    depends_on:
+      toursdb:
+        condition: service_healthy
+
+
   neo4j:
     image: neo4j:5
     container_name: neo4j
@@ -79,9 +94,28 @@ services:
       timeout: 5s
       retries: 5
 
+  toursdb:
+    image: postgres:15-alpine
+    ports:
+      - "5433:5432"
+    volumes:
+      - tours_postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend_network
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: super
+      POSTGRES_DB: tour_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tour_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres_data:
   neo4j_data:
+  tours_postgres_data:
 
 networks:
   backend_network:

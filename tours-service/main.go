@@ -12,8 +12,8 @@ import (
 )
 
 func main() {
-	// localhost := "0.0.0.0"
-	localhost := "localhost"
+	localhost := "0.0.0.0"
+	
 	connStr := os.Getenv("TOUR_DATABASE_URL")
 	if connStr == "" {
 		err := godotenv.Load("../.env")
