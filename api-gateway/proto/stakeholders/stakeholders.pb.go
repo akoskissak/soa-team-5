@@ -878,7 +878,7 @@ const file_stakeholders_stakeholders_proto_rawDesc = "" +
 	"\x14GetProfileByUsername\x12).stakeholders.GetProfileByUsernameRequest\x1a!.stakeholders.UserProfileResponse\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/user/profile/{username}\x12k\n" +
 	"\n" +
 	"GetProfile\x12\x1f.stakeholders.GetProfileRequest\x1a!.stakeholders.UserProfileResponse\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/api/user/profile\x12v\n" +
-	"\rUpdateProfile\x12\".stakeholders.UpdateProfileRequest\x1a#.stakeholders.UpdateProfileResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\x1a\x11/api/user/profileB\x1fZ\x1dsoa-team-5/proto/stakeholdersb\x06proto3"
+	"\rUpdateProfile\x12\".stakeholders.UpdateProfileRequest\x1a#.stakeholders.UpdateProfileResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\x1a\x11/api/user/profileB+Z)soa-team-5/api-gateway/proto/stakeholdersb\x06proto3"
 
 var (
 	file_stakeholders_stakeholders_proto_rawDescOnce sync.Once

@@ -903,7 +903,7 @@ const file_blog_blog_proto_rawDesc = "" +
 	"\n" +
 	"ToggleLike\x12\x17.blog.ToggleLikeRequest\x1a\x18.blog.ToggleLikeResponse\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\"\x14/posts/{postId}/like\x12y\n" +
 	"\x12GetCommentsForPost\x12\x1f.blog.GetCommentsForPostRequest\x1a .blog.GetCommentsForPostResponse\" \x82\xd3\xe4\x93\x02\x1a\x12\x18/posts/{postId}/comments\x12e\n" +
-	"\x10AddCommentToPost\x12\x1d.blog.AddCommentToPostRequest\x1a\r.blog.Comment\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/posts/{postId}/commentsB\x17Z\x15soa-team-5/proto/blogb\x06proto3"
+	"\x10AddCommentToPost\x12\x1d.blog.AddCommentToPostRequest\x1a\r.blog.Comment\"#\x82\xd3\xe4\x93\x02\x1d:\x01*\"\x18/posts/{postId}/commentsB#Z!soa-team-5/api-gateway/proto/blogb\x06proto3"
 
 var (
 	file_blog_blog_proto_rawDescOnce sync.Once

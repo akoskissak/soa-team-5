@@ -934,7 +934,7 @@ const file_tours_tours_proto_rawDesc = "" +
 	"\x0eCreateKeyPoint\x12\x1c.tours.CreateKeyPointRequest\x1a\x0f.tours.KeyPoint\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/api/keypoints\x12e\n" +
 	"\tAddReview\x12\x17.tours.AddReviewRequest\x1a\x18.tours.AddReviewResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*\"\x1a/api/tours/{tourId}/review\x12_\n" +
 	"\tDrawOnMap\x12\x17.tours.DrawOnMapRequest\x1a\x18.tours.DrawOnMapResponse\"\x1f\x82\xd3\xe4\x93\x02\x19\x12\x17/api/tours/{tourId}/map\x12u\n" +
-	"\x10SimulatePosition\x12\x1e.tours.SimulatePositionRequest\x1a\x1f.tours.SimulatePositionResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/tourist/positionB\x18Z\x16soa-team-5/proto/toursb\x06proto3"
+	"\x10SimulatePosition\x12\x1e.tours.SimulatePositionRequest\x1a\x1f.tours.SimulatePositionResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/tourist/positionB$Z\"soa-team-5/api-gateway/proto/toursb\x06proto3"
 
 var (
 	file_tours_tours_proto_rawDescOnce sync.Once

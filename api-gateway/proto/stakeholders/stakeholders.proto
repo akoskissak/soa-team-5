@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package stakeholders;
 
-option go_package = "soa-team-5/proto/stakeholders";
+option go_package = "soa-team-5/api-gateway/proto/stakeholders";
 
 import "google/api/annotations.proto";
 import "google/api/http.proto";

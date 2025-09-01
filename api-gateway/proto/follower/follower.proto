@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package follower;
 
-option go_package = "soa-team-5/proto/follower";
+option go_package = "soa-team-5/api-gateway/proto/follower";
 
 import "google/api/annotations.proto";
 import "google/api/http.proto";

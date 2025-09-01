@@ -538,7 +538,7 @@ const file_follower_follower_proto_rawDesc = "" +
 	"\bUnfollow\x12\x19.follower.UnfollowRequest\x1a\x1a.follower.UnfollowResponse\"\x18\x82\xd3\xe4\x93\x02\x12*\x10/api/follow/{to}\x12p\n" +
 	"\fGetFollowing\x12\x1d.follower.GetFollowingRequest\x1a\x1e.follower.GetFollowingResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/api/following/{username}\x12p\n" +
 	"\fGetFollowers\x12\x1d.follower.GetFollowersRequest\x1a\x1e.follower.GetFollowersResponse\"!\x82\xd3\xe4\x93\x02\x1b\x12\x19/api/followers/{username}\x12\\\n" +
-	"\tRecommend\x12\x1a.follower.RecommendRequest\x1a\x1b.follower.RecommendResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/api/recommendB\x1bZ\x19soa-team-5/proto/followerb\x06proto3"
+	"\tRecommend\x12\x1a.follower.RecommendRequest\x1a\x1b.follower.RecommendResponse\"\x16\x82\xd3\xe4\x93\x02\x10\x12\x0e/api/recommendB'Z%soa-team-5/api-gateway/proto/followerb\x06proto3"
 
 var (
 	file_follower_follower_proto_rawDescOnce sync.Once

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package tours;
 
-option go_package = "soa-team-5/proto/tours";
+option go_package = "soa-team-5/api-gateway/proto/tours";
 
 import "google/api/annotations.proto";
 import "google/api/http.proto";
