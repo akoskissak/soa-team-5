@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package blog;
+
+option go_package = "soa-team-5/proto/blog";
+
+import "google/api/annotations.proto";
+import "google/api/http.proto";
+
+service BlogService {
+
+  rpc CreatePost(CreatePostRequest) returns (Post) {
+    option (google.api.http) = {
+      post: "/posts"
+      body: "*"
+    };
+  }
+
+  rpc GetPosts(GetPostsRequest) returns (GetPostsResponse) {
+    option (google.api.http) = {
+      get: "/posts"
+    };
+  }
+
+  rpc GetPostByID(GetPostByIDRequest) returns (Post) {
+    option (google.api.http) = {
+      get: "/posts/{id}"
+    };
+  }
+
+  rpc UploadImage(UploadImageRequest) returns (UploadImageResponse) {
+    option (google.api.http) = {
+      post: "/upload-image"
+      body: "*"
+    };
+  }
+
+ rpc ToggleLike(ToggleLikeRequest) returns (ToggleLikeResponse) {
+  option (google.api.http) = {
+    post: "/posts/{postId}/like"
+    body: "*"
+  };
+}
+
+  rpc GetCommentsForPost(GetCommentsForPostRequest) returns (GetCommentsForPostResponse) {
+    option (google.api.http) = {
+      get: "/posts/{postId}/comments"
+    };
+  }
+
+  rpc AddCommentToPost(AddCommentToPostRequest) returns (Comment) {
+    option (google.api.http) = {
+      post: "/posts/{postId}/comments"
+      body: "*"
+    };
+  }
+}
+
+message CreatePostRequest {
+  string userId = 1;
+  string username = 2;
+  string title = 3;
+  string description = 4;
+}
+
+message GetPostsRequest {}
+message GetPostsResponse {
+  repeated Post posts = 1;
+}
+
+message GetPostByIDRequest {
+  string id = 1;
+}
+
+message UploadImageRequest {
+  string filename = 1;
+  bytes imageData = 2;
+}
+message UploadImageResponse {
+  string url = 1;
+}
+
+message ToggleLikeRequest {
+  string postId = 1;
+  string userId = 2;
+}
+message ToggleLikeResponse {
+  string status = 1;
+  int32 likesCount = 2;
+}
+
+message GetCommentsForPostRequest {
+  string postId = 1;
+}
+message GetCommentsForPostResponse {
+  repeated Comment comments = 1;
+}
+
+message AddCommentToPostRequest {
+  string postId = 1;
+  string userId = 2;
+  string username = 3;
+  string text = 4;
+}
+
+message Comment {
+  string id = 1;
+  string postId = 2;
+  string userId = 3;
+  string username = 4;
+  string text = 5;
+  string createdAt = 6;
+  string updatedAt = 7;
+}
+
+message Like {
+  string id = 1;
+  string postId = 2;
+  string userId = 3;
+  string createdAt = 4;
+}
+
+message Post {
+  string id = 1;
+  string userId = 2;
+  string username = 3;
+  string title = 4;
+  string description = 5;
+  string createdAt = 6;
+  repeated string imageUrls = 7;
+  int32 likesCount = 8;
+}
