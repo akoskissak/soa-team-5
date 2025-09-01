@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"soa/blog-service/database"
 	"soa/blog-service/models"
+	"soa/blog-service/utils"
 	"time"
 
 	"github.com/google/uuid"
@@ -33,17 +34,24 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var newPost models.Post
-
-	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&newPost)
+	// jwt parse
+	currentUsername, userId, err := utils.GetClaimsFromJWT(r)
 	if err != nil {
-		http.Error(w, "Greška pri parsiranju JSON-a: "+err.Error(), http.StatusBadRequest)
+		http.Error(w, "Nevalidan token", http.StatusUnauthorized)
 		return
 	}
 
-	newPost.UserID = uuid.MustParse("00000000-0000-0000-0000-000000000001")
-	newPost.Username = "djurdjevic_m"
+	var newPost models.Post
+
+	decoder := json.NewDecoder(r.Body)
+	parseErr := decoder.Decode(&newPost)
+	if parseErr != nil {
+		http.Error(w, "Greška pri parsiranju JSON-a: " + parseErr.Error(), http.StatusBadRequest)
+		return
+	}
+
+	newPost.UserID = userId
+	newPost.Username = currentUsername
 
 	if newPost.Title == "" || newPost.Description == "" {
 		http.Error(w, "Naslov i opis su obavezni.", http.StatusBadRequest)
@@ -131,21 +139,58 @@ func GetPosts(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Metoda nije dozvoljena", http.StatusMethodNotAllowed)
 		return
 	}
+	
+	// jwt parse
+	currentUsername, _, err := utils.GetClaimsFromJWT(r)
+	if err != nil {
+		http.Error(w, "Nevalidan token", http.StatusUnauthorized)
+		return
+	}
+
+	following, err := GetFollowing(currentUsername)
+	if err != nil {
+		http.Error(w, "Greska pri dohvatanju pracenih korisnika", http.StatusInternalServerError)
+		return
+	}
+
+	following = append(following, currentUsername)
 
 	var posts []models.Post
 
-	result := database.GORM_DB.Find(&posts)
+	result := database.GORM_DB.Where("username IN ?", following).Order("created_at DESC").Find(&posts)
 	if result.Error != nil {
 		log.Printf("Greška pri dohvatanju postova iz baze: %v", result.Error)
 		http.Error(w, "Greška servera pri dohvatanju postova.", http.StatusInternalServerError)
 		return
 	}
-
+	
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 
 	json.NewEncoder(w).Encode(posts)
 	fmt.Printf("Dohvaćeno %d postova.\n", len(posts))
+}
+
+// pomocna funkcija koji radi preko HTTP REST, prebacicemo na gRPC
+func GetFollowing(username string) ([]string, error) {
+	url := fmt.Sprintf("http://follower-service:8082/api/following/%s", username)
+
+	resp, err := http.Get(url)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("followers service returned status %d", resp.StatusCode)
+	}
+
+	var result models.FollowingResponse
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return nil, err
+	}
+
+	return result.Following, nil
 }
 
 func GetPostByID(w http.ResponseWriter, r *http.Request) {

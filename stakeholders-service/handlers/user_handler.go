@@ -16,6 +16,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -74,6 +75,20 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	session := db.Neo4jDriver.NewSession(c, neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
+	defer session.Close(c)
+
+		_, err = session.ExecuteWrite(c, func(tx neo4j.ManagedTransaction) (any, error) {
+		query := `MERGE (u:User {username:$username})`
+		_, err := tx.Run(c, query, map[string]any{
+			"username": input.Username,
+		})
+		return nil, err
+	})
+	if err != nil {
+		log.Printf("Neo4j: failed to create user node: %v", err)
+	}
+
 	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
 }
 
@@ -113,7 +128,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.GenerateJWT(user.Username, string(user.Role))
+	token, err := utils.GenerateJWT(user.Username, string(user.Role), user.ID)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
@@ -249,12 +264,10 @@ func GetProfile(c *gin.Context) {
 	projection := bson.M{
 		"profile":    1,
 		"_id":        0,
-		"is_blocked": 1,
+		"username":	  1,
 	}
 
-	var result struct {
-		Profile models.UserProfile `bson:"profile" json:"profile"`
-	}
+	var result models.User
 
 	err = collection.FindOne(ctx, bson.M{"username": username}, options.FindOne().SetProjection(projection)).Decode(&result)
 	if err == mongo.ErrNoDocuments {
@@ -265,7 +278,9 @@ func GetProfile(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, result.Profile)
+	response := utils.MapToUserProfileResponse(result)
+
+	c.JSON(http.StatusOK, response)
 }
 
 func UpdateProfile(c *gin.Context) {
@@ -331,7 +346,48 @@ func UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, userAfterUpdate.Profile)
+	response := utils.MapToUserProfileResponse(userAfterUpdate)
+
+	c.JSON(http.StatusOK, response)
+}
+
+func GetProfileByUsername(c *gin.Context) {
+	username := c.Param("username")
+	if username == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Username is required"})
+		return
+	}
+
+	collection := db.MongoClient.Database("stakeholders").Collection("users")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	projection := bson.M{
+		"profile":	1,
+		"_id":		0,
+		"username":	1,
+	}
+
+	var result models.User
+
+	err := collection.FindOne(
+		ctx,
+		bson.M{"username": username},
+		options.FindOne().SetProjection(projection),
+	).Decode(&result)
+
+	if err == mongo.ErrNoDocuments {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Profile not found"})
+		return
+	} else if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
+		return
+	}
+
+	response := utils.MapToUserProfileResponse(result)
+
+	c.JSON(http.StatusOK, response)
 }
 
 func saveBase64Image(base64String string) (string, error) {
