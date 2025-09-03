@@ -3,60 +3,91 @@ package main
 import (
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
+
+	blogproto "api-gateway/proto/blog"
+	followerproto "api-gateway/proto/follower"
 
 	"soa/blog-service/database"
 	"soa/blog-service/handlers"
 
+	cors "github.com/gorilla/handlers"
 	"github.com/joho/godotenv"
-	"github.com/rs/cors"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
-	localhost := "0.0.0.0"
-	connStr := os.Getenv("DATABASE_URL")
-	if connStr == "" {
+	if os.Getenv("DATABASE_URL") == "" {
 		err := godotenv.Load("../.env")
 		if err != nil {
-			log.Println(err)
+			log.Println("Error loading .env file:", err)
 		}
-
-		connStr = os.Getenv("DATABASE_URL")
-		localhost = "localhost"
 	}
+
+	connStr := os.Getenv("DATABASE_URL")
+	if connStr == "" {
+		log.Fatal("DATABASE_URL not set in .env file or environment.")
+	}
+
 	database.InitDB(connStr)
 	defer database.CloseDB()
 
-	mux := http.NewServeMux()
+	followerServiceAddress := "localhost:8084"
+	followerConn, err := grpc.Dial(
+		followerServiceAddress,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	if err != nil {
+		log.Fatalf("Failed to dial follower service: %v", err)
+	}
+	defer followerConn.Close()
 
-	/*mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Blog Service is running!")
-	})*/
+	followerClient := followerproto.NewFollowerServiceClient(followerConn)
+	handlers.InitFollowerClient(followerClient)
 
-	mux.HandleFunc("POST /posts", handlers.CreatePost)
-	mux.HandleFunc("GET /posts", handlers.GetPosts)
-	mux.HandleFunc("GET /posts/{id}", handlers.GetPostByID)
-	mux.HandleFunc("POST /upload-image", handlers.UploadImage)
+	go func() {
+		httpPort := "8086"
+		httpMux := http.NewServeMux()
 
-	mux.HandleFunc("POST /posts/{id}/like", handlers.ToggleLike)
-	mux.HandleFunc("GET /posts/{id}/comments", handlers.GetCommentsForPost)
-	mux.HandleFunc("POST /posts/{id}/comments", handlers.AddCommentToPost)
+		fs := http.FileServer(http.Dir("static/uploads"))
+		httpMux.Handle("/uploads/", http.StripPrefix("/uploads/", fs))
 
-	fs := http.FileServer(http.Dir("static/uploads"))
-	mux.Handle("/uploads/", http.StripPrefix("/uploads/", fs))
+		httpMux.HandleFunc("/upload-image", handlers.HandleImageUpload)
 
-	c := cors.New(cors.Options{
-		AllowedOrigins:   []string{"http://localhost:4200"},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders:   []string{"Origin", "Content-Type", "Authorization"},
-		AllowCredentials: true,
-		MaxAge:           300,
-	})
+		headersOk := cors.AllowedHeaders([]string{
+			"X-Requested-With", "Content-Type", "Authorization",
+		})
+		originsOk := cors.AllowedOrigins([]string{"*"})
+		methodsOk := cors.AllowedMethods([]string{
+			"GET", "POST", "PUT", "DELETE", "OPTIONS",
+		})
 
-	handler := c.Handler(mux)
+		corsHandler := cors.CORS(originsOk, headersOk, methodsOk)(httpMux)
 
-	port := localhost + ":8081"
-	fmt.Printf("Blog Service starting on port %s\n", port)
-	log.Fatal(http.ListenAndServe(port, handler))
+		log.Printf("Blog Service HTTP static server listening on port %s", httpPort)
+		if err := http.ListenAndServe(":"+httpPort, corsHandler); err != nil {
+			log.Fatalf("Failed to start HTTP static server: %v", err)
+		}
+	}()
+
+	port := "8083"
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
+	if err != nil {
+		log.Fatalf("Failed to listen: %v", err)
+	}
+
+	grpcServer := grpc.NewServer()
+	blogServer := handlers.NewBlogServer()
+	blogproto.RegisterBlogServiceServer(grpcServer, blogServer)
+
+	reflection.Register(grpcServer)
+
+	log.Printf("Blog gRPC service listening on port %s", port)
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("Failed to serve: %v", err)
+	}
 }

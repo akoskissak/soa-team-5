@@ -61,6 +61,7 @@ message CreatePostRequest {
   string username = 2;
   string title = 3;
   string description = 4;
+  repeated string imageUrls = 5;
 }
 
 message GetPostsRequest {}

@@ -4,57 +4,41 @@ import (
 	"follower-service/db"
 	"follower-service/handlers"
 	"log"
+	"net"
 	"os"
-	"time"
 
-	"github.com/gin-contrib/cors"
-	"github.com/gin-gonic/gin"
+	pb "api-gateway/proto/follower"
+
 	"github.com/joho/godotenv"
+	"google.golang.org/grpc"
 )
 
 func main() {
-	localhost := "0.0.0.0"
+	err := godotenv.Load("../.env")
+	if err != nil {
+		log.Println("Upozorenje: .env fajl nije pronađen ili se ne može učitati. Pokušavam koristiti sistemske varijable.")
+	}
 
 	uri := os.Getenv("NEO4J_URI")
 	user := os.Getenv("NEO4J_USER")
 	pass := os.Getenv("NEO4J_PASS")
-	port := "8082"
 
 	if uri == "" || user == "" || pass == "" {
-		err := godotenv.Load("../.env")
-		if err != nil {
-			log.Println("No .env file found or failed to load it:", err)
-		}
-		uri = os.Getenv("NEO4J_URI")
-		user = os.Getenv("NEO4J_USER")
-		pass = os.Getenv("NEO4J_PASS")
-		localhost = "localhost"
+		log.Fatalf("Greška: NEO4J varijable okruženja nisu postavljene. Provjerite .env fajl.")
 	}
 
 	db.ConnectNeo4j(uri, user, pass)
 
-	r := gin.Default()
-
-	// cors zbog angulara
-	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:4200"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
-
-	api := r.Group("/api")
-	{
-		api.POST("/follow", handlers.Follow)
-		// api.DELETE("/follow", handlers.Unfollow)
-		api.DELETE("/follow/:to", handlers.Unfollow)
-		api.GET("/following/:username", handlers.GetFollowing)
-		api.GET("/followers/:username", handlers.GetFollowers)
-		api.GET("/recommend", handlers.Recommend)
+	lis, err := net.Listen("tcp", ":8084")
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
 	}
 
-	log.Printf("follower-service listening on :%s", port)
-	r.Run(localhost + ":" + port)
+	grpcServer := grpc.NewServer()
+	pb.RegisterFollowerServiceServer(grpcServer, handlers.NewFollowerServer())
+
+	log.Println("Follower service listening on :8084")
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }

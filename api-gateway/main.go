@@ -59,12 +59,12 @@ func main() {
 		log.Fatalf("failed to register tours service: %v", err)
 	}
 
-	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "blog-service:8083", opts)
+	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "localhost:8083", opts)
 	if err != nil {
 		log.Fatalf("failed to register blog service: %v", err)
 	}
 
-	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "follower-service:8084", opts)
+	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "localhost:8084", opts)
 	if err != nil {
 		log.Fatalf("failed to register follower service: %v", err)
 	}

@@ -28,6 +28,7 @@ type CreatePostRequest struct {
 	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
 	Title         string                 `protobuf:"bytes,3,opt,name=title,proto3" json:"title,omitempty"`
 	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	ImageUrls     []string               `protobuf:"bytes,5,rep,name=imageUrls,proto3" json:"imageUrls,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -88,6 +89,13 @@ func (x *CreatePostRequest) GetDescription() string {
 		return x.Description
 	}
 	return ""
+}
+
+func (x *CreatePostRequest) GetImageUrls() []string {
+	if x != nil {
+		return x.ImageUrls
+	}
+	return nil
 }
 
 type GetPostsRequest struct {
@@ -834,12 +842,13 @@ var File_blog_blog_proto protoreflect.FileDescriptor
 
 const file_blog_blog_proto_rawDesc = "" +
 	"\n" +
-	"\x0fblog/blog.proto\x12\x04blog\x1a\x1cgoogle/api/annotations.proto\x1a\x15google/api/http.proto\"\x7f\n" +
+	"\x0fblog/blog.proto\x12\x04blog\x1a\x1cgoogle/api/annotations.proto\x1a\x15google/api/http.proto\"\x9d\x01\n" +
 	"\x11CreatePostRequest\x12\x16\n" +
 	"\x06userId\x18\x01 \x01(\tR\x06userId\x12\x1a\n" +
 	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
 	"\x05title\x18\x03 \x01(\tR\x05title\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\"\x11\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12\x1c\n" +
+	"\timageUrls\x18\x05 \x03(\tR\timageUrls\"\x11\n" +
 	"\x0fGetPostsRequest\"4\n" +
 	"\x10GetPostsResponse\x12 \n" +
 	"\x05posts\x18\x01 \x03(\v2\n" +
