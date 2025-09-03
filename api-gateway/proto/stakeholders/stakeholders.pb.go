@@ -312,8 +312,8 @@ func (x *GetAllUsersResponse) GetUsers() []*User {
 
 type BlockUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
-	IsBlocked     bool                   `protobuf:"varint,2,opt,name=isBlocked,proto3" json:"isBlocked,omitempty"`
+	UserId        string                 `protobuf:"bytes,1,opt,name=userId,proto3" json:"userId,omitempty"`
+	Block         bool                   `protobuf:"varint,2,opt,name=block,proto3" json:"block,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -348,16 +348,16 @@ func (*BlockUserRequest) Descriptor() ([]byte, []int) {
 	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *BlockUserRequest) GetUsername() string {
+func (x *BlockUserRequest) GetUserId() string {
 	if x != nil {
-		return x.Username
+		return x.UserId
 	}
 	return ""
 }
 
-func (x *BlockUserRequest) GetIsBlocked() bool {
+func (x *BlockUserRequest) GetBlock() bool {
 	if x != nil {
-		return x.IsBlocked
+		return x.Block
 	}
 	return false
 }
@@ -736,12 +736,12 @@ func (x *UserProfile) GetMotto() string {
 
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
-	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	Password      string                 `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
-	Role          string                 `protobuf:"bytes,4,opt,name=role,proto3" json:"role,omitempty"`
-	IsBlocked     bool                   `protobuf:"varint,5,opt,name=isBlocked,proto3" json:"isBlocked,omitempty"`
-	Profile       *UserProfile           `protobuf:"bytes,6,opt,name=profile,proto3" json:"profile,omitempty"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Username      string                 `protobuf:"bytes,2,opt,name=username,proto3" json:"username,omitempty"`
+	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Password      string                 `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
+	Role          string                 `protobuf:"bytes,5,opt,name=role,proto3" json:"role,omitempty"`
+	IsBlocked     bool                   `protobuf:"varint,6,opt,name=isBlocked,proto3" json:"isBlocked,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -774,6 +774,13 @@ func (x *User) ProtoReflect() protoreflect.Message {
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
 	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *User) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
 }
 
 func (x *User) GetUsername() string {
@@ -811,13 +818,6 @@ func (x *User) GetIsBlocked() bool {
 	return false
 }
 
-func (x *User) GetProfile() *UserProfile {
-	if x != nil {
-		return x.Profile
-	}
-	return nil
-}
-
 var File_stakeholders_stakeholders_proto protoreflect.FileDescriptor
 
 const file_stakeholders_stakeholders_proto_rawDesc = "" +
@@ -837,10 +837,10 @@ const file_stakeholders_stakeholders_proto_rawDesc = "" +
 	"\vaccessToken\x18\x01 \x01(\tR\vaccessToken\"\x14\n" +
 	"\x12GetAllUsersRequest\"?\n" +
 	"\x13GetAllUsersResponse\x12(\n" +
-	"\x05users\x18\x01 \x03(\v2\x12.stakeholders.UserR\x05users\"L\n" +
-	"\x10BlockUserRequest\x12\x1a\n" +
-	"\busername\x18\x01 \x01(\tR\busername\x12\x1c\n" +
-	"\tisBlocked\x18\x02 \x01(\bR\tisBlocked\"+\n" +
+	"\x05users\x18\x01 \x03(\v2\x12.stakeholders.UserR\x05users\"@\n" +
+	"\x10BlockUserRequest\x12\x16\n" +
+	"\x06userId\x18\x01 \x01(\tR\x06userId\x12\x14\n" +
+	"\x05block\x18\x02 \x01(\bR\x05block\"+\n" +
 	"\x11BlockUserResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\tR\x06status\"9\n" +
 	"\x1bGetProfileByUsernameRequest\x12\x1a\n" +
@@ -862,14 +862,14 @@ const file_stakeholders_stakeholders_proto_rawDesc = "" +
 	"\blastName\x18\x02 \x01(\tR\blastName\x12&\n" +
 	"\x0eprofilePicture\x18\x03 \x01(\tR\x0eprofilePicture\x12\x1c\n" +
 	"\tbiography\x18\x04 \x01(\tR\tbiography\x12\x14\n" +
-	"\x05motto\x18\x05 \x01(\tR\x05motto\"\xbb\x01\n" +
-	"\x04User\x12\x1a\n" +
-	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
-	"\bpassword\x18\x03 \x01(\tR\bpassword\x12\x12\n" +
-	"\x04role\x18\x04 \x01(\tR\x04role\x12\x1c\n" +
-	"\tisBlocked\x18\x05 \x01(\bR\tisBlocked\x123\n" +
-	"\aprofile\x18\x06 \x01(\v2\x19.stakeholders.UserProfileR\aprofile2\xad\x06\n" +
+	"\x05motto\x18\x05 \x01(\tR\x05motto\"\x96\x01\n" +
+	"\x04User\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1a\n" +
+	"\busername\x18\x02 \x01(\tR\busername\x12\x14\n" +
+	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1a\n" +
+	"\bpassword\x18\x04 \x01(\tR\bpassword\x12\x12\n" +
+	"\x04role\x18\x05 \x01(\tR\x04role\x12\x1c\n" +
+	"\tisBlocked\x18\x06 \x01(\bR\tisBlocked2\xad\x06\n" +
 	"\x13StakeholdersService\x12h\n" +
 	"\bRegister\x12\x1d.stakeholders.RegisterRequest\x1a\x1e.stakeholders.RegisterResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/auth/register\x12\\\n" +
 	"\x05Login\x12\x1a.stakeholders.LoginRequest\x1a\x1b.stakeholders.LoginResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/api/auth/login\x12l\n" +
@@ -913,26 +913,25 @@ var file_stakeholders_stakeholders_proto_goTypes = []any{
 var file_stakeholders_stakeholders_proto_depIdxs = []int32{
 	14, // 0: stakeholders.GetAllUsersResponse.users:type_name -> stakeholders.User
 	13, // 1: stakeholders.UpdateProfileRequest.profile:type_name -> stakeholders.UserProfile
-	13, // 2: stakeholders.User.profile:type_name -> stakeholders.UserProfile
-	0,  // 3: stakeholders.StakeholdersService.Register:input_type -> stakeholders.RegisterRequest
-	2,  // 4: stakeholders.StakeholdersService.Login:input_type -> stakeholders.LoginRequest
-	4,  // 5: stakeholders.StakeholdersService.GetAllUsers:input_type -> stakeholders.GetAllUsersRequest
-	6,  // 6: stakeholders.StakeholdersService.BlockUser:input_type -> stakeholders.BlockUserRequest
-	8,  // 7: stakeholders.StakeholdersService.GetProfileByUsername:input_type -> stakeholders.GetProfileByUsernameRequest
-	9,  // 8: stakeholders.StakeholdersService.GetProfile:input_type -> stakeholders.GetProfileRequest
-	10, // 9: stakeholders.StakeholdersService.UpdateProfile:input_type -> stakeholders.UpdateProfileRequest
-	1,  // 10: stakeholders.StakeholdersService.Register:output_type -> stakeholders.RegisterResponse
-	3,  // 11: stakeholders.StakeholdersService.Login:output_type -> stakeholders.LoginResponse
-	5,  // 12: stakeholders.StakeholdersService.GetAllUsers:output_type -> stakeholders.GetAllUsersResponse
-	7,  // 13: stakeholders.StakeholdersService.BlockUser:output_type -> stakeholders.BlockUserResponse
-	12, // 14: stakeholders.StakeholdersService.GetProfileByUsername:output_type -> stakeholders.UserProfileResponse
-	12, // 15: stakeholders.StakeholdersService.GetProfile:output_type -> stakeholders.UserProfileResponse
-	11, // 16: stakeholders.StakeholdersService.UpdateProfile:output_type -> stakeholders.UpdateProfileResponse
-	10, // [10:17] is the sub-list for method output_type
-	3,  // [3:10] is the sub-list for method input_type
-	3,  // [3:3] is the sub-list for extension type_name
-	3,  // [3:3] is the sub-list for extension extendee
-	0,  // [0:3] is the sub-list for field type_name
+	0,  // 2: stakeholders.StakeholdersService.Register:input_type -> stakeholders.RegisterRequest
+	2,  // 3: stakeholders.StakeholdersService.Login:input_type -> stakeholders.LoginRequest
+	4,  // 4: stakeholders.StakeholdersService.GetAllUsers:input_type -> stakeholders.GetAllUsersRequest
+	6,  // 5: stakeholders.StakeholdersService.BlockUser:input_type -> stakeholders.BlockUserRequest
+	8,  // 6: stakeholders.StakeholdersService.GetProfileByUsername:input_type -> stakeholders.GetProfileByUsernameRequest
+	9,  // 7: stakeholders.StakeholdersService.GetProfile:input_type -> stakeholders.GetProfileRequest
+	10, // 8: stakeholders.StakeholdersService.UpdateProfile:input_type -> stakeholders.UpdateProfileRequest
+	1,  // 9: stakeholders.StakeholdersService.Register:output_type -> stakeholders.RegisterResponse
+	3,  // 10: stakeholders.StakeholdersService.Login:output_type -> stakeholders.LoginResponse
+	5,  // 11: stakeholders.StakeholdersService.GetAllUsers:output_type -> stakeholders.GetAllUsersResponse
+	7,  // 12: stakeholders.StakeholdersService.BlockUser:output_type -> stakeholders.BlockUserResponse
+	12, // 13: stakeholders.StakeholdersService.GetProfileByUsername:output_type -> stakeholders.UserProfileResponse
+	12, // 14: stakeholders.StakeholdersService.GetProfile:output_type -> stakeholders.UserProfileResponse
+	11, // 15: stakeholders.StakeholdersService.UpdateProfile:output_type -> stakeholders.UpdateProfileResponse
+	9,  // [9:16] is the sub-list for method output_type
+	2,  // [2:9] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_stakeholders_stakeholders_proto_init() }

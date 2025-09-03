@@ -12,7 +12,7 @@ import (
 
 var MongoClient *mongo.Client
 
-func ConnectMongoDB(mongoUri string) {
+func ConnectMongoDB(mongoUri string) (*mongo.Client, error) {
 	if mongoUri == "" {
 		log.Fatal("MONGODB_URI env not set")
 	}
@@ -37,4 +37,5 @@ func ConnectMongoDB(mongoUri string) {
 	fmt.Println("Mongodb connected!")
 
 	MongoClient = client
+	return client, nil
 }

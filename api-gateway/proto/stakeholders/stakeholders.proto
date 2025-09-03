@@ -80,8 +80,8 @@ message GetAllUsersResponse {
 }
 
 message BlockUserRequest {
-  string username = 1;
-  bool isBlocked = 2;
+  string userId = 1;
+  bool block = 2;
 }
 message BlockUserResponse {
   string status = 1;
@@ -117,10 +117,10 @@ message UserProfile {
 }
 
 message User {
-  string username = 1;
-  string email = 2;
-  string password = 3;
-  string role = 4;
-  bool isBlocked = 5;
-  UserProfile profile = 6;
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string password = 4; 
+    string role = 5;
+    bool isBlocked = 6;
 }
