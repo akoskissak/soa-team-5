@@ -2,10 +2,10 @@ package handlers
 
 import (
 	pb "api-gateway/proto/follower"
+	utils "api-gateway/utils"
 	"context"
 	"errors"
 	"follower-service/db"
-	"follower-service/utils"
 	"log"
 
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"

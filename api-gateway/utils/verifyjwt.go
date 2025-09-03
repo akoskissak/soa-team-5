@@ -3,20 +3,20 @@ package utils
 import (
 	"context"
 	"errors"
-	"net/http"
 	"os"
 	"strings"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
-func GetClaimsFromJWT(r *http.Request) (string, string, error) {
-	authHeader := r.Header.Get("Authorization")
+func VerifyJWT(c *gin.Context) (jwt.MapClaims, error) {
+	authHeader := c.GetHeader("Authorization")
 	if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
-		return "", "", errors.New("missing or invalid Authorization header")
+		return nil, errors.New("missing or invalid Authorization header")
 	}
 
 	tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
@@ -30,23 +30,37 @@ func GetClaimsFromJWT(r *http.Request) (string, string, error) {
 	})
 
 	if err != nil || !token.Valid {
-		return "", "", errors.New("invalid or expired token")
+		return nil, errors.New("invalid or expired token")
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
-		return "", "", errors.New("could not parse JWT claims")
+		return nil, errors.New("could not parse JWT claims")
 	}
 
-	username, ok := claims["username"].(string)
-	if !ok {
-		return "", "", errors.New("username claim not found")
+	return claims, nil
+}
+
+func VerifyJWTString(tokenStr string) (jwt.MapClaims, error) {
+	secret := []byte(os.Getenv("JWT_SECRET"))
+
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("unexpected signing method")
+		}
+		return secret, nil
+	})
+
+	if err != nil || !token.Valid {
+		return nil, errors.New("invalid or expired token")
 	}
-	userId, ok := claims["userId"].(string)
+
+	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
-		return "", "", errors.New("userId claim not found")
+		return nil, errors.New("could not parse JWT claims")
 	}
-	return username, userId, nil
+
+	return claims, nil
 }
 
 func GetClaimsFromContext(ctx context.Context) (string, string, error) {
@@ -89,24 +103,22 @@ func GetClaimsFromContext(ctx context.Context) (string, string, error) {
 	return username, userId, nil
 }
 
-func VerifyJWTString(tokenStr string) (jwt.MapClaims, error) {
-	secret := []byte(os.Getenv("JWT_SECRET"))
-
-	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, errors.New("unexpected signing method")
-		}
-		return secret, nil
-	})
-
-	if err != nil || !token.Valid {
-		return nil, errors.New("invalid or expired token")
-	}
-
-	claims, ok := token.Claims.(jwt.MapClaims)
+func GetClaimsFromContext2Args(ctx context.Context) (jwt.MapClaims, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		return nil, errors.New("could not parse JWT claims")
+		return nil, status.Error(codes.Unauthenticated, "metadata is not provided")
 	}
 
-	return claims, nil
+	values := md.Get("authorization")
+	if len(values) == 0 {
+		return nil, status.Error(codes.Unauthenticated, "authorization token is not provided")
+	}
+
+	bearerToken := values[0]
+	tokenStr := strings.TrimPrefix(bearerToken, "Bearer ")
+	if tokenStr == bearerToken {
+		return nil, status.Error(codes.Unauthenticated, "authorization token is not in the 'Bearer <token>' format")
+	}
+
+	return VerifyJWTString(tokenStr)
 }

@@ -8,9 +8,11 @@ import (
 	"os"
 	"path/filepath"
 	"stakeholders-service/models"
-	"stakeholders-service/utils"
 	"strings"
 	"time"
+
+	utils "api-gateway/utils"
+	stakeholdersutils "stakeholders-service/utils"
 
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
@@ -192,7 +194,7 @@ func (s *StakeholdersServer) BlockUser(ctx context.Context, req *stakeproto.Bloc
 }
 
 func (s *StakeholdersServer) GetProfile(ctx context.Context, req *stakeproto.GetProfileRequest) (*stakeproto.UserProfileResponse, error) {
-	claims, err := utils.GetClaimsFromContext(ctx)
+	claims, err := utils.GetClaimsFromContext2Args(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "unauthorized: %v", err)
 	}
@@ -223,7 +225,7 @@ func (s *StakeholdersServer) GetProfile(ctx context.Context, req *stakeproto.Get
 		return nil, status.Errorf(codes.Internal, "database error")
 	}
 
-	response := utils.MapToUserProfileResponse(result)
+	response := stakeholdersutils.MapToUserProfileResponse(result)
 	return response, nil
 }
 
@@ -251,12 +253,12 @@ func (s *StakeholdersServer) GetProfileByUsername(ctx context.Context, req *stak
 		return nil, status.Errorf(codes.Internal, "database error")
 	}
 
-	response := utils.MapToUserProfileResponse(result)
+	response := stakeholdersutils.MapToUserProfileResponse(result)
 	return response, nil
 }
 
 func (s *StakeholdersServer) UpdateProfile(ctx context.Context, req *stakeproto.UpdateProfileRequest) (*stakeproto.UpdateProfileResponse, error) {
-	claims, err := utils.GetClaimsFromContext(ctx)
+	claims, err := utils.GetClaimsFromContext2Args(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "unauthorized: %v", err)
 	}

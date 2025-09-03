@@ -12,9 +12,9 @@ import (
 
 	blogproto "api-gateway/proto/blog"
 	followerproto "api-gateway/proto/follower"
+	utils "api-gateway/utils"
 	"soa/blog-service/database"
 	"soa/blog-service/models"
-	"soa/blog-service/utils"
 
 	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
