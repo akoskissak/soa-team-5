@@ -134,3 +134,14 @@ func GetAllTours(c *gin.Context) {
 
 	c.JSON(http.StatusOK, tours)
 }
+
+func GetAllPublishedTours(c *gin.Context) {
+	var tours []models.Tour
+
+	if err := database.GORM_DB.Where("status = ?", models.Published).Find(&tours).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch published tours"})
+		return
+	}
+
+	c.JSON(http.StatusOK, tours)
+}
