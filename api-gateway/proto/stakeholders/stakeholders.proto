@@ -5,7 +5,7 @@ package stakeholders;
 option go_package = "soa-team-5/api-gateway/proto/stakeholders";
 
 import "google/api/annotations.proto";
-import "google/api/http.proto";
+import "google/protobuf/empty.proto";
 
 service StakeholdersService {
 
@@ -52,6 +52,19 @@ service StakeholdersService {
     option (google.api.http) = {
       put: "/api/user/profile"
       body: "*"
+    };
+  }
+
+  rpc SetPosition(PositionRequest) returns (google.protobuf.Empty) {
+  option (google.api.http) = {
+    post: "/api/tourist/position"
+    body: "*"
+    };
+  }
+
+rpc GetPosition(google.protobuf.Empty) returns (PositionResponse) {
+  option (google.api.http) = {
+    get: "/api/tourist/position"
     };
   }
 }
@@ -106,6 +119,16 @@ message UserProfileResponse {
   string profilePicture = 4;
   string biography = 5;
   string motto = 6;
+}
+
+message PositionRequest {
+  double lat = 1;
+  double lng = 2;
+}
+
+message PositionResponse {
+  double lat = 1;
+  double lng = 2;
 }
 
 message UserProfile {

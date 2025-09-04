@@ -23,6 +23,7 @@ import (
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	stakeproto "api-gateway/proto/stakeholders"
 )
@@ -352,4 +353,61 @@ func saveBase64Image(base64String string) (string, error) {
 	}
 
 	return fmt.Sprintf("/uploads/%s", fileName), nil
+}
+
+func (s *StakeholdersServer) SetPosition(ctx context.Context, req *stakeproto.PositionRequest) (*emptypb.Empty, error) {
+	claims, err := utils.GetClaimsFromContext2Args(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "unauthorized: %v", err)
+	}
+
+	username, ok := claims["username"].(string)
+	if !ok || username == "" {
+		return nil, status.Errorf(codes.Unauthenticated, "invalid token claims: username not found")
+	}
+
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
+
+	update := bson.M{
+		"$set": bson.M{
+			"position": models.Position{
+				Lat: req.Lat,
+				Lng: req.Lng,
+			},
+		},
+	}
+
+	_, err = collection.UpdateOne(ctx, bson.M{"username": username}, update)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to update position: %v", err)
+	}
+
+	return &emptypb.Empty{}, nil
+}
+
+func (s *StakeholdersServer) GetPosition(ctx context.Context, _ *emptypb.Empty) (*stakeproto.PositionResponse, error) {
+	claims, err := utils.GetClaimsFromContext2Args(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "unauthorized: %v", err)
+	}
+
+	username, ok := claims["username"].(string)
+	if !ok || username == "" {
+		return nil, status.Errorf(codes.Unauthenticated, "invalid token claims: username not found")
+	}
+
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
+
+	var user models.User
+	err = collection.FindOne(ctx, bson.M{"username": username}).Decode(&user)
+	if err == mongo.ErrNoDocuments {
+		return nil, status.Errorf(codes.NotFound, "user not found")
+	} else if err != nil {
+		return nil, status.Errorf(codes.Internal, "database error")
+	}
+
+	return &stakeproto.PositionResponse{
+		Lat: user.Position.Lat,
+		Lng: user.Position.Lng,
+	}, nil
 }
