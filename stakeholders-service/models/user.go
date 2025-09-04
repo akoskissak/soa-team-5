@@ -11,12 +11,13 @@ const (
 )
 
 type User struct {
-	ID       primitive.ObjectID `bson:"_id,omitempty" json:"id"`
-	Username string            `bson:"username" json:"username"`
-	Email    string				`bson:"email" json:"email"`
-	Password string            `bson:"password,omitempty" json:"password,omitempty"`
-	Role     Role              `bson:"role" json:"role"`
-	IsBlocked bool				`bson:"is_blocked" json:"isBlocked"`
-	
-	Profile UserProfile        `bson:"profile" json:"profile"`
+	ID        primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Username  string             `bson:"username" json:"username"`
+	Email     string             `bson:"email" json:"email"`
+	Password  string             `bson:"password,omitempty" json:"password,omitempty"`
+	Role      Role               `bson:"role" json:"role"`
+	IsBlocked bool               `bson:"is_blocked" json:"isBlocked"`
+
+	Profile  UserProfile `bson:"profile" json:"profile"`
+	Position Position    `bson:"position,omitempty" json:"position,omitempty"`
 }
