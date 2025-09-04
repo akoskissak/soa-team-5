@@ -13,7 +13,7 @@ import (
 
 func main() {
 	localhost := "0.0.0.0"
-	
+
 	connStr := os.Getenv("TOUR_DATABASE_URL")
 	if connStr == "" {
 		err := godotenv.Load("../.env")
@@ -32,19 +32,20 @@ func main() {
 	r.Static("/uploads", "./static/uploads")
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:4200"},
+		AllowOrigins:     []string{"http://localhost:4200"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 	}))
 
-	
-	api := r.Group("/api") 
+	api := r.Group("/api")
 
 	api.POST("/tours", handlers.CreateTour)
+	api.POST("/tours/", handlers.CreateTour)
 	api.GET("/tours", handlers.GetAllTours)
-	
+	api.GET("/tours/", handlers.GetAllTours)
+
 	api.POST("/keypoints", handlers.CreateKeyPoint)
 
 	r.Run(localhost + ":8083")

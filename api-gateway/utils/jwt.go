@@ -12,7 +12,7 @@ func GenerateJWT(username string, role string, userId primitive.ObjectID) (strin
 	claims := jwt.MapClaims{
 		"username": username,
 		"role":     role,
-		"userId":	userId,
+		"userId":   userId,
 		"exp":      time.Now().Add(time.Hour * 24).Unix(),
 	}
 

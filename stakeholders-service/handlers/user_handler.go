@@ -5,166 +5,133 @@ import (
 	"encoding/base64"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"path/filepath"
-	"stakeholders-service/db"
 	"stakeholders-service/models"
-	"stakeholders-service/utils"
 	"strings"
 	"time"
 
-	"github.com/gin-gonic/gin"
+	utils "api-gateway/utils"
+	stakeholdersutils "stakeholders-service/utils"
+
 	"github.com/google/uuid"
-	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"golang.org/x/crypto/bcrypt"
+
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+
+	stakeproto "api-gateway/proto/stakeholders"
 )
 
-func Register(c *gin.Context) {
-	var input models.User
-
-	err := c.ShouldBindJSON(&input)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
-		return
-	}
-
-	// provere ali bi bolje bilo da se koristi postgresql
-	if input.Username == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Username is required"})
-		return
-	}
-
-	fmt.Println("Pssword je: ", input.Password)
-	if input.Password == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Password is required"})
-		return
-	}
-
-	if input.Role != models.RoleTourist && input.Role != models.RoleGuide {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Role must be tourist or guide"})
-		return
-	}
-
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(input.Password), 10)
-	input.Password = string(hashedPassword)
-
-	collection := db.MongoClient.Database("stakeholders").Collection("users")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	var existing models.User
-	err = collection.FindOne(ctx, bson.M{"username": input.Username}).Decode(&existing)
-	if err == nil {
-		c.JSON(http.StatusConflict, gin.H{"error": "User already exists"})
-		return
-	}
-	if err != mongo.ErrNoDocuments {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
-		return
-	}
-
-	_, err = collection.InsertOne(ctx, input)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
-		return
-	}
-
-	session := db.Neo4jDriver.NewSession(c, neo4j.SessionConfig{AccessMode: neo4j.AccessModeWrite})
-	defer session.Close(c)
-
-		_, err = session.ExecuteWrite(c, func(tx neo4j.ManagedTransaction) (any, error) {
-		query := `MERGE (u:User {username:$username})`
-		_, err := tx.Run(c, query, map[string]any{
-			"username": input.Username,
-		})
-		return nil, err
-	})
-	if err != nil {
-		log.Printf("Neo4j: failed to create user node: %v", err)
-	}
-
-	c.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
+type StakeholdersServer struct {
+	stakeproto.UnimplementedStakeholdersServiceServer
+	mongoClient *mongo.Client
 }
 
-func Login(c *gin.Context) {
-	var input models.User
+func NewStakeholdersServer(mongoClient *mongo.Client) *StakeholdersServer {
+	return &StakeholdersServer{
+		mongoClient: mongoClient,
+	}
+}
 
-	// Parsiraj JSON telo zahteva
-	err := c.ShouldBindJSON(&input)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
-		return
+func (s *StakeholdersServer) Register(ctx context.Context, req *stakeproto.RegisterRequest) (*stakeproto.RegisterResponse, error) {
+	input := models.User{
+		Username: req.Username,
+		Email:    req.Email,
+		Password: req.Password,
+		Role:     models.Role(req.Role),
 	}
 
 	if input.Username == "" || input.Password == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Username and password are required"})
-		return
+		return nil, status.Errorf(codes.InvalidArgument, "username and password are required")
 	}
 
-	collection := db.MongoClient.Database("stakeholders").Collection("users")
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	if input.Role != models.RoleTourist && input.Role != models.RoleGuide {
+		return nil, status.Errorf(codes.InvalidArgument, "role must be tourist or guide")
+	}
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(input.Password), 10)
+	if err != nil {
+		log.Printf("Failed to hash password: %v", err)
+		return nil, status.Errorf(codes.Internal, "failed to process registration")
+	}
+	input.Password = string(hashedPassword)
+
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
+
+	_, err = collection.InsertOne(ctx, input)
+	if err != nil {
+		if mongo.IsDuplicateKeyError(err) {
+			log.Printf("Registration failed for username '%s': user already exists (duplicate key error)", input.Username)
+			return nil, status.Errorf(codes.AlreadyExists, "user already exists")
+		}
+
+		log.Printf("MongoDB insert error: %v", err)
+		return nil, status.Errorf(codes.Internal, "failed to create user")
+	}
+
+	log.Printf("User registered successfully")
+	return &stakeproto.RegisterResponse{}, nil
+}
+
+func (s *StakeholdersServer) Login(ctx context.Context, req *stakeproto.LoginRequest) (*stakeproto.LoginResponse, error) {
+	if req.Username == "" || req.Password == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "username and password are required")
+	}
+
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
 
 	var user models.User
-	err = collection.FindOne(ctx, bson.M{"username": input.Username, "is_blocked": false}).Decode(&user)
+	err := collection.FindOne(ctx, bson.M{"username": req.Username, "is_blocked": false}).Decode(&user)
 	if err == mongo.ErrNoDocuments {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
-		return
+		return nil, status.Errorf(codes.NotFound, "invalid credentials")
 	}
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
-		return
+		log.Printf("MongoDB find error during login: %v", err)
+		return nil, status.Errorf(codes.Internal, "database error")
 	}
 
-	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password))
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid credentials"})
-		return
+		return nil, status.Errorf(codes.Unauthenticated, "invalid credentials")
 	}
 
 	token, err := utils.GenerateJWT(user.Username, string(user.Role), user.ID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
-		return
+		log.Printf("Failed to generate JWT: %v", err)
+		return nil, status.Errorf(codes.Internal, "failed to generate token")
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message":  "Login successful",
-		"username": user.Username,
-		"role":     user.Role,
-		"token":    token,
-	})
+	return &stakeproto.LoginResponse{
+		AccessToken: token,
+	}, nil
 }
 
-func GetAllUsers(c *gin.Context) {
-	claims, err := utils.VerifyJWT(c)
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
-		return
-	}
+type UserResponse struct {
+	ID        primitive.ObjectID `json:"id" bson:"_id"`
+	Username  string             `json:"username"`
+	Email     string             `json:"email"`
+	Password  string             `json:"password"`
+	Role      string             `json:"role"`
+	IsBlocked bool               `json:"isBlocked"`
+}
 
-	if claims["role"] != "admin" {
-		c.JSON(http.StatusForbidden, gin.H{"error": "Only admin can access this route"})
-		return
-	}
+func (s *StakeholdersServer) GetAllUsers(ctx context.Context, req *stakeproto.GetAllUsersRequest) (*stakeproto.GetAllUsersResponse, error) {
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
 
-	collection := db.MongoClient.Database("stakeholders").Collection("users")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 10*time.Second)
 	defer cancel()
 
 	filter := bson.M{}
-
 	projection := bson.M{
 		"_id":        1,
 		"username":   1,
 		"email":      1,
+		"password":   1,
 		"role":       1,
 		"is_blocked": 1,
 	}
@@ -173,204 +140,106 @@ func GetAllUsers(c *gin.Context) {
 
 	cursor, err := collection.Find(ctx, filter, findOptions)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not fetch users"})
-		return
+		log.Printf("MongoDB find error: %v", err)
+		return nil, status.Errorf(codes.Internal, "could not fetch users")
 	}
 	defer cursor.Close(ctx)
 
 	var users []models.User
 	if err = cursor.All(ctx, &users); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error decoding users"})
-		return
+		log.Printf("Error decoding users: %v", err)
+		return nil, status.Errorf(codes.Internal, "error decoding users")
 	}
 
-	c.JSON(http.StatusOK, users)
+	var adminUsersProto []*stakeproto.User
+	for _, u := range users {
+		adminUsersProto = append(adminUsersProto, &stakeproto.User{
+			Id:        u.ID.Hex(),
+			Username:  u.Username,
+			Email:     u.Email,
+			Password:  u.Password,
+			Role:      string(u.Role),
+			IsBlocked: u.IsBlocked,
+		})
+	}
+
+	return &stakeproto.GetAllUsersResponse{Users: adminUsersProto}, nil
 }
 
-func BlockUser(c *gin.Context) {
-	claims, err := utils.VerifyJWT(c)
+func (s *StakeholdersServer) BlockUser(ctx context.Context, req *stakeproto.BlockUserRequest) (*stakeproto.BlockUserResponse, error) {
+	if req.UserId == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "userId is required")
+	}
+
+	objID, err := primitive.ObjectIDFromHex(req.UserId)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
-		return
+		return nil, status.Errorf(codes.InvalidArgument, "invalid userId format")
 	}
 
-	if claims["role"] != "admin" {
-		c.JSON(http.StatusForbidden, gin.H{"error": "Only admin can access this route"})
-		return
-	}
-
-	var requestBody struct {
-		UserID    string `json:"userId"`
-		BlockUser bool   `json:"block"`
-	}
-
-	if err := c.ShouldBindJSON(&requestBody); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
-		return
-	}
-
-	objectID, err := primitive.ObjectIDFromHex(requestBody.UserID)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID format"})
-		return
-	}
-
-	collection := db.MongoClient.Database("stakeholders").Collection("users")
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	update := bson.M{
-		"$set": bson.M{"is_blocked": requestBody.BlockUser},
-	}
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
+	update := bson.M{"$set": bson.M{"is_blocked": req.Block}}
 	opts := options.FindOneAndUpdate().SetReturnDocument(options.After)
 
 	var updatedUser models.User
-	err = collection.FindOneAndUpdate(ctx, bson.M{"_id": objectID}, update, opts).Decode(&updatedUser)
+	err = collection.FindOneAndUpdate(ctx, bson.M{"_id": objID}, update, opts).Decode(&updatedUser)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
-			return
+			return nil, status.Errorf(codes.NotFound, "user not found")
 		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
-		return
+		log.Printf("Failed to update user: %v", err)
+		return nil, status.Errorf(codes.Internal, "failed to update user")
 	}
 
-	c.JSON(http.StatusOK, updatedUser)
+	return &stakeproto.BlockUserResponse{Status: "User blocked/unblocked successfully"}, nil
 }
 
-func GetProfile(c *gin.Context) {
-	claims, err := utils.VerifyJWT(c)
+func (s *StakeholdersServer) GetProfile(ctx context.Context, req *stakeproto.GetProfileRequest) (*stakeproto.UserProfileResponse, error) {
+	claims, err := utils.GetClaimsFromContext2Args(ctx)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized: " + err.Error()})
-		return
+		return nil, status.Errorf(codes.Unauthenticated, "unauthorized: %v", err)
 	}
 
-	if claims["role"] == "admin" {
-		c.JSON(http.StatusForbidden, gin.H{"error": "Only guides and tourists can access this route"})
-		return
+	role, ok := claims["role"].(string)
+	if !ok || role == "admin" {
+		return nil, status.Errorf(codes.PermissionDenied, "only guides and tourists can access this route")
 	}
 
 	username, ok := claims["username"].(string)
 	if !ok || username == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid token claims"})
-		return
+		return nil, status.Errorf(codes.Unauthenticated, "invalid token claims: username not found")
 	}
 
-	collection := db.MongoClient.Database("stakeholders").Collection("users")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
 
 	projection := bson.M{
-		"profile":    1,
-		"_id":        0,
-		"username":	  1,
+		"profile":  1,
+		"username": 1,
 	}
 
 	var result models.User
 
 	err = collection.FindOne(ctx, bson.M{"username": username}, options.FindOne().SetProjection(projection)).Decode(&result)
 	if err == mongo.ErrNoDocuments {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Profile not found"})
-		return
+		return nil, status.Errorf(codes.NotFound, "profile not found")
 	} else if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
-		return
+		return nil, status.Errorf(codes.Internal, "database error")
 	}
 
-	response := utils.MapToUserProfileResponse(result)
-
-	c.JSON(http.StatusOK, response)
+	response := stakeholdersutils.MapToUserProfileResponse(result)
+	return response, nil
 }
 
-func UpdateProfile(c *gin.Context) {
-	claims, err := utils.VerifyJWT(c)
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized: " + err.Error()})
-		return
-	}
+func (s *StakeholdersServer) GetProfileByUsername(ctx context.Context, req *stakeproto.GetProfileByUsernameRequest) (*stakeproto.UserProfileResponse, error) {
+	username := req.Username
 
-	userRole, ok := claims["role"].(string)
-	if !ok || userRole == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid token claims: role missing"})
-		return
-	}
-
-	if userRole == "admin" {
-		c.JSON(http.StatusForbidden, gin.H{"error": "Admin cannot update profile via this route"})
-		return
-	}
-
-	username, ok := claims["username"].(string)
-	if !ok || username == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid token claims: username missing"})
-		return
-	}
-
-	var updatedProfile models.UserProfile
-	if err := c.ShouldBindJSON(&updatedProfile); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input: " + err.Error()})
-		return
-	}
-
-	if updatedProfile.ProfilePicture != "" && strings.HasPrefix(updatedProfile.ProfilePicture, "data:image/") {
-		imageURL, err := saveBase64Image(updatedProfile.ProfilePicture)
-		if err != nil {
-			log.Printf("Error saving image: %v", err)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save image: " + err.Error()})
-			return
-		}
-		updatedProfile.ProfilePicture = imageURL
-	}
-
-	collection := db.MongoClient.Database("stakeholders").Collection("users")
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	update := bson.M{
-		"$set": bson.M{
-			"profile": updatedProfile,
-		},
-	}
-
-	opts := options.FindOneAndUpdate().SetReturnDocument(options.After)
-
-	var userAfterUpdate models.User
-	err = collection.FindOneAndUpdate(ctx, bson.M{"username": username}, update, opts).Decode(&userAfterUpdate)
-	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update profile: " + err.Error()})
-		return
-	}
-
-	response := utils.MapToUserProfileResponse(userAfterUpdate)
-
-	c.JSON(http.StatusOK, response)
-}
-
-func GetProfileByUsername(c *gin.Context) {
-	username := c.Param("username")
 	if username == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Username is required"})
-		return
+		return nil, status.Errorf(codes.InvalidArgument, "username is required")
 	}
 
-	collection := db.MongoClient.Database("stakeholders").Collection("users")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	projection := bson.M{
-		"profile":	1,
-		"_id":		0,
-		"username":	1,
-	}
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
+	projection := bson.M{"profile": 1, "username": 1}
 
 	var result models.User
-
 	err := collection.FindOne(
 		ctx,
 		bson.M{"username": username},
@@ -378,16 +247,67 @@ func GetProfileByUsername(c *gin.Context) {
 	).Decode(&result)
 
 	if err == mongo.ErrNoDocuments {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Profile not found"})
-		return
+		return nil, status.Errorf(codes.NotFound, "profile not found")
 	} else if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Database error"})
-		return
+		log.Printf("Database error fetching profile by username: %v", err)
+		return nil, status.Errorf(codes.Internal, "database error")
 	}
 
-	response := utils.MapToUserProfileResponse(result)
+	response := stakeholdersutils.MapToUserProfileResponse(result)
+	return response, nil
+}
 
-	c.JSON(http.StatusOK, response)
+func (s *StakeholdersServer) UpdateProfile(ctx context.Context, req *stakeproto.UpdateProfileRequest) (*stakeproto.UpdateProfileResponse, error) {
+	claims, err := utils.GetClaimsFromContext2Args(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "unauthorized: %v", err)
+	}
+
+	role, ok := claims["role"].(string)
+	if !ok || role == "admin" {
+		return nil, status.Errorf(codes.PermissionDenied, "only guides and tourists can access this route")
+	}
+
+	username, ok := claims["username"].(string)
+	if !ok || username == "" {
+		return nil, status.Errorf(codes.Unauthenticated, "invalid token claims: username not found")
+	}
+
+	var updatedProfile models.UserProfile
+	if req.Profile != nil {
+		updatedProfile.FirstName = req.Profile.FirstName
+		updatedProfile.LastName = req.Profile.LastName
+		updatedProfile.ProfilePicture = req.Profile.ProfilePicture
+		updatedProfile.Biography = req.Profile.Biography
+		updatedProfile.Motto = req.Profile.Motto
+	} else {
+		return nil, status.Errorf(codes.InvalidArgument, "profile data is required")
+	}
+
+	if updatedProfile.ProfilePicture != "" && strings.HasPrefix(updatedProfile.ProfilePicture, "data:image/") {
+		imageURL, err := saveBase64Image(updatedProfile.ProfilePicture)
+		if err != nil {
+			log.Printf("Error saving image: %v", err)
+			return nil, status.Errorf(codes.Internal, "failed to save image: %v", err)
+		}
+		updatedProfile.ProfilePicture = imageURL
+	}
+
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
+	update := bson.M{"$set": bson.M{"profile": updatedProfile}}
+	opts := options.FindOneAndUpdate().SetReturnDocument(options.After)
+
+	var userAfterUpdate models.User
+	err = collection.FindOneAndUpdate(ctx, bson.M{"username": username}, update, opts).Decode(&userAfterUpdate)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, status.Errorf(codes.NotFound, "user not found")
+		}
+		log.Printf("Failed to update profile: %v", err)
+		return nil, status.Errorf(codes.Internal, "failed to update profile: %v", err)
+	}
+
+	return &stakeproto.UpdateProfileResponse{Status: "Profile updated successfully"}, nil
 }
 
 func saveBase64Image(base64String string) (string, error) {

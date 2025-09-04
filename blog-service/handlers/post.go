@@ -1,19 +1,24 @@
 package handlers
 
 import (
-	"encoding/json"
+	"context"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
-	"soa/blog-service/database"
-	"soa/blog-service/models"
-	"soa/blog-service/utils"
 	"time"
 
+	blogproto "api-gateway/proto/blog"
+	followerproto "api-gateway/proto/follower"
+	utils "api-gateway/utils"
+	"soa/blog-service/database"
+	"soa/blog-service/models"
+
 	"github.com/google/uuid"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
 )
 
@@ -22,91 +27,78 @@ const (
 	UploadDir     = "./static/uploads"
 )
 
-var allowedImageTypes = map[string]bool{
-	"image/jpeg": true,
-	"image/png":  true,
-	"image/gif":  true,
+var followerClient followerproto.FollowerServiceClient
+
+func InitFollowerClient(c followerproto.FollowerServiceClient) {
+	followerClient = c
 }
 
-func CreatePost(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Metoda nije dozvoljena", http.StatusMethodNotAllowed)
-		return
-	}
+type BlogServer struct {
+	blogproto.UnimplementedBlogServiceServer
+}
 
-	// jwt parse
-	currentUsername, userId, err := utils.GetClaimsFromJWT(r)
+func NewBlogServer() *BlogServer {
+	return &BlogServer{}
+}
+
+func (s *BlogServer) CreatePost(ctx context.Context, req *blogproto.CreatePostRequest) (*blogproto.Post, error) {
+	currentUsername, userId, err := utils.GetClaimsFromContext(ctx)
 	if err != nil {
-		http.Error(w, "Nevalidan token", http.StatusUnauthorized)
-		return
+		return nil, status.Errorf(codes.Unauthenticated, "Nevalidan token: %v", err)
 	}
 
-	var newPost models.Post
-
-	decoder := json.NewDecoder(r.Body)
-	parseErr := decoder.Decode(&newPost)
-	if parseErr != nil {
-		http.Error(w, "Greška pri parsiranju JSON-a: " + parseErr.Error(), http.StatusBadRequest)
-		return
+	if req.GetTitle() == "" || req.GetDescription() == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "Naslov i opis su obavezni.")
 	}
 
-	newPost.UserID = userId
-	newPost.Username = currentUsername
-
-	if newPost.Title == "" || newPost.Description == "" {
-		http.Error(w, "Naslov i opis su obavezni.", http.StatusBadRequest)
-		return
+	newPost := models.Post{
+		UserID:      userId,
+		Username:    currentUsername,
+		Title:       req.GetTitle(),
+		Description: req.GetDescription(),
+		CreatedAt:   time.Now(),
+		ImageURLs:   req.GetImageUrls(),
 	}
 
 	result := database.GORM_DB.Create(&newPost)
 	if result.Error != nil {
 		log.Printf("Greška pri čuvanju posta u bazu: %v", result.Error)
-		http.Error(w, "Greška servera pri kreiranju posta.", http.StatusInternalServerError)
-		return
+		return nil, status.Errorf(codes.Internal, "Greška servera pri kreiranju posta.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-
-	json.NewEncoder(w).Encode(newPost)
-	fmt.Printf("Novi post kreiran: %+v\n", newPost)
+	protoPost := convertPostToProto(&newPost)
+	fmt.Printf("Novi post kreiran: %+v\n", protoPost)
+	return protoPost, nil
 }
 
-func UploadImage(w http.ResponseWriter, r *http.Request) {
+func HandleImageUpload(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Metoda nije dozvoljena", http.StatusMethodNotAllowed)
+		http.Error(w, "Metoda nije dozvoljena.", http.StatusMethodNotAllowed)
 		return
 	}
 
-	r.Body = http.MaxBytesReader(w, r.Body, MaxUploadSize)
-	if err := r.ParseMultipartForm(MaxUploadSize); err != nil {
+	err := r.ParseMultipartForm(MaxUploadSize)
+	if err != nil {
 		http.Error(w, "Fajl je prevelik. Maksimalna veličina je 5MB.", http.StatusBadRequest)
 		return
 	}
 
-	file, handler, err := r.FormFile("image")
+	file, fileHeader, err := r.FormFile("image")
 	if err != nil {
-		http.Error(w, "Greška pri dohvatanju fajla: "+err.Error(), http.StatusBadRequest)
+		http.Error(w, "Fajl nije pronađen.", http.StatusBadRequest)
 		return
 	}
 	defer file.Close()
 
-	contentType := handler.Header.Get("Content-Type")
-	if !allowedImageTypes[contentType] {
-		http.Error(w, "Nevažeći tip fajla. Dozvoljeni su samo JPEG, PNG, GIF.", http.StatusBadRequest)
-		return
-	}
-
 	if _, err := os.Stat(UploadDir); os.IsNotExist(err) {
-		err = os.MkdirAll(UploadDir, 0755)
-		if err != nil {
+		if err := os.MkdirAll(UploadDir, 0755); err != nil {
 			log.Printf("Greška pri kreiranju direktorijuma %s: %v", UploadDir, err)
 			http.Error(w, "Greška servera pri kreiranju foldera za upload.", http.StatusInternalServerError)
 			return
 		}
 	}
 
-	fileExtension := filepath.Ext(handler.Filename)
+	fileExtension := filepath.Ext(fileHeader.Filename)
 	newFileName := uuid.New().String() + fileExtension
 	filePath := filepath.Join(UploadDir, newFileName)
 
@@ -118,168 +110,102 @@ func UploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 	defer dst.Close()
 
-	if _, err := io.Copy(dst, file); err != nil {
-		log.Printf("Greška pri kopiranju fajla: %v", err)
+	_, err = io.Copy(dst, file)
+	if err != nil {
+		log.Printf("Greška pri kopiranju fajla na disk: %v", err)
 		http.Error(w, "Greška servera pri čuvanju fajla.", http.StatusInternalServerError)
 		return
 	}
 
 	imageURL := fmt.Sprintf("/uploads/%s", newFileName)
-
-	response := map[string]string{"imageUrl": imageURL}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response)
-
 	log.Printf("Slika uspešno uploadovana: %s", imageURL)
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(fmt.Sprintf(`{"imageUrl": "%s"}`, imageURL)))
 }
 
-func GetPosts(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Metoda nije dozvoljena", http.StatusMethodNotAllowed)
-		return
-	}
-	
-	// jwt parse
-	currentUsername, _, err := utils.GetClaimsFromJWT(r)
+func (s *BlogServer) GetPosts(ctx context.Context, req *blogproto.GetPostsRequest) (*blogproto.GetPostsResponse, error) {
+	currentUsername, _, err := utils.GetClaimsFromContext(ctx)
 	if err != nil {
-		http.Error(w, "Nevalidan token", http.StatusUnauthorized)
-		return
+		return nil, status.Errorf(codes.Unauthenticated, "Nevalidan token: %v", err)
 	}
 
-	following, err := GetFollowing(currentUsername)
+	followerResp, err := followerClient.GetFollowing(ctx, &followerproto.GetFollowingRequest{Username: currentUsername})
 	if err != nil {
-		http.Error(w, "Greska pri dohvatanju pracenih korisnika", http.StatusInternalServerError)
-		return
+		log.Printf("Greška pri dohvatanju pracenih korisnika: %v", err)
+		return nil, status.Errorf(codes.Internal, "Greška pri dohvatanju pracenih korisnika.")
 	}
 
-	following = append(following, currentUsername)
+	following := append(followerResp.Following, currentUsername)
 
 	var posts []models.Post
-
 	result := database.GORM_DB.Where("username IN ?", following).Order("created_at DESC").Find(&posts)
 	if result.Error != nil {
 		log.Printf("Greška pri dohvatanju postova iz baze: %v", result.Error)
-		http.Error(w, "Greška servera pri dohvatanju postova.", http.StatusInternalServerError)
-		return
+		return nil, status.Errorf(codes.Internal, "Greška servera pri dohvatanju postova.")
 	}
-	
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
 
-	json.NewEncoder(w).Encode(posts)
-	fmt.Printf("Dohvaćeno %d postova.\n", len(posts))
+	protoPosts := make([]*blogproto.Post, len(posts))
+	for i, post := range posts {
+		protoPosts[i] = convertPostToProto(&post)
+	}
+
+	fmt.Printf("Dohvaćeno %d postova.\n", len(protoPosts))
+	return &blogproto.GetPostsResponse{Posts: protoPosts}, nil
 }
 
-// pomocna funkcija koji radi preko HTTP REST, prebacicemo na gRPC
-func GetFollowing(username string) ([]string, error) {
-	url := fmt.Sprintf("http://follower-service:8082/api/following/%s", username)
-
-	resp, err := http.Get(url)
+func (s *BlogServer) GetPostByID(ctx context.Context, req *blogproto.GetPostByIDRequest) (*blogproto.Post, error) {
+	postID, err := uuid.Parse(req.GetId())
 	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("followers service returned status %d", resp.StatusCode)
-	}
-
-	var result models.FollowingResponse
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return nil, err
-	}
-
-	return result.Following, nil
-}
-
-func GetPostByID(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Metoda nije dozvoljena", http.StatusMethodNotAllowed)
-		return
-	}
-
-	idStr := r.PathValue("id")
-	if idStr == "" {
-		http.Error(w, "ID posta je obavezan.", http.StatusBadRequest)
-		return
-	}
-
-	postID, err := uuid.Parse(idStr)
-	if err != nil {
-		http.Error(w, "Neispravan format ID-a posta. Mora biti validan UUID.", http.StatusBadRequest)
-		return
+		return nil, status.Errorf(codes.InvalidArgument, "Neispravan format ID-a posta.")
 	}
 
 	var post models.Post
-
 	result := database.GORM_DB.First(&post, postID)
 	if result.Error != nil {
 		if result.Error == gorm.ErrRecordNotFound {
-			http.Error(w, "Post nije pronađen.", http.StatusNotFound)
-			return
+			return nil, status.Errorf(codes.NotFound, "Post nije pronađen.")
 		}
 		log.Printf("Greška pri dohvatanju posta po ID-ju: %v", result.Error)
-		http.Error(w, "Greška servera pri dohvatanju posta.", http.StatusInternalServerError)
-		return
+		return nil, status.Errorf(codes.Internal, "Greška servera pri dohvatanju posta.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-
-	json.NewEncoder(w).Encode(post)
+	protoPost := convertPostToProto(&post)
 	fmt.Printf("Dohvaćen post sa ID: %s.\n", postID.String())
+	return protoPost, nil
 }
 
-func ToggleLike(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Metoda nije dozvoljena", http.StatusMethodNotAllowed)
-		return
-	}
+func (s *BlogServer) ToggleLike(ctx context.Context, req *blogproto.ToggleLikeRequest) (*blogproto.ToggleLikeResponse, error) {
+	fmt.Printf("ToggleLike - Primljen zahtev. PostID: %s, UserID: %s\n", req.GetPostId(), req.GetUserId())
 
-	idStr := r.PathValue("id")
-	if idStr == "" {
-		http.Error(w, "ID posta je obavezan.", http.StatusBadRequest)
-		return
-	}
-	postID, err := uuid.Parse(idStr)
+	postID, err := uuid.Parse(req.GetPostId())
 	if err != nil {
-		http.Error(w, "Neispravan format ID-a posta. Mora biti validan UUID.", http.StatusBadRequest)
-		return
+		fmt.Printf("ToggleLike - Greška pri parsiranju PostID-a: %v\n", err)
+		return nil, status.Errorf(codes.InvalidArgument, "Neispravan format ID-a posta.")
 	}
+	fmt.Printf("ToggleLike - PostID uspešno parsiran: %s\n", postID.String())
 
-	var requestBody struct {
-		UserID uuid.UUID `json:"userId"`
-	}
-	decoder := json.NewDecoder(r.Body)
-	err = decoder.Decode(&requestBody)
-	if err != nil {
-		log.Printf("Greška pri dekodiranju ToggleLike JSON-a: %v", err)
-		http.Error(w, "Greška pri parsiranju JSON-a (očekivan userId): "+err.Error(), http.StatusBadRequest)
-		return
-	}
-	if requestBody.UserID == uuid.Nil {
-		http.Error(w, "UserID je obavezan za lajk.", http.StatusBadRequest)
-		return
-	}
-	userID := requestBody.UserID
+	userID := req.GetUserId()
+	fmt.Printf("ToggleLike - UserID je string: %s\n", userID)
 
 	var existingLike models.Like
 	result := database.GORM_DB.Where("post_id = ? AND user_id = ?", postID, userID).First(&existingLike)
+
+	var likesCount int32
+	var responseStatus string
 
 	switch result.Error {
 	case nil:
 		deleteResult := database.GORM_DB.Delete(&existingLike)
 		if deleteResult.Error != nil {
 			log.Printf("Greška pri brisanju lajka: %v", deleteResult.Error)
-			http.Error(w, "Greška servera pri uklanjanju lajka.", http.StatusInternalServerError)
-			return
+			return nil, status.Errorf(codes.Internal, "Greška servera pri uklanjanju lajka.")
 		}
 		database.GORM_DB.Model(&models.Post{}).Where("id = ?", postID).Update("likes_count", gorm.Expr("likes_count - ?", 1))
-		fmt.Printf("Lajk uklonjen za post %s od korisnika %s\n", postID.String(), userID.String())
-		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]string{"message": "Lajk uklonjen"})
-		return
+
+		var updatedPost models.Post
+		database.GORM_DB.Select("likes_count").First(&updatedPost, postID)
+		likesCount = int32(updatedPost.LikesCount)
+		responseStatus = "Lajk uklonjen"
 	case gorm.ErrRecordNotFound:
 		newLike := models.Like{
 			PostID: postID,
@@ -288,94 +214,107 @@ func ToggleLike(w http.ResponseWriter, r *http.Request) {
 		createResult := database.GORM_DB.Create(&newLike)
 		if createResult.Error != nil {
 			log.Printf("Greška pri dodavanju lajka: %v", createResult.Error)
-			http.Error(w, "Greška servera pri dodavanju lajka.", http.StatusInternalServerError)
-			return
+			return nil, status.Errorf(codes.Internal, "Greška servera pri dodavanju lajka.")
 		}
 		database.GORM_DB.Model(&models.Post{}).Where("id = ?", postID).Update("likes_count", gorm.Expr("likes_count + ?", 1))
-		fmt.Printf("Lajk dodat za post %s od korisnika %s\n", postID.String(), userID.String())
-		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(map[string]string{"message": "Lajk dodat"})
-		return
+
+		var updatedPost models.Post
+		database.GORM_DB.Select("likes_count").First(&updatedPost, postID)
+		likesCount = int32(updatedPost.LikesCount)
+		responseStatus = "Lajk dodat"
 	default:
 		log.Printf("Greška pri proveri postojećeg lajka: %v", result.Error)
-		http.Error(w, "Greška servera pri obradi lajka.", http.StatusInternalServerError)
-		return
+		return nil, status.Errorf(codes.Internal, "Greška servera pri obradi lajka.")
 	}
+
+	fmt.Printf("Status lajka: %s, lajkova: %d\n", responseStatus, likesCount)
+	return &blogproto.ToggleLikeResponse{Status: responseStatus, LikesCount: likesCount}, nil
 }
 
-func GetCommentsForPost(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Metoda nije dozvoljena", http.StatusMethodNotAllowed)
-		return
+func (s *BlogServer) AddCommentToPost(ctx context.Context, req *blogproto.AddCommentToPostRequest) (*blogproto.Comment, error) {
+	fmt.Printf("AddCommentToPost - Primljen zahtev. PostID: %s, UserID: %s\n", req.GetPostId(), req.GetUserId())
+
+	postID, err := uuid.Parse(req.GetPostId())
+	if err != nil {
+		fmt.Printf("AddCommentToPost - Greška pri parsiranju PostID-a: %v\n", err)
+		return nil, status.Errorf(codes.InvalidArgument, "Neispravan format ID-a posta.")
+	}
+	fmt.Printf("AddCommentToPost - PostID uspešno parsiran: %s\n", postID.String())
+
+	parsedUserID := req.GetUserId()
+	fmt.Printf("AddCommentToPost - UserID je string: %s\n", parsedUserID)
+
+	newComment := models.Comment{
+		PostID:    postID,
+		UserID:    parsedUserID,
+		Username:  req.Username,
+		Text:      req.GetText(),
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
 	}
 
-	idStr := r.PathValue("id")
-	if idStr == "" {
-		http.Error(w, "ID posta je obavezan.", http.StatusBadRequest)
-		return
+	if newComment.Text == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "Tekst komentara je obavezan.")
 	}
-	postID, err := uuid.Parse(idStr)
+
+	result := database.GORM_DB.Create(&newComment)
+	if result.Error != nil {
+		log.Printf("Greška pri čuvanju komentara u bazu: %v", result.Error)
+		return nil, status.Errorf(codes.Internal, "Greška servera pri kreiranju komentara.")
+	}
+
+	protoComment := convertCommentToProto(&newComment)
+	fmt.Printf("Novi komentar kreiran za post %s: %+v\n", postID.String(), protoComment)
+	return protoComment, nil
+}
+
+func (s *BlogServer) GetCommentsForPost(ctx context.Context, req *blogproto.GetCommentsForPostRequest) (*blogproto.GetCommentsForPostResponse, error) {
+	fmt.Printf("GetCommentsForPost - Primljen zahtev. PostID: %s\n", req.GetPostId())
+
+	postID, err := uuid.Parse(req.GetPostId())
 	if err != nil {
-		http.Error(w, "Neispravan format ID-a posta. Mora biti validan UUID.", http.StatusBadRequest)
-		return
+		fmt.Printf("GetCommentsForPost - Greška pri parsiranju PostID-a: %v\n", err)
+		return nil, status.Errorf(codes.InvalidArgument, "Neispravan format ID-a posta.")
 	}
+	fmt.Printf("GetCommentsForPost - PostID uspešno parsiran: %s\n", postID.String())
 
 	var comments []models.Comment
 	result := database.GORM_DB.Where("post_id = ?", postID).Order("created_at asc").Find(&comments)
 	if result.Error != nil {
 		log.Printf("Greška pri dohvatanju komentara za post %s: %v", postID.String(), result.Error)
-		http.Error(w, "Greška servera pri dohvatanju komentara.", http.StatusInternalServerError)
-		return
+		return nil, status.Errorf(codes.Internal, "Greška servera pri dohvatanju komentara.")
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(comments)
-	fmt.Printf("Dohvaćeno %d komentara za post %s.\n", len(comments), postID.String())
+	protoComments := make([]*blogproto.Comment, len(comments))
+	for i, comment := range comments {
+		protoComments[i] = convertCommentToProto(&comment)
+	}
+
+	fmt.Printf("Dohvaćeno %d komentara za post %s.\n", len(protoComments), postID.String())
+	return &blogproto.GetCommentsForPostResponse{Comments: protoComments}, nil
 }
 
-func AddCommentToPost(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, "Metoda nije dozvoljena", http.StatusMethodNotAllowed)
-		return
+func convertPostToProto(post *models.Post) *blogproto.Post {
+	return &blogproto.Post{
+		Id:          post.ID.String(),
+		UserId:      post.UserID,
+		Username:    post.Username,
+		Title:       post.Title,
+		Description: post.Description,
+		CreatedAt:   post.CreatedAt.Format(time.RFC3339),
+		ImageUrls:   post.ImageURLs,
+		LikesCount:  int32(post.LikesCount),
 	}
+}
 
-	idStr := r.PathValue("id") // ID posta iz URL putanje
-	if idStr == "" {
-		http.Error(w, "ID posta je obavezan.", http.StatusBadRequest)
-		return
+func convertCommentToProto(comment *models.Comment) *blogproto.Comment {
+	return &blogproto.Comment{
+		Id:        comment.ID.String(),
+		PostId:    comment.PostID.String(),
+		UserId:    comment.UserID,
+		Username:  comment.Username,
+		Text:      comment.Text,
+		CreatedAt: comment.CreatedAt.Format(time.RFC3339),
+		UpdatedAt: comment.UpdatedAt.Format(time.RFC3339),
 	}
-	postID, err := uuid.Parse(idStr)
-	if err != nil {
-		http.Error(w, "Neispravan format ID-a posta. Mora biti validan UUID.", http.StatusBadRequest)
-		return
-	}
-
-	var newComment models.Comment
-	decoder := json.NewDecoder(r.Body)
-	err = decoder.Decode(&newComment)
-	if err != nil {
-		http.Error(w, "Greška pri parsiranju JSON-a: "+err.Error(), http.StatusBadRequest)
-		return
-	}
-
-	newComment.PostID = postID
-	if newComment.Text == "" || newComment.UserID == uuid.Nil || newComment.Username == "" {
-		http.Error(w, "Tekst komentara, UserID i Username su obavezni.", http.StatusBadRequest)
-		return
-	}
-	newComment.CreatedAt = time.Now()
-	newComment.UpdatedAt = time.Now()
-
-	result := database.GORM_DB.Create(&newComment)
-	if result.Error != nil {
-		log.Printf("Greška pri čuvanju komentara u bazu: %v", result.Error)
-		http.Error(w, "Greška servera pri kreiranju komentara.", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(newComment)
-	fmt.Printf("Novi komentar kreiran za post %s: %+v\n", postID.String(), newComment)
 }
