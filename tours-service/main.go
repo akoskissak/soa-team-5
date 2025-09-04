@@ -46,7 +46,13 @@ func main() {
 	api.GET("/tours", handlers.GetAllTours)
 	api.GET("/tours/", handlers.GetAllTours)
 
+	api.GET("/tours/published", handlers.GetAllPublishedTours)
+
 	api.POST("/keypoints", handlers.CreateKeyPoint)
+
+	api.POST("/reviews", handlers.CreateReview)
+
+	api.GET("/tours/:tourId/reviews", handlers.GetReviewsByTourId)
 
 	r.Run(localhost + ":8083")
 }
