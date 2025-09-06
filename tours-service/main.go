@@ -49,6 +49,9 @@ func main() {
 	api.GET("/tours/published", handlers.GetAllPublishedTours)
 
 	api.POST("/keypoints", handlers.CreateKeyPoint)
+	api.GET("/tours/:tourId/keypoints", handlers.GetKeyPointsByTourId)
+	api.PUT("/keypoints/:id", handlers.UpdateKeyPoint)
+	api.DELETE("/keypoints/:id", handlers.DeleteKeyPoint)
 
 	api.POST("/reviews", handlers.CreateReview)
 
