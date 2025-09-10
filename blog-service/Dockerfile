@@ -23,7 +23,8 @@ WORKDIR /app
 # Kopiraj samo kompajlirani binarni fajl (blog-service) iz faze 'builder' u finalnu sliku
 COPY --from=builder /app/blog-service .
 
-EXPOSE 8081
+EXPOSE 8087
+EXPOSE 8086
 
 # Pokreće prethodno kompajlirani binarni fajl
 ENTRYPOINT ["./blog-service"]

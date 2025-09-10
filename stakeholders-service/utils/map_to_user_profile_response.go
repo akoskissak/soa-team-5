@@ -3,7 +3,7 @@ package utils
 import (
 	"stakeholders-service/models"
 
-	stakeproto "api-gateway/proto/stakeholders"
+	stakeproto "stakeholders-service/proto/stakeholders"
 )
 
 func MapToUserProtoProfile(profile models.UserProfile) *stakeproto.UserProfile {

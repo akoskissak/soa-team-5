@@ -8,5 +8,6 @@ RUN go build -o stakeholders-service
 FROM alpine:latest
 WORKDIR /app
 COPY --from=builder /app/stakeholders-service .
-EXPOSE 8080
+EXPOSE 8081
+EXPOSE 8085
 ENTRYPOINT ["./stakeholders-service"]

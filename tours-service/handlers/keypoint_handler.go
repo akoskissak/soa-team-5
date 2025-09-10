@@ -1,20 +1,20 @@
 package handlers
 
 import (
-	utils "api-gateway/utils"
 	"fmt"
 	"net/http"
 	"path/filepath"
 	"time"
 	"tours-service/database"
 	"tours-service/models"
+	"tours-service/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
 func CreateKeyPoint(c *gin.Context) {
-	_, err := utils.VerifyJWT(c)
+	_, err := utils.GetClaimsFromContext2Args(c)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return

@@ -11,7 +11,6 @@ import (
 	"strings"
 	"time"
 
-	utils "api-gateway/utils"
 	stakeholdersutils "stakeholders-service/utils"
 
 	"github.com/google/uuid"
@@ -25,7 +24,7 @@ import (
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	stakeproto "api-gateway/proto/stakeholders"
+	stakeproto "stakeholders-service/proto/stakeholders"
 )
 
 type StakeholdersServer struct {
@@ -101,7 +100,7 @@ func (s *StakeholdersServer) Login(ctx context.Context, req *stakeproto.LoginReq
 		return nil, status.Errorf(codes.Unauthenticated, "invalid credentials")
 	}
 
-	token, err := utils.GenerateJWT(user.Username, string(user.Role), user.ID)
+	token, err := stakeholdersutils.GenerateJWT(user.Username, string(user.Role), user.ID)
 	if err != nil {
 		log.Printf("Failed to generate JWT: %v", err)
 		return nil, status.Errorf(codes.Internal, "failed to generate token")
@@ -195,7 +194,7 @@ func (s *StakeholdersServer) BlockUser(ctx context.Context, req *stakeproto.Bloc
 }
 
 func (s *StakeholdersServer) GetProfile(ctx context.Context, req *stakeproto.GetProfileRequest) (*stakeproto.UserProfileResponse, error) {
-	claims, err := utils.GetClaimsFromContext2Args(ctx)
+	claims, err := stakeholdersutils.GetClaimsFromContext2Args(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "unauthorized: %v", err)
 	}
@@ -259,7 +258,7 @@ func (s *StakeholdersServer) GetProfileByUsername(ctx context.Context, req *stak
 }
 
 func (s *StakeholdersServer) UpdateProfile(ctx context.Context, req *stakeproto.UpdateProfileRequest) (*stakeproto.UpdateProfileResponse, error) {
-	claims, err := utils.GetClaimsFromContext2Args(ctx)
+	claims, err := stakeholdersutils.GetClaimsFromContext2Args(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "unauthorized: %v", err)
 	}
@@ -356,7 +355,7 @@ func saveBase64Image(base64String string) (string, error) {
 }
 
 func (s *StakeholdersServer) SetPosition(ctx context.Context, req *stakeproto.PositionRequest) (*emptypb.Empty, error) {
-	claims, err := utils.GetClaimsFromContext2Args(ctx)
+	claims, err := stakeholdersutils.GetClaimsFromContext2Args(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "unauthorized: %v", err)
 	}
@@ -386,7 +385,7 @@ func (s *StakeholdersServer) SetPosition(ctx context.Context, req *stakeproto.Po
 }
 
 func (s *StakeholdersServer) GetPosition(ctx context.Context, _ *emptypb.Empty) (*stakeproto.PositionResponse, error) {
-	claims, err := utils.GetClaimsFromContext2Args(ctx)
+	claims, err := stakeholdersutils.GetClaimsFromContext2Args(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "unauthorized: %v", err)
 	}

@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package tours;
+
+option go_package = "soa-team-5/api-gateway/proto/tours";
+
+import "google/api/annotations.proto";
+import "google/api/http.proto";
+
+service ToursService {
+
+  rpc CreateTour(CreateTourRequest) returns (Tour) {
+    option (google.api.http) = {
+      post: "/api/tours"
+      body: "*"
+    };
+  }
+  
+  rpc GetAllTours(GetAllToursRequest) returns (GetAllToursResponse) {
+    option (google.api.http) = {
+      get: "/api/tours"
+    };
+  }
+
+  rpc CreateKeyPoint(CreateKeyPointRequest) returns (KeyPoint) {
+    option (google.api.http) = {
+      post: "/api/keypoints"
+      body: "*"
+    };
+  }
+
+  rpc AddReview(AddReviewRequest) returns (AddReviewResponse) {
+    option (google.api.http) = {
+      post: "/api/tours/{tourId}/review"
+      body: "*"
+    };
+  }
+
+  rpc DrawOnMap(DrawOnMapRequest) returns (DrawOnMapResponse) {
+    option (google.api.http) = {
+      get: "/api/tours/{tourId}/map"
+    };
+  }
+
+  rpc SimulatePosition(SimulatePositionRequest) returns (SimulatePositionResponse) {
+    option (google.api.http) = {
+      post: "/api/tourist/position"
+      body: "*"
+    };
+  }
+}
+
+message CreateTourRequest {
+  string userId = 1;
+  string name = 2;
+  string description = 3;
+  string difficulty = 4;
+  repeated string tags = 5;
+  string status = 6;
+  float price = 7;
+}
+
+message GetAllToursRequest {}
+message GetAllToursResponse {
+  repeated Tour tours = 1;
+}
+
+message CreateKeyPointRequest {
+  string name = 1;
+  string description = 2;
+  double latitude = 3;
+  double longitude = 4;
+  string imagePath = 5;
+  string tourId = 6;
+}
+
+message AddReviewRequest {
+  string tourId = 1;
+  int32 rating = 2;
+  string comment = 3;
+}
+message AddReviewResponse {
+  string status = 1;
+}
+
+message DrawOnMapRequest {
+  string tourId = 1;
+}
+message DrawOnMapResponse {
+  string tourData = 1;
+}
+
+message SimulatePositionRequest {
+  double latitude = 1;
+  double longitude = 2;
+}
+message SimulatePositionResponse {
+  string status = 1;
+}
+
+message Tour {
+  string id = 1;
+  string userId = 2;
+  string name = 3;
+  string description = 4;
+  TourDifficulty difficulty = 5;
+  repeated string tags = 6;
+  TourStatus status = 7;
+  float price = 8;
+}
+
+message KeyPoint {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  double latitude = 4;
+  double longitude = 5;
+  string imagePath = 6;
+  string tourId = 7;
+}
+
+enum TourDifficulty {
+  EASY = 0;
+  MEDIUM = 1;
+  HARD = 2;
+}
+
+enum TourStatus {
+  DRAFT = 0;
+  PUBLISHED = 1;
+  ARCHIVED = 2;
+}

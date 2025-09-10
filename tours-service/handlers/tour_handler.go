@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	utils "api-gateway/utils"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -9,13 +8,14 @@ import (
 	"time"
 	"tours-service/database"
 	"tours-service/models"
+	"tours-service/utils"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/datatypes"
 )
 
 func CreateTour(c *gin.Context) {
-	claims, err := utils.VerifyJWT(c)
+	claims,  err := utils.GetClaimsFromContext2Args(c)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -113,7 +113,7 @@ func CreateTour(c *gin.Context) {
 }
 
 func GetAllTours(c *gin.Context) {
-	claims, err := utils.VerifyJWT(c)
+	claims, err := utils.GetClaimsFromContext2Args(c)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return

@@ -1,0 +1,149 @@
+syntax = "proto3";
+
+package stakeholders;
+
+option go_package = "soa-team-5/api-gateway/proto/stakeholders";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+service StakeholdersService {
+
+  rpc Register(RegisterRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/api/auth/register"
+      body: "*"
+    };
+  }
+
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/api/auth/login"
+      body: "*"
+    };
+  }
+
+  rpc GetAllUsers(GetAllUsersRequest) returns (GetAllUsersResponse) {
+    option (google.api.http) = {
+      get: "/api/admin/users"
+    };
+  }
+
+  rpc BlockUser(BlockUserRequest) returns (BlockUserResponse) {
+    option (google.api.http) = {
+      put: "/api/admin/block-user"
+      body: "*"
+    };
+  }
+
+  rpc GetProfileByUsername(GetProfileByUsernameRequest) returns (UserProfileResponse) {
+    option (google.api.http) = {
+      get: "/api/user/profile/{username}"
+    };
+  }
+
+  rpc GetProfile(GetProfileRequest) returns (UserProfileResponse) {
+    option (google.api.http) = {
+      get: "/api/user/profile"
+    };
+  }
+
+  rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse) {
+    option (google.api.http) = {
+      put: "/api/user/profile"
+      body: "*"
+    };
+  }
+
+  rpc SetPosition(PositionRequest) returns (google.protobuf.Empty) {
+  option (google.api.http) = {
+    post: "/api/tourist/position"
+    body: "*"
+    };
+  }
+
+rpc GetPosition(google.protobuf.Empty) returns (PositionResponse) {
+  option (google.api.http) = {
+    get: "/api/tourist/position"
+    };
+  }
+}
+
+message RegisterRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+  string role = 4;
+}
+message RegisterResponse {
+  string status = 1;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+message LoginResponse {
+  string accessToken = 1;
+}
+
+message GetAllUsersRequest {}
+message GetAllUsersResponse {
+  repeated User users = 1;
+}
+
+message BlockUserRequest {
+  string userId = 1;
+  bool block = 2;
+}
+message BlockUserResponse {
+  string status = 1;
+}
+
+message GetProfileByUsernameRequest {
+  string username = 1;
+}
+message GetProfileRequest {}
+
+message UpdateProfileRequest {
+  UserProfile profile = 1;
+}
+message UpdateProfileResponse {
+  string status = 1;
+}
+
+message UserProfileResponse {
+  string username = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string profilePicture = 4;
+  string biography = 5;
+  string motto = 6;
+}
+
+message PositionRequest {
+  double lat = 1;
+  double lng = 2;
+}
+
+message PositionResponse {
+  double lat = 1;
+  double lng = 2;
+}
+
+message UserProfile {
+  string firstName = 1;
+  string lastName = 2;
+  string profilePicture = 3;
+  string biography = 4;
+  string motto = 5;
+}
+
+message User {
+    string id = 1;
+    string username = 2;
+    string email = 3;
+    string password = 4; 
+    string role = 5;
+    bool isBlocked = 6;
+}

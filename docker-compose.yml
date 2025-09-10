@@ -1,12 +1,29 @@
 version: "3.8"
 
 services:
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - backend_network
+    depends_on:
+      - blog-service
+      - stakeholders
+      - follower-service
+      - tours-service
+    env_file:
+      - .env
+
   blog-service:
     build:
       context: ./blog-service
       dockerfile: Dockerfile
     ports:
-      - "8081:8081"
+      - "8087:8087"
+      - "8086:8086"
     networks:
       - backend_network
     depends_on:
@@ -20,7 +37,8 @@ services:
       context: ./stakeholders-service
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8081:8081"
+      - "8085:8085"
     networks:
       - backend_network
     env_file:
@@ -34,7 +52,7 @@ services:
       context: ./follower-service
       dockerfile: Dockerfile
     ports:
-      - "8082:8082"
+      - "8084:8084"
     networks:
       - backend_network
     env_file:
@@ -56,7 +74,6 @@ services:
     depends_on:
       toursdb:
         condition: service_healthy
-
 
   neo4j:
     image: neo4j:5

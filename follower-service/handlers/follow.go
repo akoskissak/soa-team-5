@@ -1,14 +1,16 @@
 package handlers
 
 import (
-	pb "api-gateway/proto/follower"
-	utils "api-gateway/utils"
 	"context"
 	"errors"
 	"follower-service/db"
 	"log"
+	pb "follower-service/proto/follower"
 
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
+	"google.golang.org/grpc/status"
 )
 
 const relF = "FOLLOWS"
@@ -22,7 +24,7 @@ func NewFollowerServer() *FollowerServer {
 }
 
 func (s *FollowerServer) Follow(ctx context.Context, req *pb.FollowRequest) (*pb.FollowResponse, error) {
-	fromUsername, _, err := utils.GetClaimsFromContext(ctx)
+	fromUsername, _, _, err := GetClaimsFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +55,7 @@ func (s *FollowerServer) Follow(ctx context.Context, req *pb.FollowRequest) (*pb
 }
 
 func (s *FollowerServer) Unfollow(ctx context.Context, req *pb.UnfollowRequest) (*pb.UnfollowResponse, error) {
-	fromUsername, _, err := utils.GetClaimsFromContext(ctx)
+	fromUsername, _, _, err := GetClaimsFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -151,7 +153,7 @@ func (s *FollowerServer) GetFollowers(ctx context.Context, req *pb.GetFollowersR
 }
 
 func (s *FollowerServer) Recommend(ctx context.Context, req *pb.RecommendRequest) (*pb.RecommendResponse, error) {
-	username, _, err := utils.GetClaimsFromContext(ctx)
+	username, _, _, err := GetClaimsFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -190,4 +192,21 @@ func (s *FollowerServer) Recommend(ctx context.Context, req *pb.RecommendRequest
 	return &pb.RecommendResponse{
 		RecommendedUsers: recommendations,
 	}, nil
+}
+
+func GetClaimsFromContext(ctx context.Context) (string, string, string, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return "", "", "", status.Error(codes.Unauthenticated, "metadata not provided")
+	}
+
+	username := md.Get("username")
+	userId := md.Get("userId")
+	role := md.Get("role")
+
+	if len(username) == 0 || len(userId) == 0 || len(role) == 0 {
+		return "", "", "", status.Error(codes.Unauthenticated, "claims missing in metadata")
+	}
+
+	return username[0], userId[0], role[0], nil
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	// "api-gateway/utils"
 	"context"
 	"log"
 	"net/http"
@@ -10,13 +11,16 @@ import (
 
 	"github.com/gorilla/handlers"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/encoding/protojson"
 
 	"api-gateway/proto/blog"
 	"api-gateway/proto/follower"
 	"api-gateway/proto/stakeholders"
+	"api-gateway/utils"
 )
 
 const (
@@ -54,6 +58,11 @@ func newReverseProxy(target string) http.Handler {
 }
 
 func main() {
+	err := godotenv.Load("../.env")
+	if err != nil {
+		log.Println("No .env file found or failed to load it:", err)
+	}
+
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -69,26 +78,33 @@ func main() {
 
 	mux := runtime.NewServeMux(
 		runtime.WithMarshalerOption(runtime.MIMEWildcard, jsonpb),
+		runtime.WithMetadata(func(ctx context.Context, req *http.Request) metadata.MD {
+			md, err := utils.AuthMetadata(req)
+			if err != nil {
+				return nil
+			}
+			return md
+		}),
 	)
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-	err := stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
+	err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "stakeholders:8081", opts)
 	if err != nil {
 		log.Fatalf("failed to register stakeholders service: %v", err)
 	}
 
-	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "localhost:8087", opts)
+	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "blog-service:8087", opts)
 	if err != nil {
 		log.Fatalf("failed to register blog service: %v", err)
 	}
 
-	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "localhost:8084", opts)
+	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "follower-service:8084", opts)
 	if err != nil {
 		log.Fatalf("failed to register follower service: %v", err)
 	}
 
-	tourProxy := newReverseProxy("http://localhost:8083")
+	tourProxy := newReverseProxy("http://tours-service:8083")
 
 	proxyHandlerFunc := func(proxy http.Handler) runtime.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
@@ -106,17 +122,18 @@ func main() {
 	mux.HandlePath("GET", "/api/tours/{tourId}/keypoints", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("PUT", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("DELETE", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
-
+	
 	// CORS
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"})
 
-	corsHandler := handlers.CORS(originsOk, headersOk, methodsOk)(mux)
-	finalHandler := loggingHandler(corsHandler)
+	finalHandler := utils.JWTMiddleware(mux)
+	corsHandler := handlers.CORS(originsOk, headersOk, methodsOk)(finalHandler)
+	finalHandlerWithLogging := loggingHandler(corsHandler)
 
 	log.Printf("server listening on port %s", port)
-	if err := http.ListenAndServe(port, finalHandler); err != nil {
+	if err := http.ListenAndServe(port, finalHandlerWithLogging); err != nil {
 		log.Fatalf("could not start server: %v", err)
 	}
 }

@@ -10,14 +10,14 @@ import (
 	"path/filepath"
 	"time"
 
-	blogproto "api-gateway/proto/blog"
-	followerproto "api-gateway/proto/follower"
-	utils "api-gateway/utils"
+	blogproto "soa/blog-service/proto/blog"
+	followerproto "soa/blog-service/proto/follower"
 	"soa/blog-service/database"
 	"soa/blog-service/models"
 
 	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 	"gorm.io/gorm"
 )
@@ -42,7 +42,7 @@ func NewBlogServer() *BlogServer {
 }
 
 func (s *BlogServer) CreatePost(ctx context.Context, req *blogproto.CreatePostRequest) (*blogproto.Post, error) {
-	currentUsername, userId, err := utils.GetClaimsFromContext(ctx)
+	currentUsername, userId, _, err := GetClaimsFromContext(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "Nevalidan token: %v", err)
 	}
@@ -124,7 +124,7 @@ func HandleImageUpload(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *BlogServer) GetPosts(ctx context.Context, req *blogproto.GetPostsRequest) (*blogproto.GetPostsResponse, error) {
-	currentUsername, _, err := utils.GetClaimsFromContext(ctx)
+	currentUsername, _, _, err := GetClaimsFromContext(ctx)
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "Nevalidan token: %v", err)
 	}
@@ -317,4 +317,21 @@ func convertCommentToProto(comment *models.Comment) *blogproto.Comment {
 		CreatedAt: comment.CreatedAt.Format(time.RFC3339),
 		UpdatedAt: comment.UpdatedAt.Format(time.RFC3339),
 	}
+}
+
+func GetClaimsFromContext(ctx context.Context) (string, string, string, error) {
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok {
+		return "", "", "", status.Error(codes.Unauthenticated, "metadata not provided")
+	}
+
+	username := md.Get("username")
+	userId := md.Get("userId")
+	role := md.Get("role")
+
+	if len(username) == 0 || len(userId) == 0 || len(role) == 0 {
+		return "", "", "", status.Error(codes.Unauthenticated, "claims missing in metadata")
+	}
+
+	return username[0], userId[0], role[0], nil
 }

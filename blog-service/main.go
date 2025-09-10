@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	blogproto "api-gateway/proto/blog"
-	followerproto "api-gateway/proto/follower"
+	blogproto "soa/blog-service/proto/blog"
+	followerproto "soa/blog-service/proto/follower"
 
 	"soa/blog-service/database"
 	"soa/blog-service/handlers"
@@ -36,7 +36,7 @@ func main() {
 	database.InitDB(connStr)
 	defer database.CloseDB()
 
-	followerServiceAddress := "localhost:8084"
+	followerServiceAddress := "follower-service:8084"
 	followerConn, err := grpc.Dial(
 		followerServiceAddress,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),

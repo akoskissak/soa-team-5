@@ -980,7 +980,7 @@ const file_stakeholders_stakeholders_proto_rawDesc = "" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x04 \x01(\tR\bpassword\x12\x12\n" +
 	"\x04role\x18\x05 \x01(\tR\x04role\x12\x1c\n" +
-	"\tisBlocked\x18\x06 \x01(\bR\tisBlocked2\xba\a\n" +
+	"\tisBlocked\x18\x06 \x01(\bR\tisBlocked2\xfb\a\n" +
 	"\x13StakeholdersService\x12h\n" +
 	"\bRegister\x12\x1d.stakeholders.RegisterRequest\x1a\x1e.stakeholders.RegisterResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/auth/register\x12\\\n" +
 	"\x05Login\x12\x1a.stakeholders.LoginRequest\x1a\x1b.stakeholders.LoginResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/api/auth/login\x12l\n" +
@@ -989,9 +989,9 @@ const file_stakeholders_stakeholders_proto_rawDesc = "" +
 	"\x14GetProfileByUsername\x12).stakeholders.GetProfileByUsernameRequest\x1a!.stakeholders.UserProfileResponse\"$\x82\xd3\xe4\x93\x02\x1e\x12\x1c/api/user/profile/{username}\x12k\n" +
 	"\n" +
 	"GetProfile\x12\x1f.stakeholders.GetProfileRequest\x1a!.stakeholders.UserProfileResponse\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/api/user/profile\x12v\n" +
-	"\rUpdateProfile\x12\".stakeholders.UpdateProfileRequest\x1a#.stakeholders.UpdateProfileResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\x1a\x11/api/user/profile\x12D\n" +
-	"\vSetPosition\x12\x1d.stakeholders.PositionRequest\x1a\x16.google.protobuf.Empty\x12E\n" +
-	"\vGetPosition\x12\x16.google.protobuf.Empty\x1a\x1e.stakeholders.PositionResponseB+Z)soa-team-5/api-gateway/proto/stakeholdersb\x06proto3"
+	"\rUpdateProfile\x12\".stakeholders.UpdateProfileRequest\x1a#.stakeholders.UpdateProfileResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\x1a\x11/api/user/profile\x12f\n" +
+	"\vSetPosition\x12\x1d.stakeholders.PositionRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/tourist/position\x12d\n" +
+	"\vGetPosition\x12\x16.google.protobuf.Empty\x1a\x1e.stakeholders.PositionResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/api/tourist/positionB+Z)soa-team-5/api-gateway/proto/stakeholdersb\x06proto3"
 
 var (
 	file_stakeholders_stakeholders_proto_rawDescOnce sync.Once

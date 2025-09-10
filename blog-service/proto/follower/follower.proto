@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package follower;
+
+option go_package = "soa-team-5/api-gateway/proto/follower";
+
+import "google/api/annotations.proto";
+import "google/api/http.proto";
+
+service FollowerService {
+
+  rpc Follow(FollowRequest) returns (FollowResponse) {
+    option (google.api.http) = {
+      post: "/api/follow"
+      body: "*"
+    };
+  }
+
+  rpc Unfollow(UnfollowRequest) returns (UnfollowResponse) {
+  option (google.api.http) = {
+    delete: "/api/follow/{to}"
+  };
+}
+
+  rpc GetFollowing(GetFollowingRequest) returns (GetFollowingResponse) {
+    option (google.api.http) = {
+      get: "/api/following/{username}"
+    };
+  }
+
+  rpc GetFollowers(GetFollowersRequest) returns (GetFollowersResponse) {
+    option (google.api.http) = {
+      get: "/api/followers/{username}"
+    };
+  }
+  
+  rpc Recommend(RecommendRequest) returns (RecommendResponse) {
+    option (google.api.http) = {
+      get: "/api/recommend"
+    };
+  }
+}
+
+message FollowRequest {
+  string to = 1; 
+}
+message FollowResponse {
+  string status = 1;
+}
+
+message UnfollowRequest {
+  string to = 1;
+}
+message UnfollowResponse {
+  string status = 1;
+}
+
+message GetFollowingRequest {
+  string username = 1;
+}
+message GetFollowingResponse {
+  repeated string following = 1;
+}
+
+message GetFollowersRequest {
+  string username = 1;
+}
+message GetFollowersResponse {
+  repeated string followers = 1;
+}
+
+message RecommendRequest {}
+message RecommendResponse {
+  repeated RecDTO recommended_users = 1;
+}
+
+message RecDTO {
+  string username = 1;
+  int64 mutuals = 2;
+}

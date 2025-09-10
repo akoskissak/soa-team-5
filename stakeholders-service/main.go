@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	stakeproto "api-gateway/proto/stakeholders"
+	stakeproto "stakeholders-service/proto/stakeholders"
 )
 
 func main() {

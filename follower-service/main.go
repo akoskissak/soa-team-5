@@ -7,7 +7,7 @@ import (
 	"net"
 	"os"
 
-	pb "api-gateway/proto/follower"
+	pb "follower-service/proto/follower"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
