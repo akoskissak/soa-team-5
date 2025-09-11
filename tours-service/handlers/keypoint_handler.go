@@ -14,7 +14,7 @@ import (
 )
 
 func CreateKeyPoint(c *gin.Context) {
-	_, err := utils.GetClaimsFromContext2Args(c)
+	_, err := utils.GetClaimsFromGinContext2Args(c)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return

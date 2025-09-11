@@ -42,9 +42,7 @@ func main() {
 	api := r.Group("/api")
 
 	api.POST("/tours", handlers.CreateTour)
-	api.POST("/tours/", handlers.CreateTour)
 	api.GET("/tours", handlers.GetAllTours)
-	api.GET("/tours/", handlers.GetAllTours)
 
 	api.GET("/tours/published", handlers.GetAllPublishedTours)
 
@@ -57,5 +55,6 @@ func main() {
 
 	api.GET("/tours/:tourId/reviews", handlers.GetReviewsByTourId)
 
+	localhost = "tours-service"
 	r.Run(localhost + ":8083")
 }

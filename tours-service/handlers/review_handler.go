@@ -14,7 +14,7 @@ import (
 )
 
 func CreateReview(c *gin.Context) {
-	claims, err := utils.GetClaimsFromContext2Args(c)
+	claims, err := utils.GetClaimsFromGinContext2Args(c)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return

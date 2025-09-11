@@ -15,7 +15,7 @@ import (
 )
 
 func CreateTour(c *gin.Context) {
-	claims,  err := utils.GetClaimsFromContext2Args(c)
+	claims,  err := utils.GetClaimsFromGinContext2Args(c)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -113,7 +113,7 @@ func CreateTour(c *gin.Context) {
 }
 
 func GetAllTours(c *gin.Context) {
-	claims, err := utils.GetClaimsFromContext2Args(c)
+	claims, err := utils.GetClaimsFromGinContext2Args(c)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return

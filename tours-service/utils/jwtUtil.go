@@ -1,15 +1,14 @@
 package utils
 
 import (
-	"context"
+	"errors"
 	"os"
+	"strings"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/metadata"
-	"google.golang.org/grpc/status"
 )
 
 func GenerateJWT(username string, role string, userId primitive.ObjectID) (string, error) {
@@ -25,24 +24,27 @@ func GenerateJWT(username string, role string, userId primitive.ObjectID) (strin
 	return token.SignedString(secret)
 }
 
-func GetClaimsFromContext2Args(ctx context.Context) (jwt.MapClaims, error) {
-	md, ok := metadata.FromIncomingContext(ctx)
+func GetClaimsFromGinContext2Args(c *gin.Context) (jwt.MapClaims, error) {
+	authHeader := c.Request.Header.Get("Authorization")
+	if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+		return nil, errors.New("missing or invalid authorization header")
+	}
+
+	tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
+
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, errors.New("unexpected signing method")
+		}
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+	if err != nil || !token.Valid {
+		return nil, errors.New("invalid token")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
-		return nil, status.Error(codes.Unauthenticated, "metadata not provided")
-	}
-
-	username := md.Get("username")
-	userId := md.Get("userId")
-	role := md.Get("role")
-
-	if len(username) == 0 || len(userId) == 0 || len(role) == 0 {
-		return nil, status.Error(codes.Unauthenticated, "claims missing in metadata")
-	}
-
-	claims := jwt.MapClaims{
-		"username": username[0],
-		"userId":   userId[0],
-		"role":     role[0],
+		return nil, errors.New("cannot parse claims")
 	}
 
 	return claims, nil
