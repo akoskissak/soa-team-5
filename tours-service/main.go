@@ -55,6 +55,6 @@ func main() {
 
 	api.GET("/tours/:tourId/reviews", handlers.GetReviewsByTourId)
 
-	localhost = "tours-service"
+	localhost = "localhost"
 	r.Run(localhost + ":8083")
 }
