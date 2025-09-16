@@ -69,6 +69,7 @@ services:
       - "8083:8083"
     networks:
       - backend_network
+      - monitoring
     env_file:
       - .env
     depends_on:
@@ -119,6 +120,7 @@ services:
       - tours_postgres_data:/var/lib/postgresql/data
     networks:
       - backend_network
+      - monitoring
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: super
@@ -137,3 +139,5 @@ volumes:
 networks:
   backend_network:
     driver: bridge
+  monitoring:
+    external: true
