@@ -10,10 +10,10 @@ import (
 	"path/filepath"
 	"time"
 
-	blogproto "soa/blog-service/proto/blog"
-	followerproto "soa/blog-service/proto/follower"
 	"soa/blog-service/database"
 	"soa/blog-service/models"
+	blogproto "soa/blog-service/proto/blog"
+	followerproto "soa/blog-service/proto/follower"
 
 	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
@@ -234,6 +234,11 @@ func (s *BlogServer) ToggleLike(ctx context.Context, req *blogproto.ToggleLikeRe
 func (s *BlogServer) AddCommentToPost(ctx context.Context, req *blogproto.AddCommentToPostRequest) (*blogproto.Comment, error) {
 	fmt.Printf("AddCommentToPost - Primljen zahtev. PostID: %s, UserID: %s\n", req.GetPostId(), req.GetUserId())
 
+	currentUsername, _, _, err := GetClaimsFromContext(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Unauthenticated, "Nevalidan token: %v", err)
+	}
+
 	postID, err := uuid.Parse(req.GetPostId())
 	if err != nil {
 		fmt.Printf("AddCommentToPost - Greška pri parsiranju PostID-a: %v\n", err)
@@ -241,13 +246,38 @@ func (s *BlogServer) AddCommentToPost(ctx context.Context, req *blogproto.AddCom
 	}
 	fmt.Printf("AddCommentToPost - PostID uspešno parsiran: %s\n", postID.String())
 
+	var post models.Post
+	if err := database.GORM_DB.First(&post, "id = ?", postID).Error; err != nil {
+		return nil, status.Errorf(codes.NotFound, "Post nije pronađen.")
+	}
+
+	followerResp, err := followerClient.GetFollowing(ctx, &followerproto.GetFollowingRequest{Username: currentUsername})
+	if err != nil {
+		log.Printf("Greška pri dohvatanju pracenih korisnika: %v", err)
+		return nil, status.Errorf(codes.Internal, "Greška pri dohvatanju pracenih korisnika.")
+	}
+
+	isAllowed := post.Username == currentUsername
+	if !isAllowed {
+		for _, f := range followerResp.Following {
+			if f == post.Username {
+				isAllowed = true
+				break
+			}
+		}
+	}
+
+	if !isAllowed {
+		return nil, status.Errorf(codes.PermissionDenied, "Ne možete komentarisati postove korisnika koje ne pratite.")
+	}
+
 	parsedUserID := req.GetUserId()
 	fmt.Printf("AddCommentToPost - UserID je string: %s\n", parsedUserID)
 
 	newComment := models.Comment{
 		PostID:    postID,
 		UserID:    parsedUserID,
-		Username:  req.Username,
+		Username:  currentUsername,
 		Text:      req.GetText(),
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
