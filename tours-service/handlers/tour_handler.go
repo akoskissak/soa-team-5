@@ -9,17 +9,18 @@ import (
 	"time"
 	"tours-service/database"
 	"tours-service/models"
-	"tours-service/utils"
 	"tours-service/opentelemetery"
+	"tours-service/utils"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/trace"
 	"gorm.io/datatypes"
 )
 
 func CreateTour(c *gin.Context) {
-	claims,  err := utils.GetClaimsFromGinContext2Args(c)
+	claims, err := utils.GetClaimsFromGinContext2Args(c)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
 		return
@@ -119,7 +120,7 @@ func CreateTour(c *gin.Context) {
 func GetAllTours(c *gin.Context) {
 	traceContext, span := opentelemetery.TraceProvider.Tracer(opentelemetery.ServiceName).Start(c, "tours-get-all")
 	defer func() { span.End() }()
-	
+
 	span.AddEvent("Getting claims from gin context")
 	claims, err := utils.GetClaimsFromGinContext2Args(c)
 	if err != nil {
@@ -153,6 +154,15 @@ func GetAllPublishedTours(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, tours)
+}
+
+func IsTourAvailable(id uuid.UUID) bool {
+	var tour models.Tour
+	if err := database.GORM_DB.First(&tour, "id = ?", id).Error; err != nil {
+		return false
+	}
+
+	return tour.Status == models.Published || tour.Status == models.Archived
 }
 
 // Tracing error messages

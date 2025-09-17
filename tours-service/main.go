@@ -52,7 +52,7 @@ func main() {
 	r.Use(otelgin.Middleware(opentelemetery.ServiceName))
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:4200"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
@@ -74,6 +74,10 @@ func main() {
 
 	api.GET("/tours/:tourId/reviews", handlers.GetReviewsByTourId)
 
+	api.POST("/tours/:tourId/start", handlers.CreateTourExecution)
+	api.PATCH("/tour-executions/:tourExecutionId/status", handlers.UpdateTourExecutionStatus)
+
 	localhost = "tours-service"
-	r.Run(localhost + ":8083")
+	_ = localhost
+	r.Run(":8083")
 }
