@@ -20,7 +20,7 @@ func Connect(connStr string) {
 		log.Fatal("Failed to connect to database: ", err)
 	}
 
-	if err := db.AutoMigrate(&models.Tour{}, &models.KeyPoint{}, &models.Review{}, &models.ReviewImage{}); err != nil {
+	if err := db.AutoMigrate(&models.Tour{}, &models.KeyPoint{}, &models.Review{}, &models.ReviewImage{}, &models.TourExecution{}, &models.CompletedKeyPoint{}); err != nil {
 		log.Fatal("Failed to migrate database: ", err)
 	}
 
