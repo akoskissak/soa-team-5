@@ -1,3 +1,10 @@
 # Environment files
 .env
 **/static/uploads/
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Alembic cache
+alembic/__pycache__/

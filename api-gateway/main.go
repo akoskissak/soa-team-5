@@ -125,9 +125,12 @@ func main() {
 	mux.HandlePath("PUT", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("DELETE", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
 
-	mux.HandlePath("POST", "/api/shopping-cart", proxyHandlerFunc(purchaseProxy))
-	mux.HandlePath("POST", "/api/checkout", proxyHandlerFunc(purchaseProxy))
-
+	mux.HandlePath("POST", "/api/shopping-cart/{touristId}", proxyHandlerFunc(purchaseProxy))
+	mux.HandlePath("POST", "/api/shopping-cart/{touristId}/items", proxyHandlerFunc(purchaseProxy))
+	mux.HandlePath("GET", "/api/shopping-cart/{touristId}", proxyHandlerFunc(purchaseProxy))
+	mux.HandlePath("DELETE", "/api/shopping-cart/{touristId}/items/{tourId}", proxyHandlerFunc(purchaseProxy))
+	mux.HandlePath("POST", "/api/shopping-cart/{touristId}/checkout", proxyHandlerFunc(purchaseProxy))
+	mux.HandlePath("GET", "/api/tourist/{touristId}/purchases", proxyHandlerFunc(purchaseProxy))
 	// CORS
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
