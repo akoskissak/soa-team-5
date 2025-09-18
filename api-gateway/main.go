@@ -89,22 +89,28 @@ func main() {
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-	err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "stakeholders:8081", opts)
+	//err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "stakeholders:8081", opts)
+	err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
 	if err != nil {
 		log.Fatalf("failed to register stakeholders service: %v", err)
 	}
 
-	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "blog-service:8087", opts)
+	//err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "blog-service:8087", opts)
+	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "localhost:8087", opts)
+
 	if err != nil {
 		log.Fatalf("failed to register blog service: %v", err)
 	}
 
-	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "follower-service:8084", opts)
+	//err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "follower-service:8084", opts)
+	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "localhost:8084", opts)
+
 	if err != nil {
 		log.Fatalf("failed to register follower service: %v", err)
 	}
 
-	tourProxy := newReverseProxy("http://tours-service:8083")
+	//tourProxy := newReverseProxy("http://tours-service:8083")
+	tourProxy := newReverseProxy("http://localhost:8083")
 
 	proxyHandlerFunc := func(proxy http.Handler) runtime.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
@@ -124,7 +130,11 @@ func main() {
 	mux.HandlePath("PUT", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("DELETE", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("PATCH", "/api/tour-executions/{tourExecutionId}/status", proxyHandlerFunc(tourProxy))
-	
+	mux.HandlePath("PATCH", "/api/tours/{tourId}/publish", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("POST", "/api/tours/{tourId}/required-times", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("PATCH", "/api/tours/{tourId}/archive", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("PATCH", "/api/tours/{tourId}/unarchive", proxyHandlerFunc(tourProxy))
+
 	// CORS
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
