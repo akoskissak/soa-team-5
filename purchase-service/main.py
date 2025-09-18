@@ -1,5 +1,3 @@
-# purchase-service/main.py
-
 from typing import List
 import uuid
 import httpx
@@ -140,3 +138,7 @@ def get_tourist_purchases(tourist_id: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="No purchases found for this tourist")
     
     return purchases
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="0.0.0.0", port=8088, reload=True)

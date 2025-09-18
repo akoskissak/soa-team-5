@@ -14,6 +14,7 @@ services:
       - stakeholders
       - follower-service
       - tours-service
+      - purchase-service
     env_file:
       - .env
 
@@ -75,6 +76,20 @@ services:
       toursdb:
         condition: service_healthy
 
+  purchase-service:
+    build:
+      context: ./purchase-service
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8088"
+    networks:
+      - backend_network
+    env_file:
+      - .env
+    depends_on:
+      purchasedb:
+        condition: service_healthy
+
   neo4j:
     image: neo4j:5
     container_name: neo4j
@@ -129,10 +144,29 @@ services:
       timeout: 5s
       retries: 5
 
+  purchasedb:
+    image: postgres:15-alpine
+    ports:
+      - "5434:5432"
+    volumes:
+      - purchase_postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend_network
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: super
+      POSTGRES_DB: purchase_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d purchase_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres_data:
   neo4j_data:
   tours_postgres_data:
+  purchase_postgres_data:
 
 networks:
   backend_network:

@@ -1,10 +1,7 @@
-# purchase-service/models.py
-
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import UUIDType
 
-# Uvozimo Base klasu iz našeg database.py fajla
 from database import Base
 
 class ShoppingCart(Base):
