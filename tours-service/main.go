@@ -11,9 +11,9 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
-	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 
 func main() {
@@ -64,11 +64,16 @@ func main() {
 	api.GET("/tours", handlers.GetAllTours)
 
 	api.GET("/tours/published", handlers.GetAllPublishedTours)
+	api.PATCH("/tours/:tourId/publish", handlers.PublishTour)
+	api.PATCH("/tours/:tourId/archive", handlers.ArchiveTour)
+	api.PATCH("/tours/:tourId/unarchive", handlers.UnarchiveTour)
 
 	api.POST("/keypoints", handlers.CreateKeyPoint)
 	api.GET("/tours/:tourId/keypoints", handlers.GetKeyPointsByTourId)
 	api.PUT("/keypoints/:id", handlers.UpdateKeyPoint)
 	api.DELETE("/keypoints/:id", handlers.DeleteKeyPoint)
+
+	api.POST("/tours/:tourId/required-times", handlers.CreateRequiredTime)
 
 	api.POST("/reviews", handlers.CreateReview)
 
@@ -77,7 +82,8 @@ func main() {
 	api.POST("/tours/:tourId/start", handlers.CreateTourExecution)
 	api.PATCH("/tour-executions/:tourExecutionId/status", handlers.UpdateTourExecutionStatus)
 
-	//localhost = "tour-service"
+
+	//localhost = "tours-service"
 	localhost = "localhost"
 	_ = localhost
 	r.Run(":8083")

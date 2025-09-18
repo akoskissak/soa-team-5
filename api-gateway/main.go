@@ -109,7 +109,6 @@ func main() {
 
 	//tourProxy := newReverseProxy("http://tours-service:8083")
 	tourProxy := newReverseProxy("http://localhost:8083")
-
 	//purchaseProxy := newReverseProxy("http://purchase-service:8088")
 	purchaseProxy := newReverseProxy("http://localhost:8088")
 
@@ -130,15 +129,18 @@ func main() {
 	mux.HandlePath("GET", "/api/tours/{tourId}/keypoints", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("PUT", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("DELETE", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("PATCH", "/api/tour-executions/{tourExecutionId}/status", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("PATCH", "/api/tours/{tourId}/publish", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("POST", "/api/tours/{tourId}/required-times", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("PATCH", "/api/tours/{tourId}/archive", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("PATCH", "/api/tours/{tourId}/unarchive", proxyHandlerFunc(tourProxy))
   mux.HandlePath("PATCH", "/api/tour-executions/{tourExecutionId}/status", proxyHandlerFunc(tourProxy))
-
 	mux.HandlePath("POST", "/api/shopping-cart/{touristId}", proxyHandlerFunc(purchaseProxy))
 	mux.HandlePath("POST", "/api/shopping-cart/{touristId}/items", proxyHandlerFunc(purchaseProxy))
 	mux.HandlePath("GET", "/api/shopping-cart/{touristId}", proxyHandlerFunc(purchaseProxy))
 	mux.HandlePath("DELETE", "/api/shopping-cart/{touristId}/items/{tourId}", proxyHandlerFunc(purchaseProxy))
 	mux.HandlePath("POST", "/api/shopping-cart/{touristId}/checkout", proxyHandlerFunc(purchaseProxy))
 	mux.HandlePath("GET", "/api/tourist/{touristId}/purchases", proxyHandlerFunc(purchaseProxy))
-	
 
 	// CORS
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
