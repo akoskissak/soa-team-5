@@ -11,7 +11,7 @@ services:
       - backend_network
     depends_on:
       - blog-service
-      - stakeholders
+      - stakeholders-service
       - follower-service
       - tours-service
       - purchase-service
@@ -33,7 +33,7 @@ services:
     env_file:
       - .env
 
-  stakeholders:
+  stakeholders-service:
     build:
       context: ./stakeholders-service
       dockerfile: Dockerfile
