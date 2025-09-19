@@ -64,11 +64,16 @@ func main() {
 	api.GET("/tours", handlers.GetAllTours)
 
 	api.GET("/tours/published", handlers.GetAllPublishedTours)
+	api.PATCH("/tours/:tourId/publish", handlers.PublishTour)
+	api.PATCH("/tours/:tourId/archive", handlers.ArchiveTour)
+	api.PATCH("/tours/:tourId/unarchive", handlers.UnarchiveTour)
 
 	api.POST("/keypoints", handlers.CreateKeyPoint)
 	api.GET("/tours/:tourId/keypoints", handlers.GetKeyPointsByTourId)
 	api.PUT("/keypoints/:id", handlers.UpdateKeyPoint)
 	api.DELETE("/keypoints/:id", handlers.DeleteKeyPoint)
+
+	api.POST("/tours/:tourId/required-times", handlers.CreateRequiredTime)
 
 	api.POST("/reviews", handlers.CreateReview)
 
@@ -80,7 +85,9 @@ func main() {
 	api.POST("/tour-executions/:tourExecutionId/check-location", handlers.CheckTourLocation)
 
 
-	localhost = "tours-service"
+
+	//localhost = "tours-service"
+	localhost = "localhost"
 	_ = localhost
 	r.Run(":8083")
 }

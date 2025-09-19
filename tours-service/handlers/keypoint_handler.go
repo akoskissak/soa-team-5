@@ -2,11 +2,13 @@ package handlers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"path/filepath"
 	"time"
 	"tours-service/database"
 	"tours-service/models"
+	"tours-service/services"
 	"tours-service/utils"
 
 	"github.com/gin-gonic/gin"
@@ -48,6 +50,9 @@ func CreateKeyPoint(c *gin.Context) {
 	}
 
 	tourID, _ := uuid.Parse(input.TourID)
+	var maxPosition int
+	database.GORM_DB.Model(&models.KeyPoint{}).Where("tour_id = ?", tourID).Select("COALESCE(MAX(position), -1)").Row().Scan(&maxPosition)
+
 	keypoint := models.KeyPoint{
 		Name:        input.Name,
 		Description: input.Description,
@@ -55,12 +60,19 @@ func CreateKeyPoint(c *gin.Context) {
 		Longitude:   input.Longitude,
 		ImagePath:   savePath,
 		TourID:      tourID,
+		Position:    maxPosition + 1,
 	}
 
 	if err := database.GORM_DB.Create(&keypoint).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save keypoint"})
 		return
 	}
+
+	go func(tourID uuid.UUID) {
+		if err := services.UpdateTourDistanceAndTimes(tourID); err != nil {
+			log.Printf("Failed to update tour distance for tour %s: %v", tourID, err)
+		}
+	}(tourID)
 
 	c.JSON(http.StatusCreated, keypoint)
 }
@@ -90,14 +102,12 @@ func UpdateKeyPoint(c *gin.Context) {
 		return
 	}
 
-	// Pronađi postojeći keypoint
 	var keyPointToUpdate models.KeyPoint
 	if err := database.GORM_DB.First(&keyPointToUpdate, keyPointID).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Keypoint not found"})
 		return
 	}
 
-	// Pokušaj da parsiraš kao FormData (sa slikom)
 	var input struct {
 		Name        string  `form:"name"`
 		Description string  `form:"description"`
@@ -106,13 +116,11 @@ func UpdateKeyPoint(c *gin.Context) {
 	}
 
 	if err := c.ShouldBind(&input); err == nil && input.Name != "" {
-		// FormData format (sa mogućom slikom)
 		keyPointToUpdate.Name = input.Name
 		keyPointToUpdate.Description = input.Description
 		keyPointToUpdate.Latitude = input.Latitude
 		keyPointToUpdate.Longitude = input.Longitude
 
-		// Provjeri da li je nova slika uploadovana
 		if file, err := c.FormFile("image"); err == nil {
 			filename := fmt.Sprintf("%d_%s", time.Now().UnixNano(), filepath.Base(file.Filename))
 			savePath := filepath.Join("static/uploads", filename)
@@ -125,7 +133,6 @@ func UpdateKeyPoint(c *gin.Context) {
 			keyPointToUpdate.ImagePath = savePath
 		}
 	} else {
-		// JSON format (bez slike)
 		var updatedKeyPoint models.KeyPoint
 		if err := c.ShouldBindJSON(&updatedKeyPoint); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -143,6 +150,13 @@ func UpdateKeyPoint(c *gin.Context) {
 		return
 	}
 
+	tourID := keyPointToUpdate.TourID
+	go func(tourID uuid.UUID) {
+		if err := services.UpdateTourDistanceAndTimes(tourID); err != nil {
+			log.Printf("Failed to update tour distance for tour %s: %v", tourID, err)
+		}
+	}(tourID)
+
 	c.JSON(http.StatusOK, keyPointToUpdate)
 }
 func DeleteKeyPoint(c *gin.Context) {
@@ -153,10 +167,23 @@ func DeleteKeyPoint(c *gin.Context) {
 		return
 	}
 
+	var keyPoint models.KeyPoint
+	if err := database.GORM_DB.First(&keyPoint, "id = ?", keyPointID).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Keypoint not found"})
+		return
+	}
+	tourID := keyPoint.TourID
+
 	if err := database.GORM_DB.Delete(&models.KeyPoint{}, keyPointID).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete keypoint"})
 		return
 	}
+
+	go func(tourID uuid.UUID) {
+		if err := services.UpdateTourDistanceAndTimes(tourID); err != nil {
+			log.Printf("Failed to update tour distance for tour %s: %v", tourID, err)
+		}
+	}(tourID)
 
 	c.JSON(http.StatusOK, gin.H{"message": "Keypoint deleted successfully"})
 }

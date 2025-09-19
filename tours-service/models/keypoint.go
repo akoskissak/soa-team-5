@@ -10,4 +10,5 @@ type KeyPoint struct {
 	Longitude   float64   `json:"longitude"`
 	ImagePath   string    `json:"imagePath"`
 	TourID      uuid.UUID `json:"tourId"`
+	Position    int       `gorm:"nullable;default:0"`
 }
