@@ -11,9 +11,9 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/propagation"
-	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 )
 
 func main() {
@@ -76,6 +76,9 @@ func main() {
 
 	api.POST("/tours/:tourId/start", handlers.CreateTourExecution)
 	api.PATCH("/tour-executions/:tourExecutionId/status", handlers.UpdateTourExecutionStatus)
+	api.GET("/tour-executions/active", handlers.GetActiveTourExecution)
+	api.POST("/tour-executions/:tourExecutionId/check-location", handlers.CheckTourLocation)
+
 
 	localhost = "tours-service"
 	_ = localhost

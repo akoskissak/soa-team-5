@@ -124,7 +124,9 @@ func main() {
 	mux.HandlePath("PUT", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("DELETE", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("PATCH", "/api/tour-executions/{tourExecutionId}/status", proxyHandlerFunc(tourProxy))
-	
+	mux.HandlePath("GET", "/api/tour-executions/active", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("POST", "/api/tour-executions/{tourExecutionId}/check-location", proxyHandlerFunc(tourProxy))
+
 	// CORS
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
