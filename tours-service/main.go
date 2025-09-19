@@ -81,6 +81,9 @@ func main() {
 
 	api.POST("/tours/:tourId/start", handlers.CreateTourExecution)
 	api.PATCH("/tour-executions/:tourExecutionId/status", handlers.UpdateTourExecutionStatus)
+	api.GET("/tour-executions/active", handlers.GetActiveTourExecution)
+	api.POST("/tour-executions/:tourExecutionId/check-location", handlers.CheckTourLocation)
+
 
 
 	//localhost = "tours-service"

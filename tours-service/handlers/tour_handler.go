@@ -202,6 +202,16 @@ func httpError(err error, span trace.Span, c *gin.Context, status int) {
 	c.String(status, err.Error())
 }
 
+func GetTourKeypoints(tourID uuid.UUID) []models.KeyPoint {
+	var keypoints []models.KeyPoint
+
+	if err := database.GORM_DB.Where("tour_id = ?", tourID).Find(&keypoints).Error; err != nil {
+		return []models.KeyPoint{}
+	}
+
+	return keypoints
+}
+
 func PublishTour(c *gin.Context) {
 	claims, err := utils.GetClaimsFromGinContext2Args(c)
 	if err != nil {
