@@ -36,8 +36,8 @@ func main() {
 	database.InitDB(connStr)
 	defer database.CloseDB()
 
-	//followerServiceAddress := "follower-service:8084"
-	followerServiceAddress := "localhost:8084"
+	followerServiceAddress := "follower-service:8084"
+	//followerServiceAddress := "localhost:8084"
 	followerConn, err := grpc.Dial(
 		followerServiceAddress,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),

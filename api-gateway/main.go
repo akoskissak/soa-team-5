@@ -89,29 +89,28 @@ func main() {
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-	//err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "stakeholders:8081", opts)
-	err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
+	err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "stakeholders-service:8081", opts)
+	//err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
 	if err != nil {
 		log.Fatalf("failed to register stakeholders service: %v", err)
 	}
 
-	//err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "blog-service:8087", opts)
-	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "localhost:8087", opts)
+	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "blog-service:8087", opts)
+	//err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "localhost:8087", opts)
 	if err != nil {
 		log.Fatalf("failed to register blog service: %v", err)
 	}
 
-	//err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "follower-service:8084", opts)
-	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "localhost:8084", opts)
+	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "follower-service:8084", opts)
+	//err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "localhost:8084", opts)
 	if err != nil {
 		log.Fatalf("failed to register follower service: %v", err)
 	}
 
-	//tourProxy := newReverseProxy("http://tours-service:8083")
-	tourProxy := newReverseProxy("http://localhost:8083")
-
-	//purchaseProxy := newReverseProxy("http://purchase-service:8088")
-	purchaseProxy := newReverseProxy("http://localhost:8088")
+	tourProxy := newReverseProxy("http://tours-service:8083")
+	//tourProxy := newReverseProxy("http://localhost:8083")
+	purchaseProxy := newReverseProxy("http://purchase-service:8088")
+	//purchaseProxy := newReverseProxy("http://localhost:8088")
 
 	proxyHandlerFunc := func(proxy http.Handler) runtime.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
@@ -130,15 +129,19 @@ func main() {
 	mux.HandlePath("GET", "/api/tours/{tourId}/keypoints", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("PUT", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("DELETE", "/api/keypoints/{id}", proxyHandlerFunc(tourProxy))
-  mux.HandlePath("PATCH", "/api/tour-executions/{tourExecutionId}/status", proxyHandlerFunc(tourProxy))
-
+	mux.HandlePath("PATCH", "/api/tour-executions/{tourExecutionId}/status", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("GET", "/api/tour-executions/active", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("POST", "/api/tour-executions/{tourExecutionId}/check-location", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("PATCH", "/api/tours/{tourId}/publish", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("POST", "/api/tours/{tourId}/required-times", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("PATCH", "/api/tours/{tourId}/archive", proxyHandlerFunc(tourProxy))
+	mux.HandlePath("PATCH", "/api/tours/{tourId}/unarchive", proxyHandlerFunc(tourProxy))
 	mux.HandlePath("POST", "/api/shopping-cart/{touristId}", proxyHandlerFunc(purchaseProxy))
 	mux.HandlePath("POST", "/api/shopping-cart/{touristId}/items", proxyHandlerFunc(purchaseProxy))
 	mux.HandlePath("GET", "/api/shopping-cart/{touristId}", proxyHandlerFunc(purchaseProxy))
 	mux.HandlePath("DELETE", "/api/shopping-cart/{touristId}/items/{tourId}", proxyHandlerFunc(purchaseProxy))
 	mux.HandlePath("POST", "/api/shopping-cart/{touristId}/checkout", proxyHandlerFunc(purchaseProxy))
 	mux.HandlePath("GET", "/api/tourist/{touristId}/purchases", proxyHandlerFunc(purchaseProxy))
-	
 
 	// CORS
 	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
