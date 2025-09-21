@@ -8,3 +8,5 @@ __pycache__/
 
 # Alembic cache
 alembic/__pycache__/
+
+traces.json

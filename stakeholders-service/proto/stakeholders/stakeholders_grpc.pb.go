@@ -29,6 +29,7 @@ const (
 	StakeholdersService_UpdateProfile_FullMethodName        = "/stakeholders.StakeholdersService/UpdateProfile"
 	StakeholdersService_SetPosition_FullMethodName          = "/stakeholders.StakeholdersService/SetPosition"
 	StakeholdersService_GetPosition_FullMethodName          = "/stakeholders.StakeholdersService/GetPosition"
+	StakeholdersService_ValidateToken_FullMethodName        = "/stakeholders.StakeholdersService/ValidateToken"
 )
 
 // StakeholdersServiceClient is the client API for StakeholdersService service.
@@ -44,6 +45,7 @@ type StakeholdersServiceClient interface {
 	UpdateProfile(ctx context.Context, in *UpdateProfileRequest, opts ...grpc.CallOption) (*UpdateProfileResponse, error)
 	SetPosition(ctx context.Context, in *PositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetPosition(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PositionResponse, error)
+	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
 }
 
 type stakeholdersServiceClient struct {
@@ -144,6 +146,16 @@ func (c *stakeholdersServiceClient) GetPosition(ctx context.Context, in *emptypb
 	return out, nil
 }
 
+func (c *stakeholdersServiceClient) ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ValidateTokenResponse)
+	err := c.cc.Invoke(ctx, StakeholdersService_ValidateToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StakeholdersServiceServer is the server API for StakeholdersService service.
 // All implementations must embed UnimplementedStakeholdersServiceServer
 // for forward compatibility.
@@ -157,6 +169,7 @@ type StakeholdersServiceServer interface {
 	UpdateProfile(context.Context, *UpdateProfileRequest) (*UpdateProfileResponse, error)
 	SetPosition(context.Context, *PositionRequest) (*emptypb.Empty, error)
 	GetPosition(context.Context, *emptypb.Empty) (*PositionResponse, error)
+	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
 	mustEmbedUnimplementedStakeholdersServiceServer()
 }
 
@@ -193,6 +206,9 @@ func (UnimplementedStakeholdersServiceServer) SetPosition(context.Context, *Posi
 }
 func (UnimplementedStakeholdersServiceServer) GetPosition(context.Context, *emptypb.Empty) (*PositionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPosition not implemented")
+}
+func (UnimplementedStakeholdersServiceServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
 }
 func (UnimplementedStakeholdersServiceServer) mustEmbedUnimplementedStakeholdersServiceServer() {}
 func (UnimplementedStakeholdersServiceServer) testEmbeddedByValue()                             {}
@@ -377,6 +393,24 @@ func _StakeholdersService_GetPosition_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StakeholdersService_ValidateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ValidateTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StakeholdersServiceServer).ValidateToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StakeholdersService_ValidateToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StakeholdersServiceServer).ValidateToken(ctx, req.(*ValidateTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StakeholdersService_ServiceDesc is the grpc.ServiceDesc for StakeholdersService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -419,6 +453,10 @@ var StakeholdersService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPosition",
 			Handler:    _StakeholdersService_GetPosition_Handler,
+		},
+		{
+			MethodName: "ValidateToken",
+			Handler:    _StakeholdersService_ValidateToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

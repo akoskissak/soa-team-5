@@ -19,8 +19,8 @@ import (
 
 	"api-gateway/proto/blog"
 	"api-gateway/proto/follower"
-	"api-gateway/proto/stakeholders"
 	"api-gateway/utils"
+	stakeproto "stakeholders-service/proto/stakeholders"
 )
 
 const (
@@ -79,38 +79,46 @@ func main() {
 	mux := runtime.NewServeMux(
 		runtime.WithMarshalerOption(runtime.MIMEWildcard, jsonpb),
 		runtime.WithMetadata(func(ctx context.Context, req *http.Request) metadata.MD {
-			md, err := utils.AuthMetadata(req)
+			md, err := utils.AuthMetadata(ctx)
 			if err != nil {
+				log.Printf("Could not create auth metadata: %v", err)
 				return nil
 			}
 			return md
 		}),
 	)
 
+	stakeholdersConn, err := grpc.Dial("localhost:8081", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("failed to connect to stakeholders service for middleware: %v", err)
+	}
+	defer stakeholdersConn.Close()
+	stakeholdersClient := stakeproto.NewStakeholdersServiceClient(stakeholdersConn)
+
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-	err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "stakeholders-service:8081", opts)
-	//err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
+	//err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "stakeholders-service:8081", opts)
+	err = stakeproto.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
 	if err != nil {
 		log.Fatalf("failed to register stakeholders service: %v", err)
 	}
 
-	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "blog-service:8087", opts)
-	//err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "localhost:8087", opts)
+	//err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "blog-service:8087", opts)
+	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "localhost:8087", opts)
 	if err != nil {
 		log.Fatalf("failed to register blog service: %v", err)
 	}
 
-	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "follower-service:8084", opts)
-	//err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "localhost:8084", opts)
+	//err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "follower-service:8084", opts)
+	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "localhost:8084", opts)
 	if err != nil {
 		log.Fatalf("failed to register follower service: %v", err)
 	}
 
-	tourProxy := newReverseProxy("http://tours-service:8083")
-	//tourProxy := newReverseProxy("http://localhost:8083")
-	purchaseProxy := newReverseProxy("http://purchase-service:8088")
-	//purchaseProxy := newReverseProxy("http://localhost:8088")
+	//tourProxy := newReverseProxy("http://tours-service:8083")
+	tourProxy := newReverseProxy("http://localhost:8083")
+	//purchaseProxy := newReverseProxy("http://purchase-service:8088")
+	purchaseProxy := newReverseProxy("http://localhost:8088")
 
 	proxyHandlerFunc := func(proxy http.Handler) runtime.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {
@@ -144,7 +152,7 @@ func main() {
 	mux.HandlePath("GET", "/api/tourist/{touristId}/purchases", proxyHandlerFunc(purchaseProxy))
 
 	// CORS
-	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	/*headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
 	originsOk := handlers.AllowedOrigins([]string{"*"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"})
 
@@ -155,5 +163,32 @@ func main() {
 	log.Printf("server listening on port %s", port)
 	if err := http.ListenAndServe(port, finalHandlerWithLogging); err != nil {
 		log.Fatalf("could not start server: %v", err)
+	}*/
+
+	mainRouter := http.NewServeMux()
+
+	headersOk := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	originsOk := handlers.AllowedOrigins([]string{"*"})
+	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"})
+
+	apiHandler := utils.JWTMiddleware(mux, stakeholdersClient)
+	apiHandler = handlers.CORS(originsOk, headersOk, methodsOk)(apiHandler)
+	apiHandler = loggingHandler(apiHandler)
+
+	// Svi zahtjevi koji NISU za slike idu na ovaj handler koji ima JWT
+	mainRouter.Handle("/", apiHandler)
+
+	// --- 2. Handler za SLIKE (bez JWT provjere) ---
+	var uploadsHandler http.Handler = tourProxy
+
+	uploadsHandler = handlers.CORS(originsOk, headersOk, methodsOk)(uploadsHandler)
+	uploadsHandler = loggingHandler(uploadsHandler)
+
+	mainRouter.Handle("/uploads/", uploadsHandler)
+
+	log.Printf("server listening on port %s", port)
+	if err := http.ListenAndServe(port, mainRouter); err != nil {
+		log.Fatalf("could not start server: %v", err)
 	}
+
 }
