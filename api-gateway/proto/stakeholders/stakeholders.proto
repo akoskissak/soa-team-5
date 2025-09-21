@@ -67,6 +67,21 @@ rpc GetPosition(google.protobuf.Empty) returns (PositionResponse) {
     get: "/api/tourist/position"
     };
   }
+
+rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+
+}
+
+
+message ValidateTokenRequest {
+    string token = 1;
+}
+
+message ValidateTokenResponse {
+    bool isValid = 1;
+    string userId = 2;
+    string username = 3;
+    string role = 4;
 }
 
 message RegisterRequest {

@@ -23,6 +23,118 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ValidateTokenRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Token         string                 `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateTokenRequest) Reset() {
+	*x = ValidateTokenRequest{}
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateTokenRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateTokenRequest) ProtoMessage() {}
+
+func (x *ValidateTokenRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateTokenRequest.ProtoReflect.Descriptor instead.
+func (*ValidateTokenRequest) Descriptor() ([]byte, []int) {
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *ValidateTokenRequest) GetToken() string {
+	if x != nil {
+		return x.Token
+	}
+	return ""
+}
+
+type ValidateTokenResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	IsValid       bool                   `protobuf:"varint,1,opt,name=isValid,proto3" json:"isValid,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=userId,proto3" json:"userId,omitempty"`
+	Username      string                 `protobuf:"bytes,3,opt,name=username,proto3" json:"username,omitempty"`
+	Role          string                 `protobuf:"bytes,4,opt,name=role,proto3" json:"role,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ValidateTokenResponse) Reset() {
+	*x = ValidateTokenResponse{}
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ValidateTokenResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ValidateTokenResponse) ProtoMessage() {}
+
+func (x *ValidateTokenResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ValidateTokenResponse.ProtoReflect.Descriptor instead.
+func (*ValidateTokenResponse) Descriptor() ([]byte, []int) {
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *ValidateTokenResponse) GetIsValid() bool {
+	if x != nil {
+		return x.IsValid
+	}
+	return false
+}
+
+func (x *ValidateTokenResponse) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *ValidateTokenResponse) GetUsername() string {
+	if x != nil {
+		return x.Username
+	}
+	return ""
+}
+
+func (x *ValidateTokenResponse) GetRole() string {
+	if x != nil {
+		return x.Role
+	}
+	return ""
+}
+
 type RegisterRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
@@ -35,7 +147,7 @@ type RegisterRequest struct {
 
 func (x *RegisterRequest) Reset() {
 	*x = RegisterRequest{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[0]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +159,7 @@ func (x *RegisterRequest) String() string {
 func (*RegisterRequest) ProtoMessage() {}
 
 func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[0]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +172,7 @@ func (x *RegisterRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterRequest.ProtoReflect.Descriptor instead.
 func (*RegisterRequest) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{0}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *RegisterRequest) GetUsername() string {
@@ -100,7 +212,7 @@ type RegisterResponse struct {
 
 func (x *RegisterResponse) Reset() {
 	*x = RegisterResponse{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[1]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -112,7 +224,7 @@ func (x *RegisterResponse) String() string {
 func (*RegisterResponse) ProtoMessage() {}
 
 func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[1]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -125,7 +237,7 @@ func (x *RegisterResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterResponse.ProtoReflect.Descriptor instead.
 func (*RegisterResponse) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{1}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RegisterResponse) GetStatus() string {
@@ -145,7 +257,7 @@ type LoginRequest struct {
 
 func (x *LoginRequest) Reset() {
 	*x = LoginRequest{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[2]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -157,7 +269,7 @@ func (x *LoginRequest) String() string {
 func (*LoginRequest) ProtoMessage() {}
 
 func (x *LoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[2]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -170,7 +282,7 @@ func (x *LoginRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{2}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *LoginRequest) GetUsername() string {
@@ -196,7 +308,7 @@ type LoginResponse struct {
 
 func (x *LoginResponse) Reset() {
 	*x = LoginResponse{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[3]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -208,7 +320,7 @@ func (x *LoginResponse) String() string {
 func (*LoginResponse) ProtoMessage() {}
 
 func (x *LoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[3]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -221,7 +333,7 @@ func (x *LoginResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
 func (*LoginResponse) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{3}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *LoginResponse) GetAccessToken() string {
@@ -239,7 +351,7 @@ type GetAllUsersRequest struct {
 
 func (x *GetAllUsersRequest) Reset() {
 	*x = GetAllUsersRequest{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[4]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -251,7 +363,7 @@ func (x *GetAllUsersRequest) String() string {
 func (*GetAllUsersRequest) ProtoMessage() {}
 
 func (x *GetAllUsersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[4]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -264,7 +376,7 @@ func (x *GetAllUsersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllUsersRequest.ProtoReflect.Descriptor instead.
 func (*GetAllUsersRequest) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{4}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{6}
 }
 
 type GetAllUsersResponse struct {
@@ -276,7 +388,7 @@ type GetAllUsersResponse struct {
 
 func (x *GetAllUsersResponse) Reset() {
 	*x = GetAllUsersResponse{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[5]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -288,7 +400,7 @@ func (x *GetAllUsersResponse) String() string {
 func (*GetAllUsersResponse) ProtoMessage() {}
 
 func (x *GetAllUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[5]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -301,7 +413,7 @@ func (x *GetAllUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAllUsersResponse.ProtoReflect.Descriptor instead.
 func (*GetAllUsersResponse) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{5}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *GetAllUsersResponse) GetUsers() []*User {
@@ -321,7 +433,7 @@ type BlockUserRequest struct {
 
 func (x *BlockUserRequest) Reset() {
 	*x = BlockUserRequest{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[6]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -333,7 +445,7 @@ func (x *BlockUserRequest) String() string {
 func (*BlockUserRequest) ProtoMessage() {}
 
 func (x *BlockUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[6]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -346,7 +458,7 @@ func (x *BlockUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BlockUserRequest.ProtoReflect.Descriptor instead.
 func (*BlockUserRequest) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{6}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *BlockUserRequest) GetUserId() string {
@@ -372,7 +484,7 @@ type BlockUserResponse struct {
 
 func (x *BlockUserResponse) Reset() {
 	*x = BlockUserResponse{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[7]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -384,7 +496,7 @@ func (x *BlockUserResponse) String() string {
 func (*BlockUserResponse) ProtoMessage() {}
 
 func (x *BlockUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[7]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -397,7 +509,7 @@ func (x *BlockUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BlockUserResponse.ProtoReflect.Descriptor instead.
 func (*BlockUserResponse) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{7}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *BlockUserResponse) GetStatus() string {
@@ -416,7 +528,7 @@ type GetProfileByUsernameRequest struct {
 
 func (x *GetProfileByUsernameRequest) Reset() {
 	*x = GetProfileByUsernameRequest{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[8]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -428,7 +540,7 @@ func (x *GetProfileByUsernameRequest) String() string {
 func (*GetProfileByUsernameRequest) ProtoMessage() {}
 
 func (x *GetProfileByUsernameRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[8]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -441,7 +553,7 @@ func (x *GetProfileByUsernameRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProfileByUsernameRequest.ProtoReflect.Descriptor instead.
 func (*GetProfileByUsernameRequest) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{8}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *GetProfileByUsernameRequest) GetUsername() string {
@@ -459,7 +571,7 @@ type GetProfileRequest struct {
 
 func (x *GetProfileRequest) Reset() {
 	*x = GetProfileRequest{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[9]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -471,7 +583,7 @@ func (x *GetProfileRequest) String() string {
 func (*GetProfileRequest) ProtoMessage() {}
 
 func (x *GetProfileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[9]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -484,7 +596,7 @@ func (x *GetProfileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetProfileRequest.ProtoReflect.Descriptor instead.
 func (*GetProfileRequest) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{9}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{11}
 }
 
 type UpdateProfileRequest struct {
@@ -496,7 +608,7 @@ type UpdateProfileRequest struct {
 
 func (x *UpdateProfileRequest) Reset() {
 	*x = UpdateProfileRequest{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[10]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -508,7 +620,7 @@ func (x *UpdateProfileRequest) String() string {
 func (*UpdateProfileRequest) ProtoMessage() {}
 
 func (x *UpdateProfileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[10]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -521,7 +633,7 @@ func (x *UpdateProfileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProfileRequest.ProtoReflect.Descriptor instead.
 func (*UpdateProfileRequest) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{10}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *UpdateProfileRequest) GetProfile() *UserProfile {
@@ -540,7 +652,7 @@ type UpdateProfileResponse struct {
 
 func (x *UpdateProfileResponse) Reset() {
 	*x = UpdateProfileResponse{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[11]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -552,7 +664,7 @@ func (x *UpdateProfileResponse) String() string {
 func (*UpdateProfileResponse) ProtoMessage() {}
 
 func (x *UpdateProfileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[11]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -565,7 +677,7 @@ func (x *UpdateProfileResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateProfileResponse.ProtoReflect.Descriptor instead.
 func (*UpdateProfileResponse) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{11}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *UpdateProfileResponse) GetStatus() string {
@@ -589,7 +701,7 @@ type UserProfileResponse struct {
 
 func (x *UserProfileResponse) Reset() {
 	*x = UserProfileResponse{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[12]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -601,7 +713,7 @@ func (x *UserProfileResponse) String() string {
 func (*UserProfileResponse) ProtoMessage() {}
 
 func (x *UserProfileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[12]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -614,7 +726,7 @@ func (x *UserProfileResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserProfileResponse.ProtoReflect.Descriptor instead.
 func (*UserProfileResponse) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{12}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *UserProfileResponse) GetUsername() string {
@@ -669,7 +781,7 @@ type PositionRequest struct {
 
 func (x *PositionRequest) Reset() {
 	*x = PositionRequest{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[13]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -681,7 +793,7 @@ func (x *PositionRequest) String() string {
 func (*PositionRequest) ProtoMessage() {}
 
 func (x *PositionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[13]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -694,7 +806,7 @@ func (x *PositionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PositionRequest.ProtoReflect.Descriptor instead.
 func (*PositionRequest) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{13}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *PositionRequest) GetLat() float64 {
@@ -721,7 +833,7 @@ type PositionResponse struct {
 
 func (x *PositionResponse) Reset() {
 	*x = PositionResponse{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[14]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -733,7 +845,7 @@ func (x *PositionResponse) String() string {
 func (*PositionResponse) ProtoMessage() {}
 
 func (x *PositionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[14]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -746,7 +858,7 @@ func (x *PositionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PositionResponse.ProtoReflect.Descriptor instead.
 func (*PositionResponse) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{14}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *PositionResponse) GetLat() float64 {
@@ -776,7 +888,7 @@ type UserProfile struct {
 
 func (x *UserProfile) Reset() {
 	*x = UserProfile{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[15]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -788,7 +900,7 @@ func (x *UserProfile) String() string {
 func (*UserProfile) ProtoMessage() {}
 
 func (x *UserProfile) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[15]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -801,7 +913,7 @@ func (x *UserProfile) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserProfile.ProtoReflect.Descriptor instead.
 func (*UserProfile) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{15}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *UserProfile) GetFirstName() string {
@@ -853,7 +965,7 @@ type User struct {
 
 func (x *User) Reset() {
 	*x = User{}
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[16]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -865,7 +977,7 @@ func (x *User) String() string {
 func (*User) ProtoMessage() {}
 
 func (x *User) ProtoReflect() protoreflect.Message {
-	mi := &file_stakeholders_stakeholders_proto_msgTypes[16]
+	mi := &file_stakeholders_stakeholders_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -878,7 +990,7 @@ func (x *User) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
-	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{16}
+	return file_stakeholders_stakeholders_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *User) GetId() string {
@@ -927,7 +1039,14 @@ var File_stakeholders_stakeholders_proto protoreflect.FileDescriptor
 
 const file_stakeholders_stakeholders_proto_rawDesc = "" +
 	"\n" +
-	"\x1fstakeholders/stakeholders.proto\x12\fstakeholders\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\"s\n" +
+	"\x1fstakeholders/stakeholders.proto\x12\fstakeholders\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\",\n" +
+	"\x14ValidateTokenRequest\x12\x14\n" +
+	"\x05token\x18\x01 \x01(\tR\x05token\"y\n" +
+	"\x15ValidateTokenResponse\x12\x18\n" +
+	"\aisValid\x18\x01 \x01(\bR\aisValid\x12\x16\n" +
+	"\x06userId\x18\x02 \x01(\tR\x06userId\x12\x1a\n" +
+	"\busername\x18\x03 \x01(\tR\busername\x12\x12\n" +
+	"\x04role\x18\x04 \x01(\tR\x04role\"s\n" +
 	"\x0fRegisterRequest\x12\x1a\n" +
 	"\busername\x18\x01 \x01(\tR\busername\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x1a\n" +
@@ -980,7 +1099,7 @@ const file_stakeholders_stakeholders_proto_rawDesc = "" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x04 \x01(\tR\bpassword\x12\x12\n" +
 	"\x04role\x18\x05 \x01(\tR\x04role\x12\x1c\n" +
-	"\tisBlocked\x18\x06 \x01(\bR\tisBlocked2\xfb\a\n" +
+	"\tisBlocked\x18\x06 \x01(\bR\tisBlocked2\xd5\b\n" +
 	"\x13StakeholdersService\x12h\n" +
 	"\bRegister\x12\x1d.stakeholders.RegisterRequest\x1a\x1e.stakeholders.RegisterResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/auth/register\x12\\\n" +
 	"\x05Login\x12\x1a.stakeholders.LoginRequest\x1a\x1b.stakeholders.LoginResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/api/auth/login\x12l\n" +
@@ -991,7 +1110,8 @@ const file_stakeholders_stakeholders_proto_rawDesc = "" +
 	"GetProfile\x12\x1f.stakeholders.GetProfileRequest\x1a!.stakeholders.UserProfileResponse\"\x19\x82\xd3\xe4\x93\x02\x13\x12\x11/api/user/profile\x12v\n" +
 	"\rUpdateProfile\x12\".stakeholders.UpdateProfileRequest\x1a#.stakeholders.UpdateProfileResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\x1a\x11/api/user/profile\x12f\n" +
 	"\vSetPosition\x12\x1d.stakeholders.PositionRequest\x1a\x16.google.protobuf.Empty\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/tourist/position\x12d\n" +
-	"\vGetPosition\x12\x16.google.protobuf.Empty\x1a\x1e.stakeholders.PositionResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/api/tourist/positionB+Z)soa-team-5/api-gateway/proto/stakeholdersb\x06proto3"
+	"\vGetPosition\x12\x16.google.protobuf.Empty\x1a\x1e.stakeholders.PositionResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/api/tourist/position\x12X\n" +
+	"\rValidateToken\x12\".stakeholders.ValidateTokenRequest\x1a#.stakeholders.ValidateTokenResponseB+Z)soa-team-5/api-gateway/proto/stakeholdersb\x06proto3"
 
 var (
 	file_stakeholders_stakeholders_proto_rawDescOnce sync.Once
@@ -1005,50 +1125,54 @@ func file_stakeholders_stakeholders_proto_rawDescGZIP() []byte {
 	return file_stakeholders_stakeholders_proto_rawDescData
 }
 
-var file_stakeholders_stakeholders_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_stakeholders_stakeholders_proto_msgTypes = make([]protoimpl.MessageInfo, 19)
 var file_stakeholders_stakeholders_proto_goTypes = []any{
-	(*RegisterRequest)(nil),             // 0: stakeholders.RegisterRequest
-	(*RegisterResponse)(nil),            // 1: stakeholders.RegisterResponse
-	(*LoginRequest)(nil),                // 2: stakeholders.LoginRequest
-	(*LoginResponse)(nil),               // 3: stakeholders.LoginResponse
-	(*GetAllUsersRequest)(nil),          // 4: stakeholders.GetAllUsersRequest
-	(*GetAllUsersResponse)(nil),         // 5: stakeholders.GetAllUsersResponse
-	(*BlockUserRequest)(nil),            // 6: stakeholders.BlockUserRequest
-	(*BlockUserResponse)(nil),           // 7: stakeholders.BlockUserResponse
-	(*GetProfileByUsernameRequest)(nil), // 8: stakeholders.GetProfileByUsernameRequest
-	(*GetProfileRequest)(nil),           // 9: stakeholders.GetProfileRequest
-	(*UpdateProfileRequest)(nil),        // 10: stakeholders.UpdateProfileRequest
-	(*UpdateProfileResponse)(nil),       // 11: stakeholders.UpdateProfileResponse
-	(*UserProfileResponse)(nil),         // 12: stakeholders.UserProfileResponse
-	(*PositionRequest)(nil),             // 13: stakeholders.PositionRequest
-	(*PositionResponse)(nil),            // 14: stakeholders.PositionResponse
-	(*UserProfile)(nil),                 // 15: stakeholders.UserProfile
-	(*User)(nil),                        // 16: stakeholders.User
-	(*emptypb.Empty)(nil),               // 17: google.protobuf.Empty
+	(*ValidateTokenRequest)(nil),        // 0: stakeholders.ValidateTokenRequest
+	(*ValidateTokenResponse)(nil),       // 1: stakeholders.ValidateTokenResponse
+	(*RegisterRequest)(nil),             // 2: stakeholders.RegisterRequest
+	(*RegisterResponse)(nil),            // 3: stakeholders.RegisterResponse
+	(*LoginRequest)(nil),                // 4: stakeholders.LoginRequest
+	(*LoginResponse)(nil),               // 5: stakeholders.LoginResponse
+	(*GetAllUsersRequest)(nil),          // 6: stakeholders.GetAllUsersRequest
+	(*GetAllUsersResponse)(nil),         // 7: stakeholders.GetAllUsersResponse
+	(*BlockUserRequest)(nil),            // 8: stakeholders.BlockUserRequest
+	(*BlockUserResponse)(nil),           // 9: stakeholders.BlockUserResponse
+	(*GetProfileByUsernameRequest)(nil), // 10: stakeholders.GetProfileByUsernameRequest
+	(*GetProfileRequest)(nil),           // 11: stakeholders.GetProfileRequest
+	(*UpdateProfileRequest)(nil),        // 12: stakeholders.UpdateProfileRequest
+	(*UpdateProfileResponse)(nil),       // 13: stakeholders.UpdateProfileResponse
+	(*UserProfileResponse)(nil),         // 14: stakeholders.UserProfileResponse
+	(*PositionRequest)(nil),             // 15: stakeholders.PositionRequest
+	(*PositionResponse)(nil),            // 16: stakeholders.PositionResponse
+	(*UserProfile)(nil),                 // 17: stakeholders.UserProfile
+	(*User)(nil),                        // 18: stakeholders.User
+	(*emptypb.Empty)(nil),               // 19: google.protobuf.Empty
 }
 var file_stakeholders_stakeholders_proto_depIdxs = []int32{
-	16, // 0: stakeholders.GetAllUsersResponse.users:type_name -> stakeholders.User
-	15, // 1: stakeholders.UpdateProfileRequest.profile:type_name -> stakeholders.UserProfile
-	0,  // 2: stakeholders.StakeholdersService.Register:input_type -> stakeholders.RegisterRequest
-	2,  // 3: stakeholders.StakeholdersService.Login:input_type -> stakeholders.LoginRequest
-	4,  // 4: stakeholders.StakeholdersService.GetAllUsers:input_type -> stakeholders.GetAllUsersRequest
-	6,  // 5: stakeholders.StakeholdersService.BlockUser:input_type -> stakeholders.BlockUserRequest
-	8,  // 6: stakeholders.StakeholdersService.GetProfileByUsername:input_type -> stakeholders.GetProfileByUsernameRequest
-	9,  // 7: stakeholders.StakeholdersService.GetProfile:input_type -> stakeholders.GetProfileRequest
-	10, // 8: stakeholders.StakeholdersService.UpdateProfile:input_type -> stakeholders.UpdateProfileRequest
-	13, // 9: stakeholders.StakeholdersService.SetPosition:input_type -> stakeholders.PositionRequest
-	17, // 10: stakeholders.StakeholdersService.GetPosition:input_type -> google.protobuf.Empty
-	1,  // 11: stakeholders.StakeholdersService.Register:output_type -> stakeholders.RegisterResponse
-	3,  // 12: stakeholders.StakeholdersService.Login:output_type -> stakeholders.LoginResponse
-	5,  // 13: stakeholders.StakeholdersService.GetAllUsers:output_type -> stakeholders.GetAllUsersResponse
-	7,  // 14: stakeholders.StakeholdersService.BlockUser:output_type -> stakeholders.BlockUserResponse
-	12, // 15: stakeholders.StakeholdersService.GetProfileByUsername:output_type -> stakeholders.UserProfileResponse
-	12, // 16: stakeholders.StakeholdersService.GetProfile:output_type -> stakeholders.UserProfileResponse
-	11, // 17: stakeholders.StakeholdersService.UpdateProfile:output_type -> stakeholders.UpdateProfileResponse
-	17, // 18: stakeholders.StakeholdersService.SetPosition:output_type -> google.protobuf.Empty
-	14, // 19: stakeholders.StakeholdersService.GetPosition:output_type -> stakeholders.PositionResponse
-	11, // [11:20] is the sub-list for method output_type
-	2,  // [2:11] is the sub-list for method input_type
+	18, // 0: stakeholders.GetAllUsersResponse.users:type_name -> stakeholders.User
+	17, // 1: stakeholders.UpdateProfileRequest.profile:type_name -> stakeholders.UserProfile
+	2,  // 2: stakeholders.StakeholdersService.Register:input_type -> stakeholders.RegisterRequest
+	4,  // 3: stakeholders.StakeholdersService.Login:input_type -> stakeholders.LoginRequest
+	6,  // 4: stakeholders.StakeholdersService.GetAllUsers:input_type -> stakeholders.GetAllUsersRequest
+	8,  // 5: stakeholders.StakeholdersService.BlockUser:input_type -> stakeholders.BlockUserRequest
+	10, // 6: stakeholders.StakeholdersService.GetProfileByUsername:input_type -> stakeholders.GetProfileByUsernameRequest
+	11, // 7: stakeholders.StakeholdersService.GetProfile:input_type -> stakeholders.GetProfileRequest
+	12, // 8: stakeholders.StakeholdersService.UpdateProfile:input_type -> stakeholders.UpdateProfileRequest
+	15, // 9: stakeholders.StakeholdersService.SetPosition:input_type -> stakeholders.PositionRequest
+	19, // 10: stakeholders.StakeholdersService.GetPosition:input_type -> google.protobuf.Empty
+	0,  // 11: stakeholders.StakeholdersService.ValidateToken:input_type -> stakeholders.ValidateTokenRequest
+	3,  // 12: stakeholders.StakeholdersService.Register:output_type -> stakeholders.RegisterResponse
+	5,  // 13: stakeholders.StakeholdersService.Login:output_type -> stakeholders.LoginResponse
+	7,  // 14: stakeholders.StakeholdersService.GetAllUsers:output_type -> stakeholders.GetAllUsersResponse
+	9,  // 15: stakeholders.StakeholdersService.BlockUser:output_type -> stakeholders.BlockUserResponse
+	14, // 16: stakeholders.StakeholdersService.GetProfileByUsername:output_type -> stakeholders.UserProfileResponse
+	14, // 17: stakeholders.StakeholdersService.GetProfile:output_type -> stakeholders.UserProfileResponse
+	13, // 18: stakeholders.StakeholdersService.UpdateProfile:output_type -> stakeholders.UpdateProfileResponse
+	19, // 19: stakeholders.StakeholdersService.SetPosition:output_type -> google.protobuf.Empty
+	16, // 20: stakeholders.StakeholdersService.GetPosition:output_type -> stakeholders.PositionResponse
+	1,  // 21: stakeholders.StakeholdersService.ValidateToken:output_type -> stakeholders.ValidateTokenResponse
+	12, // [12:22] is the sub-list for method output_type
+	2,  // [2:12] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
 	2,  // [2:2] is the sub-list for extension extendee
 	0,  // [0:2] is the sub-list for field type_name
@@ -1065,7 +1189,7 @@ func file_stakeholders_stakeholders_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_stakeholders_stakeholders_proto_rawDesc), len(file_stakeholders_stakeholders_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   19,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
