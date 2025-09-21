@@ -4,12 +4,8 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"os"
 	"strings"
-	"time"
 
-	"github.com/golang-jwt/jwt/v5"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc/metadata"
 
 	stakeproto "stakeholders-service/proto/stakeholders"
@@ -22,19 +18,6 @@ const (
 	UsernameKey contextKey = "username"
 	RoleKey     contextKey = "role"
 )
-
-func GenerateJWT(username string, role string, userId primitive.ObjectID) (string, error) {
-	claims := jwt.MapClaims{
-		"username": username,
-		"role":     role,
-		"userId":   userId,
-		"exp":      time.Now().Add(time.Hour * 24).Unix(),
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	secret := []byte(os.Getenv("JWT_SECRET"))
-	return token.SignedString(secret)
-}
 
 func AuthMetadata(ctx context.Context) (metadata.MD, error) {
 	userId, ok1 := ctx.Value(UserIDKey).(string)
