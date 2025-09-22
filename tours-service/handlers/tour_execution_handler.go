@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 	"tours-service/database"
+	"tours-service/rest_clients"
 	"tours-service/models"
 	"tours-service/utils"
 
@@ -11,6 +12,12 @@ import (
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
+
+var purchaseClient *rest_clients.PurchaseClient
+
+func InitPurchaseClient(baseURL string) {
+	purchaseClient = rest_clients.NewPurchaseClient(baseURL)
+}
 
 func CreateTourExecution(c *gin.Context) {
 	claims, err := utils.GetClaimsFromGinContext2Args(c)
@@ -32,6 +39,15 @@ func CreateTourExecution(c *gin.Context) {
 		return
 	}
 
+	purchased, err := purchaseClient.HasPurchasedTour(userId, tourID.String())
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to verify purchase"})
+		return
+	}
+	if !purchased {
+		c.JSON(http.StatusForbidden, gin.H{"error": "you have not purchased this tour"})
+		return
+	}
 
 	if !IsTourAvailable(tourID) {
 		c.JSON(http.StatusForbidden, gin.H{"error": "tour is not available"})
@@ -105,7 +121,7 @@ func UpdateTourExecutionStatus(c *gin.Context) {
 		c.JSON(http.StatusForbidden, gin.H{"error": "cannot update tour execution"})
 		return
 	}
-	
+
 	execution.LastActivityAt = time.Now()
 	execution.Status = newStatus
 
@@ -195,7 +211,7 @@ func CheckTourLocation(c *gin.Context) {
 			}
 		}
 	}
-	
+
 	execution.LastActivityAt = time.Now()
 	if len(execution.CompletedKeyPoints) == len(checkpoints) && execution.Status != models.StatusCompleted {
 		execution.Status = models.StatusCompleted
@@ -208,54 +224,54 @@ func CheckTourLocation(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "location checked",
-		"newlyCompleted": newlyCompleted,
+		"message":            "location checked",
+		"newlyCompleted":     newlyCompleted,
 		"completedKeyPoints": execution.CompletedKeyPoints,
-		"status": execution.Status,
+		"status":             execution.Status,
 	})
 }
 
 func IsNearby(lat1, lon1, lat2, lon2 float64) bool {
-    const delta = 0.0001 // 11metara blizu
-    latDiff := lat1 - lat2
-    lonDiff := lon1 - lon2
+	const delta = 0.0001 // 11metara blizu
+	latDiff := lat1 - lat2
+	lonDiff := lon1 - lon2
 
-    if latDiff < 0 {
-        latDiff = -latDiff
-    }
-    if lonDiff < 0 {
-        lonDiff = -lonDiff
-    }
+	if latDiff < 0 {
+		latDiff = -latDiff
+	}
+	if lonDiff < 0 {
+		lonDiff = -lonDiff
+	}
 
-    return latDiff <= delta && lonDiff <= delta
+	return latDiff <= delta && lonDiff <= delta
 }
 
 func GetActiveTourExecution(c *gin.Context) {
-    claims, err := utils.GetClaimsFromGinContext2Args(c)
-    if err != nil {
-        c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
-        return
-    }
+	claims, err := utils.GetClaimsFromGinContext2Args(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "unauthorized"})
+		return
+	}
 
-    userId, ok := claims["userId"].(string)
-    if !ok {
-        c.JSON(http.StatusBadRequest, gin.H{"error": "invalid userId in token"})
-        return
-    }
+	userId, ok := claims["userId"].(string)
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid userId in token"})
+		return
+	}
 
-    var execution models.TourExecution
-    err = database.GORM_DB.Preload("CompletedKeyPoints").
-        Where("user_id = ? AND status = ?", userId, models.StatusInProgress).
-        First(&execution).Error
+	var execution models.TourExecution
+	err = database.GORM_DB.Preload("CompletedKeyPoints").
+		Where("user_id = ? AND status = ?", userId, models.StatusInProgress).
+		First(&execution).Error
 
-    if err != nil {
-        if err == gorm.ErrRecordNotFound {
-            c.JSON(http.StatusOK, nil)
-            return
-        }
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch active execution"})
-        return
-    }
+	if err != nil {
+		if err == gorm.ErrRecordNotFound {
+			c.JSON(http.StatusOK, nil)
+			return
+		}
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "failed to fetch active execution"})
+		return
+	}
 
-    c.JSON(http.StatusOK, execution)
+	c.JSON(http.StatusOK, execution)
 }

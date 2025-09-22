@@ -45,6 +45,8 @@ func main() {
 
 	database.Connect(connStr)
 
+	handlers.InitPurchaseClient("http://purchase-service:8088")
+
 	r := gin.Default()
 
 	r.Static("/uploads", "./static/uploads")
