@@ -19,8 +19,8 @@ import (
 
 	"api-gateway/proto/blog"
 	"api-gateway/proto/follower"
+	stakeproto "api-gateway/proto/stakeholders"
 	"api-gateway/utils"
-	stakeproto "stakeholders-service/proto/stakeholders"
 )
 
 const (
@@ -79,7 +79,12 @@ func main() {
 	mux := runtime.NewServeMux(
 		runtime.WithMarshalerOption(runtime.MIMEWildcard, jsonpb),
 		runtime.WithMetadata(func(ctx context.Context, req *http.Request) metadata.MD {
-			md, err := utils.AuthMetadata(ctx)
+			// za public rute ne salji
+			if req.URL.Path == "/api/auth/login" || req.URL.Path == "/api/auth/register" {
+				return nil
+			}
+
+			md, err := utils.AuthMetadata(req.Context())
 			if err != nil {
 				log.Printf("Could not create auth metadata: %v", err)
 				return nil
@@ -88,7 +93,8 @@ func main() {
 		}),
 	)
 
-	stakeholdersConn, err := grpc.Dial("localhost:8081", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	stakeholdersConn, err := grpc.Dial("stakeholders-service:8081", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	//stakeholdersConn, err := grpc.Dial("localhost:8081", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("failed to connect to stakeholders service for middleware: %v", err)
 	}
@@ -97,28 +103,28 @@ func main() {
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-	//err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "stakeholders-service:8081", opts)
-	err = stakeproto.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
+	err = stakeproto.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "stakeholders-service:8081", opts)
+	//err = stakeproto.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
 	if err != nil {
 		log.Fatalf("failed to register stakeholders service: %v", err)
 	}
 
-	//err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "blog-service:8087", opts)
-	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "localhost:8087", opts)
+	err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "blog-service:8087", opts)
+	//err = blog.RegisterBlogServiceHandlerFromEndpoint(ctx, mux, "localhost:8087", opts)
 	if err != nil {
 		log.Fatalf("failed to register blog service: %v", err)
 	}
 
-	//err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "follower-service:8084", opts)
-	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "localhost:8084", opts)
+	err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "follower-service:8084", opts)
+	//err = follower.RegisterFollowerServiceHandlerFromEndpoint(ctx, mux, "localhost:8084", opts)
 	if err != nil {
 		log.Fatalf("failed to register follower service: %v", err)
 	}
 
-	//tourProxy := newReverseProxy("http://tours-service:8083")
-	tourProxy := newReverseProxy("http://localhost:8083")
-	//purchaseProxy := newReverseProxy("http://purchase-service:8088")
-	purchaseProxy := newReverseProxy("http://localhost:8088")
+	tourProxy := newReverseProxy("http://tours-service:8083")
+	//tourProxy := newReverseProxy("http://localhost:8083")
+	purchaseProxy := newReverseProxy("http://purchase-service:8088")
+	//purchaseProxy := newReverseProxy("http://localhost:8088")
 
 	proxyHandlerFunc := func(proxy http.Handler) runtime.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request, pathParams map[string]string) {

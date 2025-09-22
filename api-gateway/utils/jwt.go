@@ -8,7 +8,7 @@ import (
 
 	"google.golang.org/grpc/metadata"
 
-	stakeproto "stakeholders-service/proto/stakeholders"
+	stakeproto "api-gateway/proto/stakeholders"
 )
 
 type contextKey string
