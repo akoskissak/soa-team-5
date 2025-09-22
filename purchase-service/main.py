@@ -139,6 +139,11 @@ def get_tourist_purchases(tourist_id: str, db: Session = Depends(get_db)):
     
     return purchases
 
+@app.get("/api/tourist/{tourist_id}/has-purchased/{tour_id}")
+def has_purchased(tourist_id: str, tour_id: str, db: Session = Depends(get_db)):
+    purchase = db.query(models.TourPurchaseToken).filter_by(tourist_id=tourist_id, tour_id=tour_id).first()
+    return {"purchased": bool(purchase)}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8088, reload=True)
