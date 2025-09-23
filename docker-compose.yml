@@ -76,6 +76,8 @@ services:
     depends_on:
       toursdb:
         condition: service_healthy
+      purchase-service:
+        condition: service_started
 
   purchase-service:
     build:
@@ -90,6 +92,11 @@ services:
     depends_on:
       purchasedb:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8088/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
 
   neo4j:
     image: neo4j:5
