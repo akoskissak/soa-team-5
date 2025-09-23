@@ -13,6 +13,7 @@ import (
 
 	stakeholdersutils "stakeholders-service/utils"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -36,6 +37,75 @@ func NewStakeholdersServer(mongoClient *mongo.Client) *StakeholdersServer {
 	return &StakeholdersServer{
 		mongoClient: mongoClient,
 	}
+}
+
+func (s *StakeholdersServer) ValidateToken(ctx context.Context, req *stakeproto.ValidateTokenRequest) (*stakeproto.ValidateTokenResponse, error) {
+	tokenStr := req.Token
+	if tokenStr == "" {
+		log.Printf("Empty token received")
+		return nil, status.Errorf(codes.InvalidArgument, "token is required")
+	}
+
+	log.Printf("Validating token: %s", tokenStr)
+
+	// 1. Parsiranje i validacija potpisa tokena
+	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			log.Printf("Unexpected signing method: %v", token.Header["alg"])
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return []byte(os.Getenv("JWT_SECRET")), nil
+	})
+
+	if err != nil {
+		log.Printf("Invalid token provided: %v", err)
+		return &stakeproto.ValidateTokenResponse{IsValid: false}, nil // Vraćamo da nije validan, ne grešku
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok || !token.Valid {
+		log.Printf("Token claims are invalid or token is not valid")
+		return &stakeproto.ValidateTokenResponse{IsValid: false}, nil
+	}
+
+	// 2. Izdvajanje podataka iz tokena
+	userIdStr, okUserId := claims["userId"].(string)
+	username, okUsername := claims["username"].(string)
+	role, okRole := claims["role"].(string)
+
+	if !okUserId || !okUsername || !okRole {
+		log.Printf("Token claims are missing required fields")
+		return &stakeproto.ValidateTokenResponse{IsValid: false}, nil
+	}
+
+	// 3. (NAJVAŽNIJI DEO) Provera u bazi da li korisnik postoji i da li je aktivan
+	objID, err := primitive.ObjectIDFromHex(userIdStr)
+	if err != nil {
+		log.Printf("Invalid userId format in token: %v", err)
+		return &stakeproto.ValidateTokenResponse{IsValid: false}, nil
+	}
+
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
+	var user models.User
+	// Proveravamo da li korisnik sa tim ID-jem postoji i da NIJE blokiran
+	err = collection.FindOne(ctx, bson.M{"_id": objID, "is_blocked": false}).Decode(&user)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			log.Printf("User from token not found or is blocked: %s", userIdStr)
+			return &stakeproto.ValidateTokenResponse{IsValid: false}, nil
+		}
+		log.Printf("Database error during token validation: %v", err)
+		return nil, status.Errorf(codes.Internal, "database error during validation")
+	}
+
+	// Ako su sve provere prošle, token je validan
+	log.Printf("Token validated successfully for user: %s", username)
+	return &stakeproto.ValidateTokenResponse{
+		IsValid:  true,
+		UserId:   userIdStr,
+		Username: username,
+		Role:     role,
+	}, nil
 }
 
 func (s *StakeholdersServer) Register(ctx context.Context, req *stakeproto.RegisterRequest) (*stakeproto.RegisterResponse, error) {
@@ -106,6 +176,7 @@ func (s *StakeholdersServer) Login(ctx context.Context, req *stakeproto.LoginReq
 		return nil, status.Errorf(codes.Internal, "failed to generate token")
 	}
 
+	log.Printf("User logged in successfully: %s", req.Username)
 	return &stakeproto.LoginResponse{
 		AccessToken: token,
 	}, nil

@@ -20,6 +20,7 @@ import (
 	"api-gateway/proto/blog"
 	"api-gateway/proto/follower"
 	"api-gateway/proto/stakeholders"
+	stakeproto "api-gateway/proto/stakeholders"
 	"api-gateway/utils"
 )
 
@@ -79,18 +80,33 @@ func main() {
 	mux := runtime.NewServeMux(
 		runtime.WithMarshalerOption(runtime.MIMEWildcard, jsonpb),
 		runtime.WithMetadata(func(ctx context.Context, req *http.Request) metadata.MD {
-			md, err := utils.AuthMetadata(req)
+			// za public rute ne salji
+			if req.URL.Path == "/api/auth/login" || req.URL.Path == "/api/auth/register" {
+				return nil
+			}
+
+			md, err := utils.AuthMetadata(req.Context())
 			if err != nil {
+				log.Printf("Could not create auth metadata: %v", err)
 				return nil
 			}
 			return md
 		}),
 	)
 
+	stakeholdersConn, err := grpc.Dial("stakeholders-service:8081", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	//stakeholdersConn, err := grpc.Dial("localhost:8081", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("failed to connect to stakeholders service for middleware: %v", err)
+	}
+	defer stakeholdersConn.Close()
+	stakeholdersClient := stakeproto.NewStakeholdersServiceClient(stakeholdersConn)
+
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
 	//err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "stakeholders-service:8081", opts)
 	err = stakeholders.RegisterStakeholdersServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
+
 	if err != nil {
 		log.Fatalf("failed to register stakeholders service: %v", err)
 	}
@@ -163,7 +179,7 @@ func main() {
 	originsOk := handlers.AllowedOrigins([]string{"*"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"})
 
-	apiHandler := utils.JWTMiddleware(mux)
+	apiHandler := utils.JWTMiddleware(mux, stakeholdersClient)
 	apiHandler = handlers.CORS(originsOk, headersOk, methodsOk)(apiHandler)
 	apiHandler = loggingHandler(apiHandler)
 

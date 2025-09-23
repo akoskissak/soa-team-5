@@ -17,8 +17,8 @@ func ConnectNeo4j(uri, user, pass string) {
 
 	var drv neo4j.DriverWithContext
 	var err error
-	maxRetries := 5
-	retryDelay := 3 * time.Second
+	maxRetries := 10
+	retryDelay := 8 * time.Second
 
 	for i := 1; i <= maxRetries; i++ {
 		drv, err = neo4j.NewDriverWithContext(uri, neo4j.BasicAuth(user, pass, ""))

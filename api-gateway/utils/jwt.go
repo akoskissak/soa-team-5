@@ -1,69 +1,41 @@
 package utils
 
 import (
+	"context"
 	"fmt"
 	"net/http"
-	"os"
 	"strings"
-	"time"
 
-	"github.com/golang-jwt/jwt/v5"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"google.golang.org/grpc/metadata"
+
+	stakeproto "api-gateway/proto/stakeholders"
 )
 
-func GenerateJWT(username string, role string, userId primitive.ObjectID) (string, error) {
-	claims := jwt.MapClaims{
-		"username": username,
-		"role":     role,
-		"userId":   userId,
-		"exp":      time.Now().Add(time.Hour * 24).Unix(),
+type contextKey string
+
+const (
+	UserIDKey   contextKey = "userId"
+	UsernameKey contextKey = "username"
+	RoleKey     contextKey = "role"
+)
+
+func AuthMetadata(ctx context.Context) (metadata.MD, error) {
+	userId, ok1 := ctx.Value(UserIDKey).(string)
+	username, ok2 := ctx.Value(UsernameKey).(string)
+	role, ok3 := ctx.Value(RoleKey).(string)
+
+	if !ok1 || !ok2 || !ok3 {
+		return nil, fmt.Errorf("missing user data in context")
 	}
 
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	secret := []byte(os.Getenv("JWT_SECRET"))
-	return token.SignedString(secret)
+	return metadata.Pairs(
+		"userId", userId,
+		"username", username,
+		"role", role,
+	), nil
 }
 
-func AuthMetadata(req *http.Request) (metadata.MD, error) {
-	publicPaths := map[string]bool{
-		"/api/auth/login":    true,
-		"/api/auth/register": true,
-	}
-
-	if publicPaths[req.URL.Path] {
-		return nil, nil
-	}
-
-	authHeader := req.Header.Get("Authorization")
-	if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
-		return nil, fmt.Errorf("missing or invalid Authorization header")
-	}
-
-	tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
-	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
-		return []byte(os.Getenv("JWT_SECRET")), nil
-	})
-
-	if err != nil || !token.Valid {
-		return nil, fmt.Errorf("invalid token: %v", err)
-	}
-
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		return metadata.Pairs(
-			"username", claims["username"].(string),
-			"userId", claims["userId"].(string),
-			"role", claims["role"].(string),
-		), nil
-	}
-
-	return nil, fmt.Errorf("unable to extract claims from token")
-}
-
-func JWTMiddleware(next http.Handler) http.Handler {
+func JWTMiddleware(next http.Handler, stakeholdersClient stakeproto.StakeholdersServiceClient) http.Handler {
 	publicPaths := map[string]bool{
 		"/api/auth/login":    true,
 		"/api/auth/register": true,
@@ -75,12 +47,31 @@ func JWTMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		md, err := AuthMetadata(r)
-		if err != nil || md == nil {
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		authHeader := r.Header.Get("Authorization")
+		if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+			http.Error(w, "Unauthorized: Missing or invalid Authorization header", http.StatusUnauthorized)
+			return
+		}
+		tokenStr := strings.TrimPrefix(authHeader, "Bearer ")
+
+		validateReq := &stakeproto.ValidateTokenRequest{Token: tokenStr}
+
+		validateRes, err := stakeholdersClient.ValidateToken(r.Context(), validateReq)
+
+		if err != nil {
+			http.Error(w, "Service unavailable", http.StatusServiceUnavailable)
 			return
 		}
 
-		next.ServeHTTP(w, r)
+		if !validateRes.IsValid {
+			http.Error(w, "Unauthorized: Invalid Token", http.StatusUnauthorized)
+			return
+		}
+
+		ctx := context.WithValue(r.Context(), UserIDKey, validateRes.UserId)
+		ctx = context.WithValue(ctx, UsernameKey, validateRes.Username)
+		ctx = context.WithValue(ctx, RoleKey, validateRes.Role)
+
+		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
