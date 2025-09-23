@@ -1,17 +1,36 @@
+from contextlib import asynccontextmanager
 from typing import List
 import uuid
 import httpx
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
+from nats.aio.client import Client as NATS
+from datetime import datetime
 
 # Ispravni importi
 import models, schemas
 from database import SessionLocal, engine
 
+from purchase_orchestrator import PurchaseOrchestrator
+
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+nc = NATS()
+orchestrator: PurchaseOrchestrator | None = None
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # startup
+    global orchestrator
+    await nc.connect("nats://nats:4222")
+    orchestrator = PurchaseOrchestrator(nc)
+    await orchestrator.subscribe()
+    yield
+    # shutdown
+    await nc.drain()
+
+app = FastAPI(lifespan=lifespan)
 
 # --- Dependency ---
 def get_db():
@@ -96,35 +115,38 @@ def remove_item_from_cart(tourist_id: str, tour_id: uuid.UUID, db: Session = Dep
 # --- API Rute za Checkout ---
 
 @app.post("/api/shopping-cart/{tourist_id}/checkout", response_model=List[schemas.TourPurchaseToken])
-def checkout(tourist_id: str, db: Session = Depends(get_db)):
+async def checkout(tourist_id: str, db: Session = Depends(get_db)):
     db_cart = db.query(models.ShoppingCart).filter(models.ShoppingCart.tourist_id == tourist_id).first()
     if not db_cart or not db_cart.items:
         raise HTTPException(status_code=404, detail="Shopping cart is empty or not found")
 
-    tokens = []
-    
+    tokens = []    
+    now = datetime.now()
     for item in db_cart.items:
         new_token = models.TourPurchaseToken(
             tour_id=item.tour_id,
             tourist_id=tourist_id,
             tour_name=item.tour_name,
             price = item.price,
-            token=str(uuid.uuid4()) 
+            token=str(uuid.uuid4()),
+            created_at = now
         )
         db.add(new_token)
         tokens.append(new_token)
 
-    for item in db_cart.items:
-        db.delete(item)
-    
-    db_cart.total_price = 0.0 
-    
     db.commit()
-    
     for token in tokens:
         db.refresh(token)
-    
-    return tokens
+
+    result = await orchestrator.startCheckout(tourist_id, tokens, db)
+
+    if (len(result) > 0):
+        db_cart.total_price = 0.0 
+        for item in db_cart.items:
+            db.delete(item)
+            db.commit()
+        
+    return result
 
 # --- API Rute za kupljene ture ---
 

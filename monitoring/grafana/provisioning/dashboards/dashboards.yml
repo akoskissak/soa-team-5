@@ -1,0 +1,7 @@
+apiVersion: 1
+
+providers:
+  - name: SOA monitoring
+    type: file
+    options:
+      path:  /var/lib/grafana/dashboards/soa-team-5

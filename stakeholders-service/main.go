@@ -8,12 +8,15 @@ import (
 	"os"
 	"stakeholders-service/db"
 	"stakeholders-service/handlers"
+	"time"
 
 	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
 	stakeproto "stakeholders-service/proto/stakeholders"
+
+	"github.com/nats-io/nats.go"
 )
 
 func main() {
@@ -32,6 +35,29 @@ func main() {
 			log.Printf("Failed to disconnect MongoDB client: %v", err)
 		}
 	}()
+
+	// natsURL := os.Getenv("NATS_URL")
+	// if natsURL == "" {
+	// 		natsURL = "nats://nats:4222"
+	// }
+	
+	// fmt.Println("NATS: ", natsURL)
+
+	var natsConn *nats.Conn
+	natsURL := os.Getenv("NATS_URL")
+	for i := 0; i < 10; i++ {
+			natsConn, err = nats.Connect(natsURL)
+			if err == nil {
+					break
+			}
+			log.Printf("Waiting for NATS to be ready... (%v)", err)
+			time.Sleep(2 * time.Second)
+	}
+	if err != nil {
+			log.Fatalf("Failed to connect to NATS after retries: %v", err)
+	}
+
+	defer natsConn.Close()
 
 	/*neo4jURI := os.Getenv("NEO4J_URI")
 	neo4jUser := os.Getenv("NEO4J_USER")
@@ -67,6 +93,8 @@ func main() {
 	grpcServer := grpc.NewServer()
 
 	stakeholdersServer := handlers.NewStakeholdersServer(mongoClient)
+
+	handlers.SubscribePurchaseCheckout(natsConn, stakeholdersServer)
 
 	stakeproto.RegisterStakeholdersServiceServer(grpcServer, stakeholdersServer)
 

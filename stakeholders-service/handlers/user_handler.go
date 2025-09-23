@@ -481,3 +481,74 @@ func (s *StakeholdersServer) GetPosition(ctx context.Context, _ *emptypb.Empty) 
 		Lng: user.Position.Lng,
 	}, nil
 }
+
+func (s *StakeholdersServer) AddBalance(ctx context.Context, req *stakeproto.UpdateBalanceRequest) (*stakeproto.UpdateBalanceResponse, error) {
+	if req.UserId == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "userId is required")
+	}
+	if req.Amount < 0 {
+		return nil, status.Errorf(codes.InvalidArgument, "amount must be greater than 0")
+	}
+
+	objID, err := primitive.ObjectIDFromHex(req.UserId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "invalid userId format")
+	}
+
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
+	update := bson.M{"$inc": bson.M{"balance": req.Amount}}
+	opts := options.FindOneAndUpdate().SetReturnDocument(options.After)
+
+	var updatedUser models.User
+	err = collection.FindOneAndUpdate(ctx, bson.M{"_id": objID}, update, opts).Decode(&updatedUser)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, status.Errorf(codes.NotFound, "user not found")
+		}
+		log.Printf("Failed to add balance: %v", err)
+		return nil, status.Errorf(codes.Internal, "failed to add balance")
+	}
+
+	log.Printf("Added %.2f to user %s balance", req.Amount, req.UserId)
+	return &stakeproto.UpdateBalanceResponse{
+		UserId: req.UserId,
+		Status: "COMPLETED",
+		Amount: req.Amount,
+	}, nil
+}
+
+func (s *StakeholdersServer) SubtractBalance(ctx context.Context, req *stakeproto.UpdateBalanceRequest) (*stakeproto.UpdateBalanceResponse, error) {
+	if req.UserId == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "userId is required")
+	}
+	if req.Amount < 0 {
+		return nil, status.Errorf(codes.InvalidArgument, "amount must be greater than 0")
+	}
+
+	objID, err := primitive.ObjectIDFromHex(req.UserId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument, "invalid userId format")
+	}
+
+	collection := s.mongoClient.Database("stakeholders").Collection("users")
+	filter := bson.M{"_id": objID, "balance": bson.M{"$gte": req.Amount}} //gte oznacava >=
+	update := bson.M{"$inc": bson.M{"balance": -req.Amount}}
+	opts := options.FindOneAndUpdate().SetReturnDocument(options.After)
+
+	var updatedUser models.User
+	err = collection.FindOneAndUpdate(ctx, filter, update, opts).Decode(&updatedUser)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return nil, status.Errorf(codes.FailedPrecondition, "insufficient funds or user not found")
+		}
+		log.Printf("Failed to subtract balance: %v", err)
+		return nil, status.Errorf(codes.Internal, "failed to subtract balance")
+	}
+
+	log.Printf("Subtracted %.2f from user %s balance", req.Amount, req.UserId)
+	return &stakeproto.UpdateBalanceResponse{
+		UserId: req.UserId,
+		Status: "COMPLETED",
+		Amount: req.Amount,
+	}, nil
+}

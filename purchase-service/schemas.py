@@ -38,9 +38,18 @@ class TourPurchaseTokenBase(BaseModel):
     token: uuid.UUID
     tour_name: str
     price: float
+    created_at: datetime
 
 class TourPurchaseToken(TourPurchaseTokenBase):
     id: int
     
     class Config:
         from_attributes = True
+
+class UpdateBalanceRequest(BaseModel):
+    userId: str
+    amount: float
+
+class UpdateBalanceResponse(BaseModel):
+    status: str
+    newBalance: float

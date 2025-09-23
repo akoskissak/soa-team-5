@@ -47,6 +47,8 @@ services:
     depends_on:
       neo4j:
         condition: service_healthy
+      nats:
+        condition: service_started
 
   follower-service:
     build:
@@ -92,6 +94,8 @@ services:
     depends_on:
       purchasedb:
         condition: service_healthy
+      nats:
+        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8088/health"]
       interval: 5s
@@ -171,6 +175,13 @@ services:
       timeout: 5s
       retries: 5
 
+  nats:
+    image: 'nats:latest'
+    ports:
+      - "4222:4222"
+    networks:
+      - backend_network
+      
 volumes:
   postgres_data:
   neo4j_data:

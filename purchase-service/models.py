@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import UUIDType
+from datetime import datetime
 
 from database import Base
 
@@ -34,3 +35,4 @@ class TourPurchaseToken(Base):
     tourist_id = Column(String, index=True) 
     tour_name = Column(String)
     price = Column(Float)
+    created_at = Column(DateTime(timezone=True), nullable=False)
