@@ -17,7 +17,9 @@ type User struct {
 	Password  string             `bson:"password,omitempty" json:"password,omitempty"`
 	Role      Role               `bson:"role" json:"role"`
 	IsBlocked bool               `bson:"is_blocked" json:"isBlocked"`
-
+	
 	Profile  UserProfile `bson:"profile" json:"profile"`
 	Position Position    `bson:"position,omitempty" json:"position,omitempty"`
+	
+	Balance   float64            `bson:"balance" json:"balance"`
 }

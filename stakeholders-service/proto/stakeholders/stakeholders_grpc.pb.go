@@ -30,6 +30,8 @@ const (
 	StakeholdersService_SetPosition_FullMethodName          = "/stakeholders.StakeholdersService/SetPosition"
 	StakeholdersService_GetPosition_FullMethodName          = "/stakeholders.StakeholdersService/GetPosition"
 	StakeholdersService_ValidateToken_FullMethodName        = "/stakeholders.StakeholdersService/ValidateToken"
+	StakeholdersService_AddBalance_FullMethodName           = "/stakeholders.StakeholdersService/AddBalance"
+	StakeholdersService_SubtractBalance_FullMethodName      = "/stakeholders.StakeholdersService/SubtractBalance"
 )
 
 // StakeholdersServiceClient is the client API for StakeholdersService service.
@@ -46,6 +48,8 @@ type StakeholdersServiceClient interface {
 	SetPosition(ctx context.Context, in *PositionRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetPosition(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*PositionResponse, error)
 	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
+	AddBalance(ctx context.Context, in *UpdateBalanceRequest, opts ...grpc.CallOption) (*UpdateBalanceResponse, error)
+	SubtractBalance(ctx context.Context, in *UpdateBalanceRequest, opts ...grpc.CallOption) (*UpdateBalanceResponse, error)
 }
 
 type stakeholdersServiceClient struct {
@@ -156,6 +160,26 @@ func (c *stakeholdersServiceClient) ValidateToken(ctx context.Context, in *Valid
 	return out, nil
 }
 
+func (c *stakeholdersServiceClient) AddBalance(ctx context.Context, in *UpdateBalanceRequest, opts ...grpc.CallOption) (*UpdateBalanceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateBalanceResponse)
+	err := c.cc.Invoke(ctx, StakeholdersService_AddBalance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *stakeholdersServiceClient) SubtractBalance(ctx context.Context, in *UpdateBalanceRequest, opts ...grpc.CallOption) (*UpdateBalanceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateBalanceResponse)
+	err := c.cc.Invoke(ctx, StakeholdersService_SubtractBalance_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // StakeholdersServiceServer is the server API for StakeholdersService service.
 // All implementations must embed UnimplementedStakeholdersServiceServer
 // for forward compatibility.
@@ -170,6 +194,8 @@ type StakeholdersServiceServer interface {
 	SetPosition(context.Context, *PositionRequest) (*emptypb.Empty, error)
 	GetPosition(context.Context, *emptypb.Empty) (*PositionResponse, error)
 	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
+	AddBalance(context.Context, *UpdateBalanceRequest) (*UpdateBalanceResponse, error)
+	SubtractBalance(context.Context, *UpdateBalanceRequest) (*UpdateBalanceResponse, error)
 	mustEmbedUnimplementedStakeholdersServiceServer()
 }
 
@@ -209,6 +235,12 @@ func (UnimplementedStakeholdersServiceServer) GetPosition(context.Context, *empt
 }
 func (UnimplementedStakeholdersServiceServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
+}
+func (UnimplementedStakeholdersServiceServer) AddBalance(context.Context, *UpdateBalanceRequest) (*UpdateBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddBalance not implemented")
+}
+func (UnimplementedStakeholdersServiceServer) SubtractBalance(context.Context, *UpdateBalanceRequest) (*UpdateBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubtractBalance not implemented")
 }
 func (UnimplementedStakeholdersServiceServer) mustEmbedUnimplementedStakeholdersServiceServer() {}
 func (UnimplementedStakeholdersServiceServer) testEmbeddedByValue()                             {}
@@ -411,6 +443,42 @@ func _StakeholdersService_ValidateToken_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _StakeholdersService_AddBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StakeholdersServiceServer).AddBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StakeholdersService_AddBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StakeholdersServiceServer).AddBalance(ctx, req.(*UpdateBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _StakeholdersService_SubtractBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(StakeholdersServiceServer).SubtractBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: StakeholdersService_SubtractBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(StakeholdersServiceServer).SubtractBalance(ctx, req.(*UpdateBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // StakeholdersService_ServiceDesc is the grpc.ServiceDesc for StakeholdersService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -457,6 +525,14 @@ var StakeholdersService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateToken",
 			Handler:    _StakeholdersService_ValidateToken_Handler,
+		},
+		{
+			MethodName: "AddBalance",
+			Handler:    _StakeholdersService_AddBalance_Handler,
+		},
+		{
+			MethodName: "SubtractBalance",
+			Handler:    _StakeholdersService_SubtractBalance_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

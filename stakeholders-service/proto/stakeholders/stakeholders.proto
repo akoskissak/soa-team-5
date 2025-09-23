@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package stakeholders;
 
-option go_package = "soa-team-5/api-gateway/proto/stakeholders";
+option go_package = "soa-team-5/stakeholders-service/proto/stakeholders";
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
@@ -69,6 +69,9 @@ rpc GetPosition(google.protobuf.Empty) returns (PositionResponse) {
   }
 
 rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+
+rpc AddBalance(UpdateBalanceRequest) returns (UpdateBalanceResponse);
+rpc SubtractBalance(UpdateBalanceRequest) returns (UpdateBalanceResponse);
 
 }
 
@@ -161,4 +164,16 @@ message User {
     string password = 4; 
     string role = 5;
     bool isBlocked = 6;
+}
+
+message UpdateBalanceRequest {
+  string userId = 1;
+  double amount = 2;
+  string command = 3;
+}
+
+message UpdateBalanceResponse {
+  string userId = 1;
+  double amount = 2;
+  string status = 3;
 }
