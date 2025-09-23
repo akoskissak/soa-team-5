@@ -42,12 +42,16 @@ func NewStakeholdersServer(mongoClient *mongo.Client) *StakeholdersServer {
 func (s *StakeholdersServer) ValidateToken(ctx context.Context, req *stakeproto.ValidateTokenRequest) (*stakeproto.ValidateTokenResponse, error) {
 	tokenStr := req.Token
 	if tokenStr == "" {
+		log.Printf("Empty token received")
 		return nil, status.Errorf(codes.InvalidArgument, "token is required")
 	}
+
+	log.Printf("Validating token: %s", tokenStr)
 
 	// 1. Parsiranje i validacija potpisa tokena
 	token, err := jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			log.Printf("Unexpected signing method: %v", token.Header["alg"])
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 		return []byte(os.Getenv("JWT_SECRET")), nil
@@ -172,6 +176,7 @@ func (s *StakeholdersServer) Login(ctx context.Context, req *stakeproto.LoginReq
 		return nil, status.Errorf(codes.Internal, "failed to generate token")
 	}
 
+	log.Printf("User logged in successfully: %s", req.Username)
 	return &stakeproto.LoginResponse{
 		AccessToken: token,
 	}, nil
