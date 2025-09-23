@@ -1,0 +1,9280 @@
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "675f86da3c2954734a92bf10742c2d8d",
+		"SpanID": "6720a0d1d7586ae5",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "675f86da3c2954734a92bf10742c2d8d",
+		"SpanID": "806b449e514eacab",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:28:15.1497368+02:00",
+	"EndTime": "2025-09-23T18:28:15.1556758+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"tours\" WHERE user_id = '68c26082339454bfee8b365c'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 16
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "tours-get-all",
+	"SpanContext": {
+		"TraceID": "675f86da3c2954734a92bf10742c2d8d",
+		"SpanID": "806b449e514eacab",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 1,
+	"StartTime": "2025-09-23T18:28:15.1465003+02:00",
+	"EndTime": "2025-09-23T18:28:15.1577687+02:00",
+	"Attributes": null,
+	"Events": [
+		{
+			"Name": "Getting claims from gin context",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:28:15.1465003+02:00"
+		},
+		{
+			"Name": "Retrieving tours from the database",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:28:15.1486221+02:00"
+		}
+	],
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 1,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours",
+	"SpanContext": {
+		"TraceID": "1bc923feb342de02f727d0e1f13e9308",
+		"SpanID": "ecd1060a1556cd39",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:28:15.1459968+02:00",
+	"EndTime": "2025-09-23T18:28:15.1577687+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 6881
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "da8b2d0829d72d95357f667f3be11e0f",
+		"SpanID": "8c4724d6cf37f06d",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:18.0989507+02:00",
+	"EndTime": "2025-09-23T18:29:18.1125057+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"tours\" (\"user_id\",\"name\",\"description\",\"difficulty\",\"tags\",\"status\",\"price\",\"distance\",\"published_at\",\"archived_at\",\"transportation\") VALUES ('68c26082339454bfee8b365c','tura ','opiiis','Easy','[\"tag\"]','Draft',0,0,NULL,NULL,'Car') RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "a8ebc00270e9aaad2687592144adcf6b",
+		"SpanID": "b353ce746943936c",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:18.1304998+02:00",
+	"EndTime": "2025-09-23T18:29:18.155765+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"key_points\" (\"name\",\"description\",\"latitude\",\"longitude\",\"image_path\",\"tour_id\",\"position\") VALUES ('kt','imeee',44.815047837591464,20.449333190917972,'/static\\uploads\\1758644958112700400_Snimak ekrana (2179).png','ed788683-655d-4449-a6f8-64be9fcb47d9',0),('kt','opiiis',44.81037152146612,20.461521148681644,'/static\\uploads\\1758644958120114200_Snimak ekrana (2182).png','ed788683-655d-4449-a6f8-64be9fcb47d9',0) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 2
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "b785dea5f3549c93cc3cc9e276c57fe4",
+		"SpanID": "d912ea2d6397bd4c",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:18.1562626+02:00",
+	"EndTime": "2025-09-23T18:29:18.1589082+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = 'ed788683-655d-4449-a6f8-64be9fcb47d9' ORDER BY position asc"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 2
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Update",
+	"SpanContext": {
+		"TraceID": "5e8f6314f0dcb4cd6d053f56d7cd86ba",
+		"SpanID": "b5a8ac4a32b8b682",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:18.1594096+02:00",
+	"EndTime": "2025-09-23T18:29:18.1659055+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "UPDATE \"tours\" SET \"distance\"=1.0930334541072073 WHERE id = 'ed788683-655d-4449-a6f8-64be9fcb47d9'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Delete",
+	"SpanContext": {
+		"TraceID": "b173e8e2c0cbf6cdcad0641038444a3f",
+		"SpanID": "04263dd2ee4025ba",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:18.1664084+02:00",
+	"EndTime": "2025-09-23T18:29:18.1687126+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "DELETE FROM \"required_times\" WHERE tour_id = 'ed788683-655d-4449-a6f8-64be9fcb47d9'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 0
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "76beb11f422ec3a47bd7cddf1d334807",
+		"SpanID": "7335896d0d2c6325",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:18.1687126+02:00",
+	"EndTime": "2025-09-23T18:29:18.1697405+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"required_times\" (\"tour_id\",\"transportation\",\"time_in_minutes\") VALUES ('ed788683-655d-4449-a6f8-64be9fcb47d9','Walking',13),('ed788683-655d-4449-a6f8-64be9fcb47d9','Bicycle',4),('ed788683-655d-4449-a6f8-64be9fcb47d9','Car',2) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "POST /api/tours",
+	"SpanContext": {
+		"TraceID": "896a990961ccef1637e83d4badfa1869",
+		"SpanID": "b00872550b0a2e6a",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:29:18.0714576+02:00",
+	"EndTime": "2025-09-23T18:29:18.173388+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "POST"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 835
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 201
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "045bc3873cc457fd0b14359a956dc03e",
+		"SpanID": "863e627783bbed7d",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "045bc3873cc457fd0b14359a956dc03e",
+		"SpanID": "d5c05b9e71c029c0",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:22.2907146+02:00",
+	"EndTime": "2025-09-23T18:29:22.2969696+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"tours\" WHERE user_id = '68c26082339454bfee8b365c'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 17
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "tours-get-all",
+	"SpanContext": {
+		"TraceID": "045bc3873cc457fd0b14359a956dc03e",
+		"SpanID": "d5c05b9e71c029c0",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 1,
+	"StartTime": "2025-09-23T18:29:22.2907146+02:00",
+	"EndTime": "2025-09-23T18:29:22.2973097+02:00",
+	"Attributes": null,
+	"Events": [
+		{
+			"Name": "Getting claims from gin context",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:29:22.2907146+02:00"
+		},
+		{
+			"Name": "Retrieving tours from the database",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:29:22.2907146+02:00"
+		}
+	],
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 1,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours",
+	"SpanContext": {
+		"TraceID": "adf7cb448e675e2edd17d6d07a006787",
+		"SpanID": "d21604013e0e5d69",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:29:22.2907146+02:00",
+	"EndTime": "2025-09-23T18:29:22.2991759+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 7153
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "ab94ae9c48435786dee0ff304fdd73f5",
+		"SpanID": "c8a3dd4b4a0eaac7",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:31.4436925+02:00",
+	"EndTime": "2025-09-23T18:29:31.4711738+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = 'ed788683-655d-4449-a6f8-64be9fcb47d9'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 2
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours/:tourId/keypoints",
+	"SpanContext": {
+		"TraceID": "d0ce5ccb21ef02fbf1f8e91ba791da40",
+		"SpanID": "b0e2fd000adc838b",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:29:31.4399173+02:00",
+	"EndTime": "2025-09-23T18:29:31.4722957+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/ed788683-655d-4449-a6f8-64be9fcb47d9/keypoints"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/:tourId/keypoints"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 559
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Row",
+	"SpanContext": {
+		"TraceID": "257c99b663a920e38a9c0db8a5f14dda",
+		"SpanID": "d0ac611a9eb26843",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:44.3754339+02:00",
+	"EndTime": "2025-09-23T18:29:44.3797924+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT COALESCE(MAX(position), -1) FROM \"key_points\" WHERE tour_id = 'ed788683-655d-4449-a6f8-64be9fcb47d9'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "f950ae949e4b01d0012ba2838ae4e670",
+		"SpanID": "bd591d2ebeb4d85d",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:44.3812655+02:00",
+	"EndTime": "2025-09-23T18:29:44.3838316+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"key_points\" (\"name\",\"description\",\"latitude\",\"longitude\",\"image_path\",\"tour_id\",\"position\") VALUES ('ime','opis',44.82281193735367,20.471477508544925,'static\\uploads\\1758644984367385400_Snimak ekrana (2181).png','ed788683-655d-4449-a6f8-64be9fcb47d9',1) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "POST /api/keypoints",
+	"SpanContext": {
+		"TraceID": "c96cdb763eb32b4110b2353ad6ff0b9d",
+		"SpanID": "6e9bec2eebf24ca5",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:29:44.3361567+02:00",
+	"EndTime": "2025-09-23T18:29:44.3843858+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "POST"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/keypoints"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/keypoints"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 276
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 201
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "16b110aec2d8f21dda142012eb6e5a67",
+		"SpanID": "efd02957e0d05562",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:44.3906797+02:00",
+	"EndTime": "2025-09-23T18:29:44.3915034+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = 'ed788683-655d-4449-a6f8-64be9fcb47d9' ORDER BY position asc"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Update",
+	"SpanContext": {
+		"TraceID": "451c3f783ab4de10f6fea6882e5da501",
+		"SpanID": "42286cd3ddd58c2b",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:44.3926322+02:00",
+	"EndTime": "2025-09-23T18:29:44.3968938+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "UPDATE \"tours\" SET \"distance\"=2.68372658952077 WHERE id = 'ed788683-655d-4449-a6f8-64be9fcb47d9'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Delete",
+	"SpanContext": {
+		"TraceID": "7a7a43cf9e52e0fda0201a06e741314b",
+		"SpanID": "0b5ecfb912921a19",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:44.3968938+02:00",
+	"EndTime": "2025-09-23T18:29:44.3983864+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "DELETE FROM \"required_times\" WHERE tour_id = 'ed788683-655d-4449-a6f8-64be9fcb47d9'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "2b05bd7ad77fc1af896921d4fc446d23",
+		"SpanID": "a972bfbadd162f29",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:44.3983864+02:00",
+	"EndTime": "2025-09-23T18:29:44.4144934+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"required_times\" (\"tour_id\",\"transportation\",\"time_in_minutes\") VALUES ('ed788683-655d-4449-a6f8-64be9fcb47d9','Walking',32),('ed788683-655d-4449-a6f8-64be9fcb47d9','Bicycle',11),('ed788683-655d-4449-a6f8-64be9fcb47d9','Car',4) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "d0dafd81dc62e454cfd0eb2dab4167f7",
+		"SpanID": "0becc2c7c7177b82",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "d0dafd81dc62e454cfd0eb2dab4167f7",
+		"SpanID": "14c85ed2c43d8e26",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:29:51.4790011+02:00",
+	"EndTime": "2025-09-23T18:29:51.4846993+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"tours\" WHERE user_id = '68c26082339454bfee8b365c'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 17
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "tours-get-all",
+	"SpanContext": {
+		"TraceID": "d0dafd81dc62e454cfd0eb2dab4167f7",
+		"SpanID": "14c85ed2c43d8e26",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 1,
+	"StartTime": "2025-09-23T18:29:51.4784969+02:00",
+	"EndTime": "2025-09-23T18:29:51.4851134+02:00",
+	"Attributes": null,
+	"Events": [
+		{
+			"Name": "Getting claims from gin context",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:29:51.4784969+02:00"
+		},
+		{
+			"Name": "Retrieving tours from the database",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:29:51.4790011+02:00"
+		}
+	],
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 1,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours",
+	"SpanContext": {
+		"TraceID": "42763a6d145a4690e5c08a859088a56c",
+		"SpanID": "72937a11921f1f86",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:29:51.4784969+02:00",
+	"EndTime": "2025-09-23T18:29:51.4851134+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 7151
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "4361e8f88ed5807e627b228f26c5d131",
+		"SpanID": "599b9e9e37f8e5a8",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:30:52.0844026+02:00",
+	"EndTime": "2025-09-23T18:30:52.0862239+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"tours\" (\"user_id\",\"name\",\"description\",\"difficulty\",\"tags\",\"status\",\"price\",\"distance\",\"published_at\",\"archived_at\",\"transportation\") VALUES ('68c26082339454bfee8b365c','marija','opis','Easy','[\"tag\"]','Draft',0,0,NULL,NULL,'Car') RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "9db4e459cec08e9286bf66100d4e3bb0",
+		"SpanID": "bce3421c1a084149",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:30:52.1038952+02:00",
+	"EndTime": "2025-09-23T18:30:52.1048941+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"key_points\" (\"name\",\"description\",\"latitude\",\"longitude\",\"image_path\",\"tour_id\",\"position\") VALUES ('kt','opis',44.8102497373454,20.446758270263675,'/static\\uploads\\1758645052086223900_Snimak ekrana (2183).png','ec47df20-2539-4c7a-9046-bc32f4c5a8d8',0),('kt2','opis2',44.80817936795001,20.466499328613285,'/static\\uploads\\1758645052094315000_Snimak ekrana (2183).png','ec47df20-2539-4c7a-9046-bc32f4c5a8d8',0) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 2
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "4fc477d518ad3d18bd6a4a2723a3af08",
+		"SpanID": "8e387f701887e76d",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:30:52.1048941+02:00",
+	"EndTime": "2025-09-23T18:30:52.1057624+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8' ORDER BY position asc"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 2
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Update",
+	"SpanContext": {
+		"TraceID": "2514b6ef54fea186814984de0a5794f5",
+		"SpanID": "a864087e53c33a28",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:30:52.1102132+02:00",
+	"EndTime": "2025-09-23T18:30:52.1113+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "UPDATE \"tours\" SET \"distance\"=1.5742577744448325 WHERE id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Delete",
+	"SpanContext": {
+		"TraceID": "eeab8389c3188d0c437115b614ea40e1",
+		"SpanID": "8e3e91dc61f9ed7e",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:30:52.1118012+02:00",
+	"EndTime": "2025-09-23T18:30:52.1130225+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "DELETE FROM \"required_times\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 0
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "f6236fb8b7dbb86c5ad0ccf0cc0e94ca",
+		"SpanID": "3dfdf723e4cf033f",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:30:52.1130225+02:00",
+	"EndTime": "2025-09-23T18:30:52.1140778+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"required_times\" (\"tour_id\",\"transportation\",\"time_in_minutes\") VALUES ('ec47df20-2539-4c7a-9046-bc32f4c5a8d8','Walking',19),('ec47df20-2539-4c7a-9046-bc32f4c5a8d8','Bicycle',6),('ec47df20-2539-4c7a-9046-bc32f4c5a8d8','Car',2) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "POST /api/tours",
+	"SpanContext": {
+		"TraceID": "5eb72eb30ea3b9319d2431c57be2aac6",
+		"SpanID": "a009ff84925f6344",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:30:52.0479291+02:00",
+	"EndTime": "2025-09-23T18:30:52.1150226+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "POST"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 831
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 201
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "4dba794650d159ab074ac5aebc165c84",
+		"SpanID": "2f8cada0293782ca",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "4dba794650d159ab074ac5aebc165c84",
+		"SpanID": "19edb607e4187512",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:30:56.6254841+02:00",
+	"EndTime": "2025-09-23T18:30:56.6287585+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"tours\" WHERE user_id = '68c26082339454bfee8b365c'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 18
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "tours-get-all",
+	"SpanContext": {
+		"TraceID": "4dba794650d159ab074ac5aebc165c84",
+		"SpanID": "19edb607e4187512",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 1,
+	"StartTime": "2025-09-23T18:30:56.6239457+02:00",
+	"EndTime": "2025-09-23T18:30:56.6292589+02:00",
+	"Attributes": null,
+	"Events": [
+		{
+			"Name": "Getting claims from gin context",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:30:56.6239457+02:00"
+		},
+		{
+			"Name": "Retrieving tours from the database",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:30:56.6254841+02:00"
+		}
+	],
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 1,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours",
+	"SpanContext": {
+		"TraceID": "11458095820910c69cfed671214ba234",
+		"SpanID": "4e38bd4611f2ad34",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:30:56.6239457+02:00",
+	"EndTime": "2025-09-23T18:30:56.6293848+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 7422
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "b8d7bdd48ad40f5ba02a85f4b9f15ae3",
+		"SpanID": "5c59b32a9467e574",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:06.7386097+02:00",
+	"EndTime": "2025-09-23T18:31:06.7500937+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"tours\" WHERE id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8' ORDER BY \"tours\".\"id\" LIMIT 1"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "861a152ae25d8d7a6404739d04e6efd7",
+		"SpanID": "5b81cda58475cd03",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:06.7500937+02:00",
+	"EndTime": "2025-09-23T18:31:06.7522662+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT count(*) FROM \"key_points\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "10f23e74136b5c6574334199753489c8",
+		"SpanID": "b2037da6dbdca3bf",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:06.7522662+02:00",
+	"EndTime": "2025-09-23T18:31:06.7532703+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"required_times\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Update",
+	"SpanContext": {
+		"TraceID": "c31e21973c0195602e0f5c68476cbdcb",
+		"SpanID": "d988307171c3a5cc",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:06.7543843+02:00",
+	"EndTime": "2025-09-23T18:31:06.7571+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "UPDATE \"tours\" SET \"user_id\"='68c26082339454bfee8b365c',\"name\"='marija',\"description\"='opis',\"difficulty\"='Easy',\"tags\"='[\"tag\"]',\"status\"='Published',\"price\"=0,\"distance\"=1.5742577744448325,\"published_at\"='2025-09-23 18:31:06.753',\"archived_at\"=NULL,\"transportation\"='Car' WHERE \"id\" = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "PATCH /api/tours/:tourId/publish",
+	"SpanContext": {
+		"TraceID": "ad21896c663156e5694f5711bba8f8f5",
+		"SpanID": "365c742a5e50e44d",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:31:06.7386097+02:00",
+	"EndTime": "2025-09-23T18:31:06.7576009+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "PATCH"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/ec47df20-2539-4c7a-9046-bc32f4c5a8d8/publish"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/:tourId/publish"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 305
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "bcfd4a43b3bdd0f6e9fb890a97264c3f",
+		"SpanID": "466b76899dd78305",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:09.0792988+02:00",
+	"EndTime": "2025-09-23T18:31:09.0805883+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 2
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours/:tourId/keypoints",
+	"SpanContext": {
+		"TraceID": "2e591f09c3973d475b58c9f38f98042b",
+		"SpanID": "0d4468c6cb615343",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:31:09.0792988+02:00",
+	"EndTime": "2025-09-23T18:31:09.0805883+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/ec47df20-2539-4c7a-9046-bc32f4c5a8d8/keypoints"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/:tourId/keypoints"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 556
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Row",
+	"SpanContext": {
+		"TraceID": "a14c317c7b080f496836f29cddb669db",
+		"SpanID": "aed98a14820f07de",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:23.9238172+02:00",
+	"EndTime": "2025-09-23T18:31:23.9297836+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT COALESCE(MAX(position), -1) FROM \"key_points\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "1f6787af41d03359e800bef9774eaa02",
+		"SpanID": "6118ebc4f5bb8472",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:23.9316782+02:00",
+	"EndTime": "2025-09-23T18:31:23.9335285+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"key_points\" (\"name\",\"description\",\"latitude\",\"longitude\",\"image_path\",\"tour_id\",\"position\") VALUES ('kt3','opis',44.83401255945056,20.527610778808597,'static\\uploads\\1758645083918393000_Snimak ekrana (2181).png','ec47df20-2539-4c7a-9046-bc32f4c5a8d8',1) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "POST /api/keypoints",
+	"SpanContext": {
+		"TraceID": "d0d86b85f3d2f0f6ba069bf1218b58e1",
+		"SpanID": "8f1d7d364b882066",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:31:23.8988931+02:00",
+	"EndTime": "2025-09-23T18:31:23.9335285+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "POST"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/keypoints"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/keypoints"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 276
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 201
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "9f6e23c7e2622a36a5d86d6a79e776a5",
+		"SpanID": "576edc4a6f692fca",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:23.9606151+02:00",
+	"EndTime": "2025-09-23T18:31:23.9657429+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8' ORDER BY position asc"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Update",
+	"SpanContext": {
+		"TraceID": "085307695a713ba4c7ac2eeec6392c9d",
+		"SpanID": "90ce8c047806bba4",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:23.966156+02:00",
+	"EndTime": "2025-09-23T18:31:23.9687601+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "UPDATE \"tours\" SET \"distance\"=7.185272492165993 WHERE id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Delete",
+	"SpanContext": {
+		"TraceID": "6e176677645a3a2cc932fcb425549771",
+		"SpanID": "163d7c901392967f",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:23.9687601+02:00",
+	"EndTime": "2025-09-23T18:31:23.9696957+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "DELETE FROM \"required_times\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "58798d5f7994bca199c1e3b02340026c",
+		"SpanID": "129072c3345f20f2",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:23.9696957+02:00",
+	"EndTime": "2025-09-23T18:31:23.9723523+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"required_times\" (\"tour_id\",\"transportation\",\"time_in_minutes\") VALUES ('ec47df20-2539-4c7a-9046-bc32f4c5a8d8','Walking',86),('ec47df20-2539-4c7a-9046-bc32f4c5a8d8','Bicycle',29),('ec47df20-2539-4c7a-9046-bc32f4c5a8d8','Car',11) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "6beb9ff13d4baf8275375ae87cdf9338",
+		"SpanID": "64247eda0c48b019",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "6beb9ff13d4baf8275375ae87cdf9338",
+		"SpanID": "28675491b7721c44",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:31:28.841382+02:00",
+	"EndTime": "2025-09-23T18:31:28.8448523+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"tours\" WHERE user_id = '68c26082339454bfee8b365c'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 18
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "tours-get-all",
+	"SpanContext": {
+		"TraceID": "6beb9ff13d4baf8275375ae87cdf9338",
+		"SpanID": "28675491b7721c44",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 1,
+	"StartTime": "2025-09-23T18:31:28.840885+02:00",
+	"EndTime": "2025-09-23T18:31:28.8449441+02:00",
+	"Attributes": null,
+	"Events": [
+		{
+			"Name": "Getting claims from gin context",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:31:28.840885+02:00"
+		},
+		{
+			"Name": "Retrieving tours from the database",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:31:28.841382+02:00"
+		}
+	],
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 1,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours",
+	"SpanContext": {
+		"TraceID": "f44505d9998d8b0ba6a96c4e08bbcb4b",
+		"SpanID": "a98221aa603bdb64",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:31:28.840885+02:00",
+	"EndTime": "2025-09-23T18:31:28.8449441+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 59889
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 7454
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "28996c57a446ea2bf5a05ce347e98aa6",
+		"SpanID": "91b1b70687e7a463",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "28996c57a446ea2bf5a05ce347e98aa6",
+		"SpanID": "801a93116c0d3223",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:39:32.1894289+02:00",
+	"EndTime": "2025-09-23T18:39:32.2096471+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"tours\" WHERE user_id = '68c26082339454bfee8b365c'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 18
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "tours-get-all",
+	"SpanContext": {
+		"TraceID": "28996c57a446ea2bf5a05ce347e98aa6",
+		"SpanID": "801a93116c0d3223",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 1,
+	"StartTime": "2025-09-23T18:39:32.1889296+02:00",
+	"EndTime": "2025-09-23T18:39:32.2106472+02:00",
+	"Attributes": null,
+	"Events": [
+		{
+			"Name": "Getting claims from gin context",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:39:32.1889296+02:00"
+		},
+		{
+			"Name": "Retrieving tours from the database",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:39:32.1894289+02:00"
+		}
+	],
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 1,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours",
+	"SpanContext": {
+		"TraceID": "28234aa79123e72d534a627d0fbb11c3",
+		"SpanID": "1aa2c86b1fb8cfe9",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:39:32.1889296+02:00",
+	"EndTime": "2025-09-23T18:39:32.2106472+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 60351
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 7454
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "faafc99dc840c382cfe89506cf11a616",
+		"SpanID": "b7d20dc73359cb09",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:39:38.0401234+02:00",
+	"EndTime": "2025-09-23T18:39:38.0422597+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours/:tourId/keypoints",
+	"SpanContext": {
+		"TraceID": "ecaebef59393f67dfe47421248c91d86",
+		"SpanID": "a977eedba0f3a7b0",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:39:38.0395357+02:00",
+	"EndTime": "2025-09-23T18:39:38.0422597+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 60351
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/ec47df20-2539-4c7a-9046-bc32f4c5a8d8/keypoints"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/:tourId/keypoints"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 833
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Row",
+	"SpanContext": {
+		"TraceID": "2c462bac563b484451cfea34214f81a6",
+		"SpanID": "e607b69629ec4096",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:39:51.3814565+02:00",
+	"EndTime": "2025-09-23T18:39:51.3852306+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT COALESCE(MAX(position), -1) FROM \"key_points\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "b7bcccaf4e5a910c8eb46f8f10b2a079",
+		"SpanID": "aa861810f801ccfb",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:39:51.3859401+02:00",
+	"EndTime": "2025-09-23T18:39:51.3883485+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"key_points\" (\"name\",\"description\",\"latitude\",\"longitude\",\"image_path\",\"tour_id\",\"position\") VALUES ('kt4','opiiis',44.81294871836055,20.431823730468754,'static\\uploads\\1758645591367251600_Snimak ekrana (2181).png','ec47df20-2539-4c7a-9046-bc32f4c5a8d8',2) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "POST /api/keypoints",
+	"SpanContext": {
+		"TraceID": "30e45ee97badcd08e04351b589130c59",
+		"SpanID": "6076189354a8043f",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:39:51.3530119+02:00",
+	"EndTime": "2025-09-23T18:39:51.3883485+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "POST"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 60351
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/keypoints"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/keypoints"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 278
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 201
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "2d4d608a52d0f6849ba7aee740f732f0",
+		"SpanID": "27b4dc17ac6d47c1",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:39:51.3883485+02:00",
+	"EndTime": "2025-09-23T18:39:51.3898109+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8' ORDER BY position asc"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 4
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Update",
+	"SpanContext": {
+		"TraceID": "18e0fe817585fffea2772bc86c189450",
+		"SpanID": "baba2de4de3cde12",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:39:51.3906827+02:00",
+	"EndTime": "2025-09-23T18:39:51.3953933+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "UPDATE \"tours\" SET \"distance\"=15.09460993399276 WHERE id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Delete",
+	"SpanContext": {
+		"TraceID": "ea024ed27825dcf71a1e9aacd69711ab",
+		"SpanID": "1195728c8466a0b7",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:39:51.3958301+02:00",
+	"EndTime": "2025-09-23T18:39:51.4031239+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "DELETE FROM \"required_times\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "75f06048e84452b1e7b1900811eb5ed8",
+		"SpanID": "0d3d79cb3aa59edd",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:39:51.4031239+02:00",
+	"EndTime": "2025-09-23T18:39:51.4119635+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"required_times\" (\"tour_id\",\"transportation\",\"time_in_minutes\") VALUES ('ec47df20-2539-4c7a-9046-bc32f4c5a8d8','Walking',181),('ec47df20-2539-4c7a-9046-bc32f4c5a8d8','Bicycle',60),('ec47df20-2539-4c7a-9046-bc32f4c5a8d8','Car',23) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "8f83811431eb7fdc54b183f051f167d3",
+		"SpanID": "5927a6187afca37f",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:39:53.239226+02:00",
+	"EndTime": "2025-09-23T18:39:53.2397044+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = 'ec47df20-2539-4c7a-9046-bc32f4c5a8d8'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 4
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours/:tourId/keypoints",
+	"SpanContext": {
+		"TraceID": "63909b179410d012fec026dfba963d24",
+		"SpanID": "17c1abcb1a22e1fa",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:39:53.2392008+02:00",
+	"EndTime": "2025-09-23T18:39:53.2397044+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 60351
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/ec47df20-2539-4c7a-9046-bc32f4c5a8d8/keypoints"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/:tourId/keypoints"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1112
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "3f8ba3c30acefd9ad55796b0e1676ffc",
+		"SpanID": "53d578813ca8aec4",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "3f8ba3c30acefd9ad55796b0e1676ffc",
+		"SpanID": "c71a50b2a8ab8685",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:42:41.8775141+02:00",
+	"EndTime": "2025-09-23T18:42:41.888563+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"tours\" WHERE user_id = '68c26082339454bfee8b365c'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 18
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "tours-get-all",
+	"SpanContext": {
+		"TraceID": "3f8ba3c30acefd9ad55796b0e1676ffc",
+		"SpanID": "c71a50b2a8ab8685",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 1,
+	"StartTime": "2025-09-23T18:42:41.8769852+02:00",
+	"EndTime": "2025-09-23T18:42:41.8890616+02:00",
+	"Attributes": null,
+	"Events": [
+		{
+			"Name": "Getting claims from gin context",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:42:41.8769852+02:00"
+		},
+		{
+			"Name": "Retrieving tours from the database",
+			"Attributes": null,
+			"DroppedAttributeCount": 0,
+			"Time": "2025-09-23T18:42:41.8769852+02:00"
+		}
+	],
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 1,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "tours",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours",
+	"SpanContext": {
+		"TraceID": "4b6238cb224439c99c357403bf38ad71",
+		"SpanID": "9fcf5ab6671da305",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:42:41.876844+02:00",
+	"EndTime": "2025-09-23T18:42:41.8890616+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 60506
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 7454
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "9ac5a228d2f0eb88392b11e06e8b34ab",
+		"SpanID": "cd20ed278011a87c",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:42:45.9053509+02:00",
+	"EndTime": "2025-09-23T18:42:45.9091474+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = '26be9417-d012-4e3d-bea7-20870811b2fc'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 4
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours/:tourId/keypoints",
+	"SpanContext": {
+		"TraceID": "066eda6a3b0623fbae0db18810eaaddb",
+		"SpanID": "5b05666eccfd9d2e",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:42:45.9053509+02:00",
+	"EndTime": "2025-09-23T18:42:45.9091474+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 60506
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/26be9417-d012-4e3d-bea7-20870811b2fc/keypoints"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/:tourId/keypoints"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1086
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Row",
+	"SpanContext": {
+		"TraceID": "ec25c0cd617fe022182af0a88fc54395",
+		"SpanID": "7958fcd6d074fe83",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:43:00.8557759+02:00",
+	"EndTime": "2025-09-23T18:43:00.8597417+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT COALESCE(MAX(position), -1) FROM \"key_points\" WHERE tour_id = '26be9417-d012-4e3d-bea7-20870811b2fc'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "2e3028d7a96a66b77583d8f2880d21e7",
+		"SpanID": "073ed57047c8bfcd",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:43:00.8603251+02:00",
+	"EndTime": "2025-09-23T18:43:00.8649393+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"key_points\" (\"name\",\"description\",\"latitude\",\"longitude\",\"image_path\",\"tour_id\",\"position\") VALUES ('kt44','opiiis',44.83072564600516,20.39972305297852,'static\\uploads\\1758645780830692700_Snimak ekrana (2179).png','26be9417-d012-4e3d-bea7-20870811b2fc',4) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "POST /api/keypoints",
+	"SpanContext": {
+		"TraceID": "d00a0290a9d6fb97e5468407ff0d31d5",
+		"SpanID": "f1187bc2322dfc96",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:43:00.8168021+02:00",
+	"EndTime": "2025-09-23T18:43:00.8651169+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "POST"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 60506
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/keypoints"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/keypoints"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 278
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 201
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "f9eba3a364207f8c9007c062b4677528",
+		"SpanID": "e6e5c72f65c709eb",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:43:00.8654628+02:00",
+	"EndTime": "2025-09-23T18:43:00.8674163+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = '26be9417-d012-4e3d-bea7-20870811b2fc' ORDER BY position asc"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 5
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Update",
+	"SpanContext": {
+		"TraceID": "cdd6fd4c60c8e91227e92726fe8bb81a",
+		"SpanID": "c63145d4e89a562e",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:43:00.8677557+02:00",
+	"EndTime": "2025-09-23T18:43:00.8732358+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "UPDATE \"tours\" SET \"distance\"=467.9199769728968 WHERE id = '26be9417-d012-4e3d-bea7-20870811b2fc'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Delete",
+	"SpanContext": {
+		"TraceID": "191caa0d0ee27ac9104736d9a03a63b8",
+		"SpanID": "f109f8d054b52c86",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:43:00.87343+02:00",
+	"EndTime": "2025-09-23T18:43:00.8741628+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "DELETE FROM \"required_times\" WHERE tour_id = '26be9417-d012-4e3d-bea7-20870811b2fc'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Create",
+	"SpanContext": {
+		"TraceID": "8c22219204359c0178be1da54e1f2005",
+		"SpanID": "5eccd845a250e236",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:43:00.8741628+02:00",
+	"EndTime": "2025-09-23T18:43:00.8754068+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "INSERT INTO \"required_times\" (\"tour_id\",\"transportation\",\"time_in_minutes\") VALUES ('26be9417-d012-4e3d-bea7-20870811b2fc','Walking',5615),('26be9417-d012-4e3d-bea7-20870811b2fc','Bicycle',1872),('26be9417-d012-4e3d-bea7-20870811b2fc','Car',702) RETURNING \"id\""
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "required_times"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 3
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "gorm.Query",
+	"SpanContext": {
+		"TraceID": "2f7b40bdfbe2e33e832bb0a955e665ae",
+		"SpanID": "6bbc39b6225f8690",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 3,
+	"StartTime": "2025-09-23T18:43:02.3366785+02:00",
+	"EndTime": "2025-09-23T18:43:02.3378184+02:00",
+	"Attributes": [
+		{
+			"Key": "db.system",
+			"Value": {
+				"Type": "STRING",
+				"Value": "postgresql"
+			}
+		},
+		{
+			"Key": "db.statement",
+			"Value": {
+				"Type": "STRING",
+				"Value": "SELECT * FROM \"key_points\" WHERE tour_id = '26be9417-d012-4e3d-bea7-20870811b2fc'"
+			}
+		},
+		{
+			"Key": "db.sql.table",
+			"Value": {
+				"Type": "STRING",
+				"Value": "key_points"
+			}
+		},
+		{
+			"Key": "db.rows_affected",
+			"Value": {
+				"Type": "INT64",
+				"Value": 5
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "github.com/uptrace/opentelemetry-go-extra/otelgorm",
+		"Version": "",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
+{
+	"Name": "GET /api/tours/:tourId/keypoints",
+	"SpanContext": {
+		"TraceID": "f7f9cf252c1141d31eb103f1071e041c",
+		"SpanID": "8f632b52c5903b49",
+		"TraceFlags": "01",
+		"TraceState": "",
+		"Remote": false
+	},
+	"Parent": {
+		"TraceID": "00000000000000000000000000000000",
+		"SpanID": "0000000000000000",
+		"TraceFlags": "00",
+		"TraceState": "",
+		"Remote": false
+	},
+	"SpanKind": 2,
+	"StartTime": "2025-09-23T18:43:02.3366785+02:00",
+	"EndTime": "2025-09-23T18:43:02.3383239+02:00",
+	"Attributes": [
+		{
+			"Key": "server.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "tours"
+			}
+		},
+		{
+			"Key": "http.request.method",
+			"Value": {
+				"Type": "STRING",
+				"Value": "GET"
+			}
+		},
+		{
+			"Key": "url.scheme",
+			"Value": {
+				"Type": "STRING",
+				"Value": "http"
+			}
+		},
+		{
+			"Key": "server.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 8083
+			}
+		},
+		{
+			"Key": "network.peer.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "network.peer.port",
+			"Value": {
+				"Type": "INT64",
+				"Value": 60506
+			}
+		},
+		{
+			"Key": "user_agent.original",
+			"Value": {
+				"Type": "STRING",
+				"Value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+			}
+		},
+		{
+			"Key": "client.address",
+			"Value": {
+				"Type": "STRING",
+				"Value": "::1"
+			}
+		},
+		{
+			"Key": "url.path",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/26be9417-d012-4e3d-bea7-20870811b2fc/keypoints"
+			}
+		},
+		{
+			"Key": "network.protocol.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.1"
+			}
+		},
+		{
+			"Key": "http.route",
+			"Value": {
+				"Type": "STRING",
+				"Value": "/api/tours/:tourId/keypoints"
+			}
+		},
+		{
+			"Key": "http.response.body.size",
+			"Value": {
+				"Type": "INT64",
+				"Value": 1365
+			}
+		},
+		{
+			"Key": "http.response.status_code",
+			"Value": {
+				"Type": "INT64",
+				"Value": 200
+			}
+		}
+	],
+	"Events": null,
+	"Links": null,
+	"Status": {
+		"Code": "Unset",
+		"Description": ""
+	},
+	"DroppedAttributes": 0,
+	"DroppedEvents": 0,
+	"DroppedLinks": 0,
+	"ChildSpanCount": 0,
+	"Resource": [
+		{
+			"Key": "service.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "unknown_service:tours-service.exe"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.language",
+			"Value": {
+				"Type": "STRING",
+				"Value": "go"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.name",
+			"Value": {
+				"Type": "STRING",
+				"Value": "opentelemetry"
+			}
+		},
+		{
+			"Key": "telemetry.sdk.version",
+			"Value": {
+				"Type": "STRING",
+				"Value": "1.38.0"
+			}
+		}
+	],
+	"InstrumentationScope": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	},
+	"InstrumentationLibrary": {
+		"Name": "go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin",
+		"Version": "0.63.0",
+		"SchemaURL": "",
+		"Attributes": null
+	}
+}
