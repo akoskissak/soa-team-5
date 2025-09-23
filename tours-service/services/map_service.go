@@ -1,72 +1,38 @@
 package services
 
 import (
-	"encoding/json"
-	"fmt"
-	"io"
 	"log"
-	"net/http"
+	"math"
 	"tours-service/database"
 	"tours-service/models"
 
 	"github.com/google/uuid"
 )
 
-type OSRMResponse struct {
-	Routes []struct {
-		Distance float64 `json:"distance"`
-		Duration float64 `json:"duration"`
-	} `json:"routes"`
-}
+func getDistanceAndDurationLocally(kp1, kp2 models.KeyPoint, transportType models.TransportationType) (float64, float64) {
+	distanceInKm := haversineDistance(kp1.Latitude, kp1.Longitude, kp2.Latitude, kp2.Longitude)
 
-func getDistanceAndDurationBetweenPoints(kp1, kp2 models.KeyPoint, transportType models.TransportationType) (float64, float64, error) {
-	var profile string
+	var averageSpeedKmH float64
 	switch transportType {
 	case models.Walking:
-		profile = "foot"
+		averageSpeedKmH = 5
 	case models.Bicycle:
-		profile = "bike"
+		averageSpeedKmH = 15
 	case models.Car:
-		profile = "driving"
+		averageSpeedKmH = 40
 	default:
-		profile = "driving"
+		averageSpeedKmH = 40
 	}
 
-	url := fmt.Sprintf("http://router.project-osrm.org/route/v1/%s/%f,%f;%f,%f?overview=false",
-		profile, kp1.Longitude, kp1.Latitude, kp2.Longitude, kp2.Latitude)
+	durationInHours := distanceInKm / averageSpeedKmH
+	durationInMinutes := durationInHours * 60
 
-	resp, err := http.Get(url)
-	if err != nil {
-		return 0, 0, err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		return 0, 0, fmt.Errorf("OSRM API returned non-200 status code: %d for profile %s", resp.StatusCode, profile)
-	}
-
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return 0, 0, err
-	}
-
-	var osrmResponse OSRMResponse
-	if err := json.Unmarshal(body, &osrmResponse); err != nil {
-		return 0, 0, err
-	}
-
-	if len(osrmResponse.Routes) > 0 {
-		distanceInKm := osrmResponse.Routes[0].Distance / 1000
-		durationInMinutes := osrmResponse.Routes[0].Duration / 60
-		return distanceInKm, durationInMinutes, nil
-	}
-
-	return 0, 0, fmt.Errorf("no route found in OSRM response for profile %s", profile)
+	return distanceInKm, durationInMinutes
 }
 
 func UpdateTourDistanceAndTimes(tourID uuid.UUID) error {
 	var keypoints []models.KeyPoint
-	if err := database.GORM_DB.Where("tour_id = ?", tourID).Find(&keypoints).Error; err != nil {
+	if err := database.GORM_DB.Where("tour_id = ?", tourID).Order("position asc").Find(&keypoints).Error; err != nil {
 		return err
 	}
 
@@ -83,27 +49,19 @@ func UpdateTourDistanceAndTimes(tourID uuid.UUID) error {
 		return tx.Commit().Error
 	}
 
-	var totalDistanceCar, totalDurationWalking, totalDurationBicycle, totalDurationCar float64
+	var totalDistance, totalDurationWalking, totalDurationBicycle, totalDurationCar float64
 
 	for i := 0; i < len(keypoints)-1; i++ {
-		_, durationWalk, err := getDistanceAndDurationBetweenPoints(keypoints[i], keypoints[i+1], models.Walking)
-		if err != nil {
-			log.Printf("Greška pri dobavljanju trajanja za pešačenje: %v", err)
-		}
+		distance, durationWalk := getDistanceAndDurationLocally(keypoints[i], keypoints[i+1], models.Walking)
 		totalDurationWalking += durationWalk
 
-		_, durationBike, err := getDistanceAndDurationBetweenPoints(keypoints[i], keypoints[i+1], models.Bicycle)
-		if err != nil {
-			log.Printf("Greška pri dobavljanju trajanja za bicikl: %v", err)
-		}
+		_, durationBike := getDistanceAndDurationLocally(keypoints[i], keypoints[i+1], models.Bicycle)
 		totalDurationBicycle += durationBike
 
-		distanceCar, durationCar, err := getDistanceAndDurationBetweenPoints(keypoints[i], keypoints[i+1], models.Car)
-		if err != nil {
-			log.Printf("Greška pri dobavljanju distance/trajanja za auto: %v", err)
-		}
-		totalDistanceCar += distanceCar
+		_, durationCar := getDistanceAndDurationLocally(keypoints[i], keypoints[i+1], models.Car)
 		totalDurationCar += durationCar
+
+		totalDistance += distance
 	}
 
 	tx := database.GORM_DB.Begin()
@@ -111,7 +69,7 @@ func UpdateTourDistanceAndTimes(tourID uuid.UUID) error {
 		return tx.Error
 	}
 
-	if err := tx.Model(&models.Tour{}).Where("id = ?", tourID).Update("distance", totalDistanceCar).Error; err != nil {
+	if err := tx.Model(&models.Tour{}).Where("id = ?", tourID).Update("distance", totalDistance).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
@@ -122,15 +80,15 @@ func UpdateTourDistanceAndTimes(tourID uuid.UUID) error {
 	}
 
 	requiredTimes := []models.RequiredTime{
-		{TourID: tourID, Transportation: models.Walking, TimeInMinutes: int(totalDurationWalking)},
-		{TourID: tourID, Transportation: models.Bicycle, TimeInMinutes: int(totalDurationBicycle)},
-		{TourID: tourID, Transportation: models.Car, TimeInMinutes: int(totalDurationCar)},
+		{TourID: tourID, Transportation: models.Walking, TimeInMinutes: int(math.Round(totalDurationWalking))},
+		{TourID: tourID, Transportation: models.Bicycle, TimeInMinutes: int(math.Round(totalDurationBicycle))},
+		{TourID: tourID, Transportation: models.Car, TimeInMinutes: int(math.Round(totalDurationCar))},
 	}
 
 	if err := tx.Create(&requiredTimes).Error; err != nil {
 		tx.Rollback()
 		return err
 	}
-
+	log.Printf("Successfully updated tour %s with local distance calculation.", tourID)
 	return tx.Commit().Error
 }
