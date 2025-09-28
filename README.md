@@ -21,7 +21,9 @@ The Angular frontend for this application is hosted in a separate repository:
 ## Technologies Used
 - **Backend:** Golang, Python
 - **Frontend:** Angular
-- **Databases:** NoSQL (document and graph databases such as MongoDB, Neo4j)  
+- **Databases:** 
+  - **NoSQL**: Document and graph databases (MongoDB, Neo4j)  
+  - **SQL**: PostgreSQL for relational data  
 - **Communication:** REST, RPC  
 - **Containerization & Orchestration:** Docker, Docker Compose  
 - **Monitoring & Logging:** Tracing, log aggregation, system and container metrics  
